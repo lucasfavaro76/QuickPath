@@ -1,0 +1,67 @@
+<style>
+    .invisible {
+        display: none;
+    }
+</style>
+
+<h2>Novo usuário</h2>
+
+<a class="botao" name="dsadas" href="#">Cadastrar Empresa</a>
+
+<form method="post" action="Request.php?class=PessoaCtr&method=run&action=new">
+    <input id="tipo" name="tipo" type="hidden" value="Fisica">
+    <input type="hidden" name="id" id="id">
+    <input type="hidden" name="id_pessoa" id="id_pessoa">
+
+    <label for="name">Nome:</label><br>
+    <input type="text" name="nome_pessoa" id="nome_pessoa" maxlength="50" required><br>
+
+    <label for="telefone">Telefone:</label><br>
+    <input type="text" name="telefone_pessoa" id="telefone" maxlength="50"><br>
+
+    <label for="celular">Celular:</label><br>
+    <input type="text" name="celular_pessoa" id="celular_pessoa" maxlength="50" required><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" name="email_pessoa" id="email_pessoa" maxlength="50" required><br>
+
+    <label for="id_endereco">Endereco:</label><br>
+    <input type="text" name="id_endereco" id="id_endereco" maxlength="50" required><br>
+
+    <label for="gender">Sexo</label><br>
+    <select name="gender" id="gender">
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+    </select><br>
+
+    <div class="cpf">
+    <label for="cpf ">CPF:</label><br>
+    <input type="text" name="cpf_fisica" id="cpf" maxlength="50"><br>
+    </div>
+
+    <div class="cnpj invisible">
+        <label for="cnpj_juridica">CNPJ:</label><br>
+        <input type="text" name="cnpj_juridica" id="cnpj_juridica" maxlength="50"><br>
+
+        <label for="razao_social">Razão Social:</label><br>
+        <input type="text" name="razao_social" id="cpf" maxlength="50"><br>
+    </div>
+
+    <label for="login_pessoa">Login</label><br>
+    <input type="text" name="login_pessoa" id="login_pessoa"><br>
+
+    <label for="senha_pessoa">Senha</label><br>
+    <input type="password" name="senha_pessoa" id="senha_pessoa"><br> <!-- don't show the password -->
+
+    <!-- don't forget confirm if two password fields are equals. 
+    Use JS to do it!  -->
+
+    <input type="submit" name="command" value="Salvar">
+</form>
+
+<!-- nome_pessoa varchar (70) not null,
+telefone_pessoa varchar(15),
+celular_pessoa varchar(15),
+email_pessoa varchar(50),
+login_pessoa varchar(16) not null,
+senha_pessoa varchar(16) not null, -->
