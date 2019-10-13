@@ -11,7 +11,7 @@ use core\dao\Connection;
 final class PessoaDao implements IDao
 {
 
-    public function insert(PessoaModel $model = null, PessoaFisicaModel $Fisica = null, PessoaJuridicaModel $Juridica = null)
+    public function insert(PessoaModel $model = null)
     {
         try {
             $connection = Connection::getConnection();
@@ -25,11 +25,20 @@ final class PessoaDao implements IDao
             $stmt->bindValue(":senha_pessoa",$model->getSenha_pessoa()); //..hash md5 to protect the password
             $stmt->bindValue(":id_endereco", $model->getId_endereco());                    
             $stmt->execute();
+
             $ultimoid =  $stmt->fetch(\PDO::FETCH_ASSOC);
 
-            $model->getTipo_pessoa() == "Fisica" ? $Fisica->insert($ultimoid) : $Juridica->insert($ultimoid);
 
-            //return 
+
+            if ($model->getTipo_pessoa() == "Juridica") {
+                $Juridica = new PessoaJuridicaDao();
+                $Juridica->insert($model, $ultimoid['id_pessoa']);                              
+            }else{
+                $Fisica =  new PessoaFisicaDao();
+                $Fisica->insert($model, $ultimoid['id_pessoa']);  
+            }            
+
+            return true;
         } catch (\Exception $ex) {
             throw $ex;
         } finally {

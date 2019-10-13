@@ -8,29 +8,30 @@ use core\dao\IDao;
 use app\model\PessoaModel;
 use core\dao\Connection;
 
-final class PessoaFisicaDao implements IDao
+final class PessoaJuridicaDao implements IDao
 {
 
-    public function insert(PessoaModel $model = null, $id_pessoa = null )
+    public function insert(PessoaModel $model = null, $id_pessoa = null)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "insert into pessoa_fisica (cpf_fisica, id_pessoa) values (:cpf_fisica, :id_pessoa)";
+            $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, id_pessoa) values (:cnpj_juridica, :razao_social, :id_pessoa)";
             $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":cpf_fisica", $model->getCpf_fisica());
-            $stmt->bindValue(":id_pessoa", $id_pessoa);        
+            $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
+            $stmt->bindValue(":razao_social", $model->getRazao_social());
+            $stmt->bindValue(":id_pessoa", $id_pessoa);                      
 
             return $stmt->execute();
-
-            // cpf_fisica character varying(15) NOT NULL,
-            // id_pessoa integer,
-
         } catch (\Exception $ex) {
             throw $ex;
         } finally {
             $connection = null;
         }
+        // cnpj_juridica varchar(18) not null UNIQUE,
+        // razao_social varchar(70) not null UNIQUE,
+        // id_pessoa integer,
     }
+
 
 
     public function update(PessoaModel $model = null)

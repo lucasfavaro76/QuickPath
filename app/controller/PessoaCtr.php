@@ -62,12 +62,13 @@ class PessoaCtr extends Controller
                     $this->post['nome_pessoa'],
                     $this->post['telefone_pessoa'],
                     $this->post['celular_pessoa'],
-                    $this->post['email_pessoa'],                
+                    $this->post['email_pessoa'],
+                    $this->post['cpf_fisica'],                
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
                     $this->post['id_endereco'],
                     $this->post['tipo'],
-                    $this->post['cpf_fisica'],
+                    
                 );
             }
 
@@ -114,8 +115,8 @@ class PessoaCtr extends Controller
                 //$msg .= "<h2>Ativação de cadastro - não responda!</h2>";
                 //$msg .= "<p><a href=\"$link\">Clique Aqui para ativar o cadastro</a></p>";
                 ///Application::sendEmail($model->getEmail(), 'Ativação de Cadastro', $msg);
-                (new PessoaDao())->insert($model);
-        
+
+                (new PessoaDao())->insert($model);        
                 (new Message('Mensagem', 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
             } catch (\Exception $ex) {
                 (new Message(null, Application::$MSG_ERROR, Application::$ICON_ERROR))->show();

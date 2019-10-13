@@ -7,13 +7,15 @@ use core\mvc\Model;
 class PessoaFisicaModel extends PessoaModel
 {
     protected $cpf_fisica;
+    protected $tipo_pessoa;
     protected $id_pessoa;
 
-    public function __construct($id = null,$nome_pessoa = null, $telefone_pessoa = null, $celular_pessoa = null, $email_pessoa = null,$cpf_fisica = null, $login_pessoa = null, $senha_pessoa = null, $id_endereco = null,  $id_pessoa = null)
+    public function __construct($id = null,$nome_pessoa = null, $telefone_pessoa = null, $celular_pessoa = null, $email_pessoa = null, $cpf_fisica = null, $login_pessoa = null, $senha_pessoa = null, $id_endereco = null,  $tipo_pessoa = null,$id_pessoa = null)
     {
         parent::__construct($id, $nome_pessoa, $telefone_pessoa, $celular_pessoa, $email_pessoa, $login_pessoa, $senha_pessoa, $id_endereco);
         
         $this->cpf_fisica = $cpf_fisica;
+        $this->tipo_pessoa =  $tipo_pessoa;
         $this->id_pessoa = $id_pessoa;
     }
 
@@ -55,6 +57,26 @@ class PessoaFisicaModel extends PessoaModel
     public function setId_pessoa($id_pessoa)
     {
         $this->id_pessoa = $id_pessoa;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of tipo_pessoa
+     */ 
+    public function getTipo_pessoa()
+    {
+        return $this->tipo_pessoa;
+    }
+
+    /**
+     * Set the value of tipo_pessoa
+     *
+     * @return  self
+     */ 
+    public function setTipo_pessoa($tipo_pessoa)
+    {
+        $this->tipo_pessoa = $tipo_pessoa;
 
         return $this;
     }
