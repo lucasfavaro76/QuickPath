@@ -1,4 +1,5 @@
 <?php
+
 use core\Application;
 ?>
 <!DOCTYPE html>
@@ -9,17 +10,52 @@ use core\Application;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Título aqui!</title>
+    <link rel="stylesheet" href="core/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="app/css/style.css">
 </head>
 
 <body>
     <div id="container">
         <header>
-            <h1><?= Application::$APP_NAME ?></h1>
+            
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index.php"><?= Application::$APP_NAME ?></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.php">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Request.php?class=CategoryCtr&method=showView">Cadastrar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Request.php?class=CategoryCtr&method=showList">Listar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Request.php?class=FlowCtr&method=showView">Lançamento</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Request.php?class=FlowCtr&method=showList">Listar</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
         </header>
         <section id="active_user">
-            <p>Usuário ativo: <?=$this->activeUserName?></p>
+            <p>Usuário ativo: <?= $this->activeUserName ?></p>
         </section>
-        <nav>
+
+        
+
+        <!--<nav>
             <ul>
                 <li><a href="index.php">Início</a></li>
                 <li>
@@ -38,5 +74,5 @@ use core\Application;
                 </li>
                 <a href="Request.php?class=UserCtr&method=doLogout">Sair</a>
             </ul>
-        </nav>
+        </nav>-->
         <section id="content">
