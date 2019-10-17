@@ -1,0 +1,1 @@
+﻿select * from pessoa p inner join pessoa_fisica pj on p.id_pessoa = pj.id_pessoa

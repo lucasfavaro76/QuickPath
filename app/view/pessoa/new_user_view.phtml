@@ -25,8 +25,34 @@
     <label for="email">Email:</label><br>
     <input type="email" name="email_pessoa" id="email_pessoa" maxlength="50" required><br>
 
-    <label for="id_endereco">Endereco:</label><br>
-    <input type="text" name="id_endereco" id="id_endereco" maxlength="50" required><br>
+    <!-- cep character varying(9),
+    logradouro character varying(50),
+    numero integer,
+    complemento character varying(70),
+    bairro character varying(50),
+    cidade character varying(50),
+    uf character(2), -->
+
+    <label for="cep">Cep:</label><br>
+    <input type="text" name="cep" id="cep" maxlength="50" required><br>
+
+    <label for="logradouro">Logradouro:</label><br>
+    <input type="text" name="logradouro" id="rua" maxlength="50" required><br>
+
+    <label for="numero">Numero:</label><br>
+    <input type="text" name="numero" id="numero" maxlength="50" required><br>
+
+    <label for="complemento">Complemento:</label><br>
+    <input type="text" name="complemento" id="complemento" maxlength="50" required><br>
+
+    <label for="bairro">Bairro:</label><br>
+    <input type="text" name="bairro" id="bairro" maxlength="50" required><br>
+
+    <label for="cidade">Cidade:</label><br>
+    <input type="text" name="cidade" id="cidade" maxlength="50" required><br>
+
+    <label for="uf">Estado:</label><br>
+    <input type="text" name="uf" id="uf" maxlength="50" required><br>
 
     <label for="gender">Sexo</label><br>
     <select name="gender" id="gender">
@@ -35,8 +61,8 @@
     </select><br>
 
     <div class="cpf">
-    <label for="cpf ">CPF:</label><br>
-    <input type="text" name="cpf_fisica" id="cpf" maxlength="50"><br>
+        <label for="cpf ">CPF:</label><br>
+        <input type="text" name="cpf_fisica" id="cpf" maxlength="50"><br>
     </div>
 
     <div class="cnpj invisible">

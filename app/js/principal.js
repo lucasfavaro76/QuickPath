@@ -10,3 +10,4 @@ $(".botao").click(function () {
         $("#tipo").attr('value', "Juridica");
 
 })
+

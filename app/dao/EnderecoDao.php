@@ -2,43 +2,39 @@
 
 namespace app\dao;
 
-use app\model\PessoaFisicaModel;
-use app\model\PessoaJuridicaModel;
+use app\model\EnderecoModel;
 use core\dao\IDao;
 use app\model\PessoaModel;
 use core\dao\Connection;
 
-final class PessoaDao implements IDao
+final class EnderecoDao implements IDao
 {
 
-    public function insert(PessoaModel $model = null)
+    public function insert(EnderecoModel $model = null)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "insert into pessoa (nome_pessoa, telefone_pessoa, celular_pessoa, email_pessoa, login_pessoa, senha_pessoa, id_endereco) values (:nome_pessoa, :telefone_pessoa, :celular_pessoa, :email_pessoa, :login_pessoa, :senha_pessoa, :id_endereco) RETURNING id_pessoa";
+            $sql = "insert into endereco (cep, logradouro, numero, complemento, bairro, cidade, uf) values (:cep, :logradouro, :numero, :complemento, :bairro, :cidade, :uf) RETURNING id_endereco";
             $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":nome_pessoa", $model->getNome_pessoa());
-            $stmt->bindValue(":telefone_pessoa", $model->getTelefone_pessoa());
-            $stmt->bindValue(":celular_pessoa", $model->getCelular_pessoa());
-            $stmt->bindValue(":email_pessoa", $model->getEmail_pessoa());
-            $stmt->bindValue(":login_pessoa", $model->getLogin_pessoa());
-            $stmt->bindValue(":senha_pessoa", md5($model->getSenha_pessoa())); //..hash md5 to protect the password
-            $stmt->bindValue(":id_endereco", $model->getId_endereco());                    
+            $stmt->bindValue(":cep", $model->getCep());
+            $stmt->bindValue(":logradouro", $model->getLogradouro());
+            $stmt->bindValue(":numero", $model->getNumero());
+            $stmt->bindValue(":complemento", $model->getComplemento());
+            $stmt->bindValue(":bairro", $model->getBairro());
+            $stmt->bindValue(":cidade", $model->getCidade()); //..hash md5 to protect the password
+            $stmt->bindValue(":uf", $model->getUf());                    
             $stmt->execute();
 
-            $ultimoid =  $stmt->fetch(\PDO::FETCH_ASSOC);
-
-
-
-            if ($model->getTipo_pessoa() == "Juridica") {
-                $Juridica = new PessoaJuridicaDao();
-                $Juridica->insert($model, $ultimoid['id_pessoa']);                              
-            }else{
-                $Fisica =  new PessoaFisicaDao();
-                $Fisica->insert($model, $ultimoid['id_pessoa']);  
-            }            
-
-            return true;
+            return $ultimoid =  $stmt->fetch(\PDO::FETCH_ASSOC);
+           
+            // cep character varying(9),
+            // logradouro character varying(50),
+            // numero integer,
+            // complemento character varying(70),
+            // bairro character varying(50),
+            // cidade character varying(50),
+            // uf character(2),
+            
         } catch (\Exception $ex) {
             throw $ex;
         } finally {

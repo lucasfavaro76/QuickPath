@@ -51,7 +51,7 @@ abstract class Controller
      * This method must be implement in inherited classes.
      * Its function is return a model object from data view.
      */
-    public abstract function getModelFromView();
+    public abstract function getModelFromView($id);
 
     /**
      * This method gets the data from view, instantiates a model

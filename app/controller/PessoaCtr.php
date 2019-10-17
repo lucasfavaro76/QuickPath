@@ -12,6 +12,7 @@ use core\Application;
 use core\mvc\view\Message;
 use core\util\Session;
 use app\view\Home;
+use app\model\EnderecoModel;
 
 class PessoaCtr extends Controller
 {
@@ -38,7 +39,7 @@ class PessoaCtr extends Controller
             parent::showView();
     }
 
-    public function getModelFromView()
+    public function getModelFromView($id)
     {
         if (!empty($this->post)) {
             
@@ -53,8 +54,8 @@ class PessoaCtr extends Controller
                     $this->post['razao_social'],               
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
-                    $this->post['id_endereco'],    
-                    $this->post['tipo'],                     
+                    $id['id_endereco'],    
+                    $this->post['tipo']                    
                 );
             }else {
                 return new PessoaFisicaModel(
@@ -66,8 +67,8 @@ class PessoaCtr extends Controller
                     $this->post['cpf_fisica'],                
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
-                    $this->post['id_endereco'],
-                    $this->post['tipo'],
+                    $id['id_endereco'],
+                    $this->post['tipo']
                     
                 );
             }
@@ -109,7 +110,11 @@ class PessoaCtr extends Controller
     {
         if ($this->get['action'] == 'new') {
             try {
-                $model = $this->getModelFromView();
+                $End = new EnderecoCtr();
+                $modelEnd = $End->insertUpdate();
+               
+                $model = $this->getModelFromView($modelEnd);
+
                 //$link = Application::$HOST . "Request.php?class=UserCtr&method=activateUser&email={$model->getEmail()}";
                 //$msg = "<h1>" . Application::$APP_NAME . "</h1><hr>";
                 //$msg .= "<h2>Ativação de cadastro - não responda!</h2>";
