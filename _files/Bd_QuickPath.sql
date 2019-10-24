@@ -1,4 +1,4 @@
-create sequence sid_endereco;
+﻿--create sequence sid_endereco;
 
 create table endereco(
 id_endereco integer not null default nextval('sid_endereco'),
@@ -10,8 +10,8 @@ bairro varchar(50),
 cidade varchar(50),
 uf char(2),
 
-CONSTRAINT pk_endereco PRIMARY KEY(id_endereco)
-);
+--CONSTRAINT pk_endereco PRIMARY KEY(id_endereco)
+--);
 
 create sequence sid_cargo;
 
@@ -40,12 +40,17 @@ nome_pessoa varchar (70) not null,
 telefone_pessoa varchar(15),
 celular_pessoa varchar(15),
 email_pessoa varchar(50),
+cep varchar(9),
+logradouro varchar(50),
+numero integer,
+complemento varchar(70),
+bairro varchar(50),
+cidade varchar(50),
+uf char(2),
 login_pessoa varchar(16) not null,
-senha_pessoa varchar(16) not null,
-id_endereco integer,
+senha_pessoa text not null,
 
-	CONSTRAINT pk_pessoa PRIMARY KEY (id_pessoa),
-	CONSTRAINT fk_endpessoa FOREIGN KEY(id_endereco) REFERENCES endereco(id_endereco)
+	CONSTRAINT pk_pessoa PRIMARY KEY (id_pessoa)
 );
 
 create sequence sid_fisica;
@@ -90,6 +95,7 @@ id_mesa integer not null default nextval('sid_mesa'),
 numero_mesa integer,
 mesa_ocupada char(1),
 id_funcionario integer,
+id_pessoa integer,
 
 CONSTRAINT pk_mesa PRIMARY KEY(id_mesa),
 CONSTRAINT fk_funcmesa FOREIGN KEY(id_funcionario) REFERENCES funcionario(id_funcionario)

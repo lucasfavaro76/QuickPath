@@ -1,12 +1,9 @@
 <?php
-
 use core\Application;
 ?>
-<!DOCTYPE html>
-<html lang="pt-br">
 
+<!DOCTYPE html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Título aqui!</title>
@@ -16,8 +13,7 @@ use core\Application;
 
 <body>
     <div id="container">
-        <header>
-            
+        <header>                    
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="index.php"><?= Application::$APP_NAME ?></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,7 +26,7 @@ use core\Application;
                         <a class="nav-link" href="index.php">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Request.php?class=CategoryCtr&method=showView">Cadastrar</a>
+                        <a class="nav-link" href="Request.php?class=PessoaCtr&method=showView&action=new">Cadastrar</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="Request.php?class=CategoryCtr&method=showList">Listar</a>
@@ -50,8 +46,9 @@ use core\Application;
         </nav>
         </header>
         <section id="active_user">
-            <p>Usuário ativo: <?= $this->activeUserName ?></p>
+            <p>Usuário ativo: <?=$this->activeUserName?></p>            
         </section>
+        <nav>
 
         
 
@@ -59,20 +56,10 @@ use core\Application;
             <ul>
                 <li><a href="index.php">Início</a></li>
                 <li>
-                    Categoria
-                    <ul>
-                        <li><a href="Request.php?class=CategoryCtr&method=showView">Cadastrar</a></li>
-                        <li><a href="Request.php?class=CategoryCtr&method=showList">Listar</a></li>
-                    </ul>
-                </li>
-                <li>
-                    Fluxo de Caixa
-                    <ul>
-                        <li><a href="Request.php?class=FlowCtr&method=showView">Lançamento</a></li>
-                        <li><a href="Request.php?class=FlowCtr&method=showList">Listar</a></li>
-                    </ul>
+@ -38,5 +74,5 @@ use core\Application;
                 </li>
                 <a href="Request.php?class=UserCtr&method=doLogout">Sair</a>
             </ul>
+        </nav>
         </nav>-->
         <section id="content">

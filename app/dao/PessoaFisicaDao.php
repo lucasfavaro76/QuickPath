@@ -7,25 +7,25 @@ use app\model\PessoaJuridicaModel;
 use core\dao\IDao;
 use app\model\PessoaModel;
 use core\dao\Connection;
+use app\dao\PessoaDao;
 
-final class PessoaFisicaDao implements IDao
+final class PessoaFisicaDao extends PessoaDao
 {
 
-    public function insert(PessoaModel $model = null, $id_pessoa = null )
-    {
+
+    public function insert(PessoaModel $model = null)
+    {                
         try {
-            $connection = Connection::getConnection();
+            $this->connection->beginTransaction();
+            $id = parent::insert($model);                            
             $sql = "insert into pessoa_fisica (cpf_fisica, id_pessoa) values (:cpf_fisica, :id_pessoa)";
-            $stmt = $connection->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":cpf_fisica", $model->getCpf_fisica());
-            $stmt->bindValue(":id_pessoa", $id_pessoa);        
-
-            return $stmt->execute();
-
-            // cpf_fisica character varying(15) NOT NULL,
-            // id_pessoa integer,
-
-        } catch (\Exception $ex) {
+            $stmt->bindValue(":id_pessoa", $id);                    
+            $stmt->execute();
+            $this->connection->commit();           
+        } catch (\Exception $ex) {            
+            $this->connection->rollBack();
             throw $ex;
         } finally {
             $connection = null;

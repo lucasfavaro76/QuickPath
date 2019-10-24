@@ -11,9 +11,13 @@ class PessoaJuridicaModel extends PessoaModel
     protected $tipo_pessoa;
     protected $id_pessoa;
 
-    public function __construct($id= null, $nome_pessoa = null, $telefone_pessoa = null, $celular_pessoa = null, $email_pessoa = null, $cnpj_juridica = null, $razao_social = null, $login_pessoa = null, $senha_pessoa = null, $id_endereco = null, $tipo_pessoa = null,$id_pessoa = null)
+    public function __construct($id= null, $nome_pessoa = null, $telefone_pessoa = null, $celular_pessoa = null, $email_pessoa = null,
+    $cep = null, $logradouro = null, $numero = null, $complemento = null, $bairro = null,
+    $cidade = null, $uf = null, $cnpj_juridica = null, $razao_social = null, $login_pessoa = null, $senha_pessoa = null,
+    $tipo_pessoa = null,$id_pessoa = null)
     {
-        parent::__construct($id,$nome_pessoa, $telefone_pessoa, $celular_pessoa, $email_pessoa, $login_pessoa, $senha_pessoa, $id_endereco);
+        parent::__construct($id,$nome_pessoa, $telefone_pessoa, $celular_pessoa, $email_pessoa, $cep, $logradouro, $numero, $complemento, $bairro,
+        $cidade, $uf, $login_pessoa, $senha_pessoa);
         
         $this->cnpj_juridica = $cnpj_juridica;
         $this->razao_social = $razao_social;

@@ -8,21 +8,23 @@ use core\dao\IDao;
 use app\model\PessoaModel;
 use core\dao\Connection;
 
-final class PessoaJuridicaDao implements IDao
+final class PessoaJuridicaDao extends PessoaDao
 {
 
-    public function insert(PessoaModel $model = null, $id_pessoa = null)
+    public function insert(PessoaModel $model = null)
     {
         try {
-            $connection = Connection::getConnection();
+            $this->connection->beginTransaction();
+            $id = parent::insert($model);   
             $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, id_pessoa) values (:cnpj_juridica, :razao_social, :id_pessoa)";
-            $stmt = $connection->prepare($sql);
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
             $stmt->bindValue(":razao_social", $model->getRazao_social());
-            $stmt->bindValue(":id_pessoa", $id_pessoa);                      
-
-            return $stmt->execute();
+            $stmt->bindValue(":id_pessoa", $id);                      
+            $stmt->execute();
+            $this->connection->commit();
         } catch (\Exception $ex) {
+            $this->connection->rollBack();
             throw $ex;
         } finally {
             $connection = null;

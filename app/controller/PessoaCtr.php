@@ -13,6 +13,9 @@ use core\mvc\view\Message;
 use core\util\Session;
 use app\view\Home;
 use app\model\EnderecoModel;
+use app\dao\PessoaFisicaDao;
+use app\dao\PessoaJuridicaDao;
+use core\dao\Connection;
 
 class PessoaCtr extends Controller
 {
@@ -24,8 +27,9 @@ class PessoaCtr extends Controller
     {
         parent::__construct();
         $this->view = new UserView();
-        $this->newUserView = new NewUserView();
-        $this->dao = new PessoaDao();
+        $this->newUserView = new NewUserView();  
+        $this->connection = Connection::getConnection();      
+        //$this->dao = new PessoaDao($connection);
         $this->list = null; //..view to query the users
         //..verify if show a view do perform a new user or update a user
         $this->action = isset($this->get['action']) ? $this->get['action'] : 'update';
@@ -39,59 +43,50 @@ class PessoaCtr extends Controller
             parent::showView();
     }
 
-    public function getModelFromView($id)
+    public function getModelFromView()
     {
         if (!empty($this->post)) {
-            
+
             if ($this->post['tipo'] == "Juridica") {
-                return new PessoaJuridicaModel(                   
+                return new PessoaJuridicaModel(
                     $this->post['id'],
                     $this->post['nome_pessoa'],
                     $this->post['telefone_pessoa'],
                     $this->post['celular_pessoa'],
-                    $this->post['email_pessoa'], 
+                    $this->post['email_pessoa'],
+                    $this->post['cep'],
+                    $this->post['logradouro'],
+                    $this->post['numero'],
+                    $this->post['complemento'],
+                    $this->post['bairro'], 
+                    $this->post['cidade'],
+                    $this->post['uf'],
                     $this->post['cnpj_juridica'],
-                    $this->post['razao_social'],               
+                    $this->post['razao_social'],
                     $this->post['login_pessoa'],
-                    $this->post['senha_pessoa'],
-                    $id['id_endereco'],    
-                    $this->post['tipo']                    
+                    $this->post['senha_pessoa'],                    
+                    $this->post['tipo']
                 );
-            }else {
+            } else {
                 return new PessoaFisicaModel(
                     $this->post['id'],
                     $this->post['nome_pessoa'],
                     $this->post['telefone_pessoa'],
                     $this->post['celular_pessoa'],
                     $this->post['email_pessoa'],
-                    $this->post['cpf_fisica'],                
+                    $this->post['cep'],
+                    $this->post['logradouro'],
+                    $this->post['numero'],
+                    $this->post['complemento'],
+                    $this->post['bairro'], 
+                    $this->post['cidade'],
+                    $this->post['uf'],
+                    $this->post['cpf_fisica'],
                     $this->post['login_pessoa'],
-                    $this->post['senha_pessoa'],
-                    $id['id_endereco'],
+                    $this->post['senha_pessoa'],                    
                     $this->post['tipo']
-                    
                 );
             }
-
-            //     return new PessoaModel(
-            //     $this->post['id'],
-            //     $this->post['nome_pessoa'],
-            //     $this->post['telefone_pessoa'],
-            //     $this->post['celular_pessoa'],
-            //     $this->post['email_pessoa'],                
-            //     $this->post['login_pessoa'],
-            //     $this->post['senha_pessoa'],
-            //     $this->post['id_endereco'],
-            //     $this->post['tipo'],
-                
-            //      $this->post['tipo'] == "Juridica" ? new PessoaJuridicaModel(
-            //          $this->post['cnpj_juridica'],
-            //         $this->post['razao_social'],
-            //      ) : new PessoaFisicaModel(
-            //             $this->post['cpf_fisica'],
-            //     )
-                               
-            // );
         }
     }
 
@@ -99,7 +94,7 @@ class PessoaCtr extends Controller
     {
         try {
             $email = $this->get['email'];
-            (new UserDao())->activateUser($email);
+            (new PessoaDao($this->connection))->activateUser($email);
             (new Message(Application::$MSG_TITLE, Application::$MSG_ACTIVATE, Application::$ICON_SUCCESS))->show();
         } catch (\Exception $ex) {
             (new Message(Application::$MSG_TITLE, Application::$MSG_ERROR, Application::$MSG_ERROR))->show();
@@ -110,20 +105,25 @@ class PessoaCtr extends Controller
     {
         if ($this->get['action'] == 'new') {
             try {
-                $End = new EnderecoCtr();
-                $modelEnd = $End->insertUpdate();
-               
-                $model = $this->getModelFromView($modelEnd);
+                                              
+                $model = $this->getModelFromView();
 
-                //$link = Application::$HOST . "Request.php?class=UserCtr&method=activateUser&email={$model->getEmail()}";
-                //$msg = "<h1>" . Application::$APP_NAME . "</h1><hr>";
-                //$msg .= "<h2>Ativação de cadastro - não responda!</h2>";
-                //$msg .= "<p><a href=\"$link\">Clique Aqui para ativar o cadastro</a></p>";
-                ///Application::sendEmail($model->getEmail(), 'Ativação de Cadastro', $msg);
-
-                (new PessoaDao())->insert($model);        
-                (new Message('Mensagem', 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
+                if ($model->getTipo_pessoa() == "Juridica") {
+                    $Juridica = new PessoaJuridicaDao($this->connection);
+                    $result = $Juridica->insert($model);
+                } else {
+                    $Fisica =  new PessoaFisicaDao($this->connection);
+                    $result = $Fisica->insert($model);
+                }  
+ 
+                $link = Application::$HOST . "Request.php?class=PessoaCtr&method=activateUser&email={$model->getEmail_pessoa()}";
+                $msg = "<h1>" . Application::$APP_NAME . "</h1><hr>";
+                $msg .= "<h2>Ativação de cadastro - não responda!</h2>";
+                $msg .= "<p><a href=\"$link\">Clique Aqui para ativar o cadastro</a></p>";
+                Application::sendEmail($model->getEmail_pessoa(), 'Ativação de Cadastro', $msg);                                                                  
+                (new Message('Mensagem', 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();                
             } catch (\Exception $ex) {
+                //$connection->rollBack();
                 (new Message(null, Application::$MSG_ERROR, Application::$ICON_ERROR))->show();
             }
         } else {
@@ -135,29 +135,28 @@ class PessoaCtr extends Controller
     {
         if (!empty($this->get) && $this->get['method'] == 'doLogin') {
             try {
-                $email = $this->post['email'];
-                $password = $this->post['password'];
-                $user = (new UserDao())->doLogin($email, $password);
-                if ($user){
-                    Session::createSession('active_user', $user);
+                $login_pessoa = $this->post['login_pessoa'];
+                $senha_pessoa = $this->post['senha_pessoa'];
+                $Pessoa = (new PessoaDao($this->connection))->doLogin($login_pessoa, $senha_pessoa);
+                if ($Pessoa) {
+                    Session::createSession('active_user', $Pessoa);
                     Application::start();
-                }
-                else (new Message(
-                        Application::$MSG_TITLE,
-                        Application::$MSG_INCORRECT_LOGIN,
-                        Application::$ICON_ERROR
-                    ))->show();
+                } else (new Message(
+                    Application::$MSG_TITLE,
+                    Application::$MSG_INCORRECT_LOGIN,
+                    Application::$ICON_ERROR
+                ))->show();
             } catch (\Exception $ex) { }
         } else {
             Application::start();
         }
     }
 
-    public function doLogout(){
-        if(!empty($this->get) && $this->get['method'] == 'doLogout'){
+    public function doLogout()
+    {
+        if (!empty($this->get) && $this->get['method'] == 'doLogout') {
             Session::destroySession('active_user');
             Application::start();
         }
     }
-
 }
