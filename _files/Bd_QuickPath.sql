@@ -1,14 +1,14 @@
 ﻿--create sequence sid_endereco;
 
-create table endereco(
-id_endereco integer not null default nextval('sid_endereco'),
-cep varchar(9),
-logradouro varchar(50),
-numero integer,
-complemento varchar(70),
-bairro varchar(50),
-cidade varchar(50),
-uf char(2),
+--create table endereco(
+--id_endereco integer not null default nextval('sid_endereco'),
+--cep varchar(9),
+--logradouro varchar(50),
+--numero integer,
+--complemento varchar(70),
+--bairro varchar(50),
+--cidade varchar(50),
+--uf char(2),
 
 --CONSTRAINT pk_endereco PRIMARY KEY(id_endereco)
 --);
@@ -49,7 +49,7 @@ cidade varchar(50),
 uf char(2),
 login_pessoa varchar(16) not null,
 senha_pessoa text not null,
-
+status VARCHAR(1),
 	CONSTRAINT pk_pessoa PRIMARY KEY (id_pessoa)
 );
 
@@ -70,6 +70,7 @@ create table pessoa_juridica(
 id_juridica integer not null default nextval('sid_juridica'),
 cnpj_juridica varchar(18) not null UNIQUE,
 razao_social varchar(70) not null UNIQUE,
+descricao text,
 id_pessoa integer,
 
 CONSTRAINT pk_juridica PRIMARY KEY (id_juridica),

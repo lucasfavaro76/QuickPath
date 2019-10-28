@@ -7,3 +7,7 @@ form{
 body{
     color: #000;
 }
+.pb_half{
+    width: 100%;
+    float: none;
+}

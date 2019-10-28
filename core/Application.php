@@ -27,8 +27,8 @@ class Application
     static $MSG_INCORRECT_LOGIN = 'Dados incorretos!';
 
     //-------- email -------------
-    static $EMAIL = '2b1f2675c82598';
-    static $EMAIL_PASSWD = 'ab19b0ae947892';
+    static $EMAIL = 'lukasfavaro555@gmail.com';
+    static $EMAIL_PASSWD = 'Aerochord#2018';
 
     public static function start()
     {
@@ -50,9 +50,9 @@ class Application
         $mail = new PHPMailer(true);
         try {
             //..Prepare for hotmail.com - to use other mail servers, verify the configurations.
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+            //$mail->SMTPDebug = SMTP::DEBUG_SERVER; 
             $mail->isSMTP();  
-            $mail->Host = 'smtp.mailtrap.io';
+            $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username = self::$EMAIL;
             $mail->Password = self::$EMAIL_PASSWD;
@@ -70,6 +70,7 @@ class Application
             $mail->msgHTML($msg);
             //..send the mail
             $mail->send();
+
         } catch (Exception $ex) {
             throw new Exception("[Erro do PHPMailer] {$ex->getMessage()}", 0, $ex);
         } catch (Exception $ex) {

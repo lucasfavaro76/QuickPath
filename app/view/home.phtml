@@ -2,10 +2,13 @@
 use core\util\Session;
 use core\Application;
 
-if (!Session::getSession('active_user')) {
+/*if (!Session::getSession('active_user')) {*/
     ?>
+    <div class="text-center">
     <h1>Bem vindo ao <?=Application::$APP_NAME?> </h1>
-    <h3>Faça o login!</h3>
+
+    
+    <!-- <h3>Faça o login!</h3>
     <form method="post" action="Request.php?class=PessoaCtr&method=doLogin">
         <label for="login_pessoa">Login</label><br>
         <input type="text" name="login_pessoa" id="login_pessoa"><br>
@@ -14,14 +17,16 @@ if (!Session::getSession('active_user')) {
         <input type="submit" name="command" value="OK">
         <input type="reset" name="command" value="Limpar">
     </form>
-    <p><a href="Request.php?class=PessoaCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p>
+    <p><a href="Request.php?class=PessoaCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p> -->
 <?php
-} else{
+//}else{
     ?>
-    <h3>Bem vindo, <?=Session::getSession('active_user')->getNome_Pessoa() ?></h3>
+    <!-- <h3 class="text-center">Bem vindo, <//?=Session::getSession('active_user')->getNome_Pessoa() ?></h3> -->
     <?php
-}
+//}
 ?>
 
-<?= \core\Application::$APP_NAME ?>!</h1>
+<!-- <h1 class="text-center"><?//= \core\Application::$APP_NAME ?>!</h1> -->
+
 <hr>
+    </div>

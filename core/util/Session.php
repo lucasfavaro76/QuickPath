@@ -22,8 +22,7 @@ class Session {
     }
 
     public static function getSession($nome = null) {
-        if (!isset($_SESSION))
-            session_start();
+        
         if ($nome) {
             return isset($_SESSION[$nome]) ? $_SESSION[$nome] : NULL;
         } else {

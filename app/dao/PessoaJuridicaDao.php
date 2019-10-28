@@ -109,6 +109,40 @@ final class PessoaJuridicaDao extends PessoaDao
         }
     }
 
+    public function selectAll() {
+        try {
+            $connection = Connection::getConnection();
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p,id_pessoa = pj.id_pessoa";           
+            $stmt = $connection->prepare($sql);
+            $result = $stmt->execute();
+            $result = $stmt->fetchAll();
+            if ($result) {
+                $list = new \ArrayObject();
+                foreach ($result as $row) {
+                    $list->append(
+                        new PessoaJuridicaModel(
+                            $row['id'],
+                            $row['name'],
+                            $row['gender'],
+                            $row['email'],
+                            $row['status'],
+                            $row['type'],
+                            $row['photo']
+                        )
+                    );
+                }
+                return $list;
+            } else {
+                return null;
+            }
+        } catch (\Exception $ex) {
+            throw $ex;
+        } finally {
+            $connection = null;
+        }
+    }
+
+
     public function select(
         $criteria = null,
         $orderBy = 'name',
@@ -167,37 +201,6 @@ final class PessoaJuridicaDao extends PessoaDao
                 return 0;
         } catch (\Exception $ex) {
             throw $ex;
-        }
-    }
-
-    public function doLogin($email, $password)
-    {
-        try {
-            $connection = Connection::getConnection();
-            $sql = "select * from \"user\" where status = 'A' and upper(email) = upper(:email) and password = md5(:password)";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":email", $email);
-            $stmt->bindValue(":password", $password);
-            $result = $stmt->execute();
-            $result = $stmt->fetchAll();
-            if ($result) {
-                $result = $result[0];
-                return new UserModel(
-                    $result['id'],
-                    $result['name'],
-                    $result['gender'],
-                    $result['email'],
-                    $result['status'],
-                    $result['type'],
-                    $result['photo']
-                );
-            } else {
-                return null;
-            }
-        } catch (\Exception $ex) {
-            throw $ex;
-        } finally {
-            $connection = null;
         }
     }
 }

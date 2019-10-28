@@ -1,4 +1,5 @@
 $(".botao").click(function () {
+    event.preventDefault();
     $('div.cnpj').toggleClass('invisible');
     $('div.cpf').toggleClass('invisible');
     

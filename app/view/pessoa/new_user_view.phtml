@@ -4,27 +4,176 @@
     }
 </style>
 
-<h2>Novo usuário</h2>
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
 
-<a class="botao" name="dsadas" href="#">Cadastrar Empresa</a>
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Usuario</h2>
+                    <a class="botao" name="dsadas" href="#">Cadastrar Empresa</a>
+                </div>
+            </div>
 
-<form method="post" action="Request.php?class=PessoaCtr&method=run&action=new">
-    <input id="tipo" name="tipo" type="hidden" value="Fisica">
-    <input type="hidden" name="id" id="id">
-    <input type="hidden" name="id_pessoa" id="id_pessoa">
+            <div class="row justify-content-md-center">
 
-    <label for="name">Nome:</label><br>
-    <input type="text" name="nome_pessoa" id="nome_pessoa" maxlength="50" required><br>
+               
+                <form method="post" action="Request.php?class=PessoaCtr&method=run&action=new">
+                    <input id="tipo" name="tipo" type="hidden" value="Fisica">
+                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id_pessoa" id="id_pessoa">
 
-    <label for="telefone">Telefone:</label><br>
-    <input type="text" name="telefone_pessoa" id="telefone" maxlength="50"><br>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="name">Nome:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="telefone">Telefone:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50"><br>
 
-    <label for="celular">Celular:</label><br>
-    <input type="text" name="celular_pessoa" id="celular_pessoa" maxlength="50" required><br>
+                                <!-- <label for="email">Email</label>
+                                    <input type="text" class="form-control p-2 rounded-0" id="email"> -->
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="celular">Celular:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular_pessoa" maxlength="50" required><br>
+                            </div>
+                        </div>
+                    </div>
 
-    <label for="email">Email:</label><br>
-    <input type="email" name="email_pessoa" id="email_pessoa" maxlength="50" required><br>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="email">Email:</label><br>
+                                <input type="email" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="cep">Cep:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="logradouro">Logradouro:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="numero">Numero:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="complemento">Complemento:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="bairro">Bairro:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required><br>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="cidade">Cidade:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="uf">Estado:</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="uf" id="uf" maxlength="50" required><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="genero">Sexo</label><br>
+                                <select name="genero" class="form-control p-2 rounded-0" id="genero">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select><br>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <div class="cpf">
+                                    <label for="cpf ">CPF:</label><br>
+                                    <input type="text" class="form-control p-2 rounded-0" name="cpf_fisica" id="cpf" maxlength="50"><br>
+                                </div>
+                                <div class="cnpj invisible">
+                                    <label for="cnpj_juridica">CNPJ:</label><br>
+                                    <input type="text" class="form-control p-2 rounded-0" name="cnpj_juridica" id="cnpj_juridica" maxlength="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <div class="cnpj invisible">
+                                    <label for="razao_social">Razão Social:</label><br>
+                                    <input type="text" class="form-control p-2 rounded-0" name="razao_social" id="cpf" maxlength="50"><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="login_pessoa">Login</label><br>
+                                <input type="text" class="form-control p-2 rounded-0" name="login_pessoa" id="login_pessoa"><br>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+
+                                <label for="senha_pessoa">Senha</label><br>
+                                <input type="password" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa"><br> <!-- don't show the password -->
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+
+                                <label for="senha_pessoa">Confirme Senha</label><br>
+                                <input type="password" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa"><br> <!-- don't show the password -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                    </div>
+                </form>
+
+            </div>
+        </div>    
+    </div>
+
+</section>
+<!-- END section -->
     <!-- cep character varying(9),
     logradouro character varying(50),
     numero integer,
@@ -32,58 +181,6 @@
     bairro character varying(50),
     cidade character varying(50),
     uf character(2), -->
-
-    <label for="cep">Cep:</label><br>
-    <input type="text" name="cep" id="cep" maxlength="50" required><br>
-
-    <label for="logradouro">Logradouro:</label><br>
-    <input type="text" name="logradouro" id="rua" maxlength="50" required><br>
-
-    <label for="numero">Numero:</label><br>
-    <input type="text" name="numero" id="numero" maxlength="50" required><br>
-
-    <label for="complemento">Complemento:</label><br>
-    <input type="text" name="complemento" id="complemento" maxlength="50" required><br>
-
-    <label for="bairro">Bairro:</label><br>
-    <input type="text" name="bairro" id="bairro" maxlength="50" required><br>
-
-    <label for="cidade">Cidade:</label><br>
-    <input type="text" name="cidade" id="cidade" maxlength="50" required><br>
-
-    <label for="uf">Estado:</label><br>
-    <input type="text" name="uf" id="uf" maxlength="50" required><br>
-
-    <label for="gender">Sexo</label><br>
-    <select name="gender" id="gender">
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-    </select><br>
-
-    <div class="cpf">
-        <label for="cpf ">CPF:</label><br>
-        <input type="text" name="cpf_fisica" id="cpf" maxlength="50"><br>
-    </div>
-
-    <div class="cnpj invisible">
-        <label for="cnpj_juridica">CNPJ:</label><br>
-        <input type="text" name="cnpj_juridica" id="cnpj_juridica" maxlength="50"><br>
-
-        <label for="razao_social">Razão Social:</label><br>
-        <input type="text" name="razao_social" id="cpf" maxlength="50"><br>
-    </div>
-
-    <label for="login_pessoa">Login</label><br>
-    <input type="text" name="login_pessoa" id="login_pessoa"><br>
-
-    <label for="senha_pessoa">Senha</label><br>
-    <input type="password" name="senha_pessoa" id="senha_pessoa"><br> <!-- don't show the password -->
-
-    <!-- don't forget confirm if two password fields are equals. 
-    Use JS to do it!  -->
-
-    <input type="submit" name="command" value="Salvar">
-</form>
 
 <!-- nome_pessoa varchar (70) not null,
 telefone_pessoa varchar(15),
