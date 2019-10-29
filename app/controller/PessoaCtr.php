@@ -63,9 +63,12 @@ class PessoaCtr extends Controller
                     $this->post['uf'],
                     $this->post['cnpj_juridica'],
                     $this->post['razao_social'],
+                    $this->post['descricao'],
                     $this->post['login_pessoa'],
-                    $this->post['senha_pessoa'],                    
+                    $this->post['senha_pessoa'],
+                    'I',
                     $this->post['tipo']
+                    
                 );
             } else {
                 return new PessoaFisicaModel(
@@ -83,8 +86,10 @@ class PessoaCtr extends Controller
                     $this->post['uf'],
                     $this->post['cpf_fisica'],
                     $this->post['login_pessoa'],
-                    $this->post['senha_pessoa'],                    
+                    $this->post['senha_pessoa'],
+                    'I',
                     $this->post['tipo']
+                    
                 );
             }
         }

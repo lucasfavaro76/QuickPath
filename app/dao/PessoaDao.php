@@ -23,10 +23,10 @@ class PessoaDao implements IDao
         try {
             $sql = "insert into pessoa (nome_pessoa, telefone_pessoa, celular_pessoa, email_pessoa, cep, logradouro,
             numero, complemento, bairro,cidade, uf, login_pessoa,
-             senha_pessoa) 
+             senha_pessoa, status) 
             values (:nome_pessoa, :telefone_pessoa, :celular_pessoa, :email_pessoa, :cep,
              :logradouro, :numero, :complemento, :bairro, :cidade, :uf,
-             :login_pessoa, :senha_pessoa)";
+             :login_pessoa, :senha_pessoa, :status)";
             
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome_pessoa", $model->getNome_pessoa());
@@ -41,7 +41,8 @@ class PessoaDao implements IDao
             $stmt->bindValue(":cidade", $model->getCidade());
             $stmt->bindValue(":uf", $model->getUf());            
             $stmt->bindValue(":login_pessoa", $model->getLogin_pessoa());
-            $stmt->bindValue(":senha_pessoa", md5($model->getSenha_pessoa())); //..hash md5 to protect the password            
+            $stmt->bindValue(":senha_pessoa", md5($model->getSenha_pessoa())); //..hash md5 to protect 
+            $stmt->bindValue(":status", $model->getStatus());            
             $stmt->execute();
             return $this->connection->lastInsertId('sid_pessoa');
             //$ultimoid = $stmt->fetch(\PDO::FETCH_ASSOC);           
@@ -92,7 +93,7 @@ class PessoaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "update \"user\" set status = 'A' where email = :email";
+            $sql = "update pessoa set status = 'A' where email_pessoa = :email";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":email", $email);
             return $stmt->execute();
@@ -203,7 +204,7 @@ class PessoaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from pessoa where upper(login_pessoa) = upper(:login_pessoa) and senha_pessoa = md5(:senha_pessoa)";
+            $sql = "select * from pessoa where upper(status) = 'A' and where upper(login_pessoa) = upper(:login_pessoa) and senha_pessoa = md5(:senha_pessoa)";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":login_pessoa", $login_pessoa);
             $stmt->bindValue(":senha_pessoa", $senha_pessoa);

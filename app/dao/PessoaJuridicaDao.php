@@ -16,10 +16,11 @@ final class PessoaJuridicaDao extends PessoaDao
         try {
             $this->connection->beginTransaction();
             $id = parent::insert($model);   
-            $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, id_pessoa) values (:cnpj_juridica, :razao_social, :id_pessoa)";
+            $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, descricao, id_pessoa) values (:cnpj_juridica, :razao_social, :descricao, :id_pessoa)";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
             $stmt->bindValue(":razao_social", $model->getRazao_social());
+            $stmt->bindValue(":descricao", $model->getDescricao());
             $stmt->bindValue(":id_pessoa", $id);                      
             $stmt->execute();
             $this->connection->commit();

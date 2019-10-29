@@ -6,19 +6,19 @@ class Connection
     /**
      * The name of the database
      */
-    const DBNAME = 'Bd_QuickPath';
+    const DBNAME = 'lucasfavaro76';
     /**
      * the user name
      */
-    const USER = 'postgres';
+    const USER = 'lucasfavaro76';
     /**
      * the password
      */
-    const PASSWORD = '123456';
+    const PASSWORD = 'deadinside2017';
     /**
      * The host of the database. by default it is '127.0.0.1' or 'localhost'
      */
-    const HOST = 'localhost';
+    const HOST = 'projetos.fatecjales.edu.br';
     /**
      * The port of the databse. The Postgres default port is 5432.
      */

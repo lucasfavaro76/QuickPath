@@ -1,4 +1,5 @@
-﻿--create sequence sid_endereco;
+﻿select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa
+--create sequence sid_endereco;
 
 --create table endereco(
 --id_endereco integer not null default nextval('sid_endereco'),
