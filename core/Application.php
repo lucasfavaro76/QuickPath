@@ -25,6 +25,7 @@ class Application
     static $MSG_NOT_FOUND = 'Objeto não encontrado';
     static $MSG_ACTIVATE = 'Cadastro ativado com sucesso! Faça o login!';
     static $MSG_INCORRECT_LOGIN = 'Dados incorretos!';
+    static $MSG_VAZIO = 'Nenhum registro encontrado!!!';
 
     //-------- email -------------
     static $EMAIL = 'lukasfavaro555@gmail.com';

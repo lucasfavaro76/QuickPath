@@ -1,4 +1,4 @@
-﻿select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa
+﻿--select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa
 --create sequence sid_endereco;
 
 --create table endereco(

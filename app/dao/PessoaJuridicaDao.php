@@ -113,8 +113,8 @@ final class PessoaJuridicaDao extends PessoaDao
     public function selectAll() {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from pessoa p inner join pessoa_juridica pj on p,id_pessoa = pj.id_pessoa";           
-            $stmt = $connection->prepare($sql);
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa where p.status = 'A' ";           
+            $stmt = $this->connection->prepare($sql);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
@@ -122,13 +122,22 @@ final class PessoaJuridicaDao extends PessoaDao
                 foreach ($result as $row) {
                     $list->append(
                         new PessoaJuridicaModel(
-                            $row['id'],
-                            $row['name'],
-                            $row['gender'],
-                            $row['email'],
-                            $row['status'],
-                            $row['type'],
-                            $row['photo']
+                            $row['id_pessoa'],
+                            $row['nome_pessoa'],
+                            $row['telefone_pessoa'],
+                            $row['celular_pessoa'],
+                            $row['email_pessoa'],
+                            $row['cep'],
+                            $row['logradouro'],
+                            $row['numero'],
+                            $row['complemento'],
+                            $row['bairro'],
+                            $row['cidade'],
+                            $row['uf'],
+                            $row['cnpj_juridica'],
+                            $row['razao_social'],
+                            $row['descricao'],
+                            $row['login_pessoa']                            
                         )
                     );
                 }

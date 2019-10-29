@@ -1,6 +1,7 @@
 <?php
 namespace core\mvc\view;
 
+use core\Application;
 use core\util\Session;
 
 abstract class HtmlPage{
