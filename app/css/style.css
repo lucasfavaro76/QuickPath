@@ -15,3 +15,22 @@ body{
 .invisible {
     display: none;
 }
+.all{
+    margin-left: 2vw;
+}
+.card{
+    width: 18rem;
+}
+.p-t-10{
+    padding-top: 4.5vh;
+}
+
+.invalido{
+    color:#dc3545;
+    font-size: 80%;
+}
+
+.valido{
+    color:#28a745;
+    font-size: 80%;
+}

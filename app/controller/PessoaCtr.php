@@ -114,6 +114,10 @@ class PessoaCtr extends Controller
 
                 $model = $this->getModelFromView();
 
+                $res = $this->uploadImage($model->getRazao_social());
+
+                $res['resul'];
+
                 if ($model->getTipo_pessoa() == "Juridica") {
                     $Juridica = new PessoaJuridicaDao($this->connection);
                     $result = $Juridica->insert($model);
@@ -127,24 +131,66 @@ class PessoaCtr extends Controller
 
                     $msg = "<div class='text-center'><h1>" . Application::$APP_NAME . "</h1><hr>";
                     $msg .= "<h2>Ativação de cadastro - não responda!</h2>";
-                    $msg .= "<p>Seja bem vindo ao ".Application::$APP_NAME . $model->getNome_pessoa().", seu cadastro foi realizado com sucesso!! Apartir do momento em que ativar seu cadastro voçê terá total acesso as configurações do seu restaurante e ele aparecera na pagina inicial do site</p>";
+                    $msg .= "<p>Seja bem vindo ao " . Application::$APP_NAME . " " . $model->getNome_pessoa() . ", seu cadastro foi realizado com sucesso!! Apartir do momento em que ativar seu cadastro voçê terá total acesso as configurações do seu restaurante e ele aparecera na pagina inicial do site</p>";
                     $msg .= "<p><a href=\"$link\">Clique Aqui para ativar seu restaurante</a></p></div>";
                     $msg .= "<p class='p-5'>Atenciosamente, Equipe " . Application::$APP_NAME . "</p>";
-                }else{
+                } else {
                     $msg = "<h1>" . Application::$APP_NAME . "</h1><hr>";
                     $msg .= "<h2>Ativação de cadastro - não responda!</h2>";
-                    $msg .= "<p>Seja Bem vindo ao " . Application::$APP_NAME . $model->getNome_pessoa() .", confirme seu E-mail para acessar o site, realizar a reserva de mesa e ganhar descontos especiais que voçê só encontra aqui!!</p>";
+                    $msg .= "<p>Seja Bem vindo ao " . Application::$APP_NAME . " " . $model->getNome_pessoa() . ", confirme seu E-mail para acessar o site, realizar a reserva de mesa e ganhar descontos especiais que voçê só encontra aqui!!</p>";
                     $msg .= "<p><a href=\"$link\">Clique Aqui para confirmar seu E-mail</a></p>";
                     $msg .= "<p class='p-5'>Atenciosamente, Equipe " . Application::$APP_NAME . "</p>";
-                }               
+                }
                 Application::sendEmail($model->getEmail_pessoa(), 'Ativação de Cadastro', $msg);
-                (new Message('Mensagem', 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
+                (new Message('Mensagem', $res['tumb'] . 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
             } catch (\Exception $ex) {
                 //$connection->rollBack();
                 (new Message(null, Application::$MSG_ERROR, Application::$ICON_ERROR))->show();
             }
         } else {
             parent::insertUpdate();
+        }
+    }
+
+    public function uploadImage($nome_image)
+    {
+
+        if (isset($_FILES['image']['name']) && $_FILES['image']['error'] == 0) {
+
+            $nome = $this->files['image']['name'];
+            // Pega a extensão
+            $extensao = pathinfo($nome, PATHINFO_EXTENSION);
+
+            // Converte a extensão para minúsculo
+            $extensao = strtolower($extensao);
+
+            // Somente imagens, .jpg;.jpeg;.gif;.png
+            // Aqui eu enfileiro as extensões permitidas e separo por ';'
+            // Isso serve apenas para eu poder pesquisar dentro desta String
+            if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
+                // Cria um nome único para esta imagem
+                // Evita que duplique as imagens no servidor.
+                // Evita nomes com acentos, espaços e caracteres não alfanuméricos
+
+                $destino = '/wamp64/www/QuickPath/app/img/';
+                $uploadfile = $destino . $nome_image . "." . $extensao;
+                $tpm_file =  $this->files['image']['tmp_name'];
+
+                // tenta mover o arquivo para o destino
+                if (@move_uploaded_file($tpm_file, $uploadfile)) {
+                    $tumb = 'Arquivo salvo com sucesso em : <strong>' . $destino . '</strong><br />';
+                    return ["resul" => true, "msg" => $tumb];
+                } else {
+                    $tumb = 'Erro ao salvar o arquivo. Verifique o seu Perfil.<br />';
+                    return ["resul" => false, "msg" => $tumb];
+                }
+            } else {
+                $tumb = 'Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png", Verifique o seu Perfil<br />';
+                return ["resul" => false, "msg" => $tumb];
+            }
+        } else {
+            $tumb = 'Você não enviou nenhum arquivo! Verifique o seu Perfil';
+            return ["resul" => false, "msg" => $tumb];
         }
     }
 

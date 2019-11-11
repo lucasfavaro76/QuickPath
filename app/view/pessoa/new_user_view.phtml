@@ -1,4 +1,3 @@
-
 <section class="pb_section pt-0 pb-0" id="section-contact">
     <div class="d-flex">
         <div class="pb_half py-5">
@@ -13,7 +12,7 @@
             <div class="row justify-content-md-center">
 
 
-                <form method="post" action="Request.php?class=PessoaCtr&method=run&action=new">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=new">
                     <input id="tipo" name="tipo" type="hidden" value="Fisica">
                     <input type="hidden" name="id" id="id">
                     <input type="hidden" name="id_pessoa" id="id_pessoa">
@@ -21,23 +20,20 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="name">Nome:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required> 
+                                <label for="name">Nome:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="telefone">Telefone:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50"> 
-
-                                <!-- <label for="email">Email</label>
-                                    <input type="text" class="form-control p-2 rounded-0" id="email"> -->
+                                <label for="telefone">Telefone:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50">
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="celular">Celular:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular_pessoa" maxlength="50" required> 
+                                <label for="celular">Celular:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular_pessoa" maxlength="50" required>
                             </div>
                         </div>
                     </div>
@@ -45,40 +41,40 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="email">Email:</label> 
-                                <input type="email" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required> 
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="cep">Cep:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required> 
+                                <label for="cep">Cep:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="logradouro">Logradouro:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required> 
+                                <label for="logradouro">Logradouro:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="numero">Numero:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required> 
+                                <label for="numero">Numero:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="complemento">Complemento:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50" required> 
+                                <label for="complemento">Complemento:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="bairro">Bairro:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required> 
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required>
                             </div>
                         </div>
                     </div>
@@ -86,23 +82,22 @@
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="cidade">Cidade:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required> 
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label for="uf">Estado:</label> 
-                                <input type="text" class="form-control p-2 rounded-0" name="uf" id="uf" maxlength="50" required> 
+                                <label for="uf">Estado:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="uf" id="uf" maxlength="50" required>
                             </div>
                         </div>
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label for="genero">Sexo</label> 
-                                <select name="genero" class="form-control p-2 rounded-0" id="genero">
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                </select> 
+                        <div class="col-md p-t-10">
+                            <div class="cnpj invisible">
+                                <div class="custom-file">
+                                    <input type="file" value="" class="custom-file-input" id="image" name="image">
+                                    <label class="custom-file-control" for="image">Selecione uma Imagem</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -112,7 +107,7 @@
                             <div class="form-group">
                                 <div class="cpf">
                                     <label for="cpf ">CPF:</label>
-                                    <input type="text" class="form-control p-2 rounded-0" name="cpf_fisica" id="cpf" maxlength="50"> 
+                                    <input type="text" class="form-control p-2 rounded-0" name="cpf_fisica" id="cpf" maxlength="50">
                                 </div>
                                 <div class="cnpj invisible">
                                     <label for="cnpj_juridica">CNPJ:</label>
@@ -150,23 +145,32 @@
                             <div class="form-group">
 
                                 <label for="senha_pessoa">Senha</label>
-                                <input type="password" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa"> <!-- don't show the password -->
+                                <input type="password" id="senha" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa" required> <!-- don't show the password -->                                
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
 
-                                <label for="senha_pessoa">Confirme Senha</label> 
-                                <input type="password" class="form-control p-2 rounded-0" name="" id="">  <!-- don't show the password -->
+                                <label for="senha_pessoa">Confirme Senha</label>
+                                <input type="password" id="confSenha" class="form-control p-2 rounded-0" required> <!-- don't show the password -->
+                                <div class="valid-feedback">
+                                    OK!!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    As senhas nao sao Iguais!!!
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+                        </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

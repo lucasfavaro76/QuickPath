@@ -6,7 +6,18 @@ use core\Application;
 /*if (!Session::getSession('active_user')) {*/
 ?>
 <div class="text-center">
-    <h1 class="p-5">Bem vindo ao <?= Application::$APP_NAME ?> </h1>
+<?php
+    if (!Session::getSession('active_user')) {
+    ?>
+    <h1>Bem vindo ao <?=Application::$APP_NAME?> </h1>    
+    <p><a href="Request.php?class=UserCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p>
+<?php
+} else{
+    ?>
+    <h1 class="p-5">Bem vindo ao <?= Application::$APP_NAME ?>, <?=Session::getSession('active_user')->getNome_pessoa() ?></h1>
+    <?php
+}
+?>
 
 
     <!-- <h3>Faça o login!</h3>
@@ -19,10 +30,14 @@ use core\Application;
         <input type="reset" name="command" value="Limpar">
     </form>
     <p><a href="Request.php?class=PessoaCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p> -->
-    
+    <div class="row all">
+
         <?php
-        $this->showAll();        
+        $this->showAll();
         ?>
-    
+
+    </div>
+
+
     <hr>
 </div>

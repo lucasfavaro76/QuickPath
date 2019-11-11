@@ -12,6 +12,7 @@ abstract class Controller
     protected $dao;
     protected $get;
     protected $post;
+    protected $files;
     //---------------------------
     protected $criteria;
     protected $orderBy;
@@ -25,6 +26,7 @@ abstract class Controller
          */
         $this->post = $_POST;
         $this->get = $_GET;
+        $this->files = $_FILES;
     }
 
     public function run()
