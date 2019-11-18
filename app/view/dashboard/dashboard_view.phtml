@@ -1,0 +1,54 @@
+<?php
+
+use core\util\Session;
+?>
+
+<h1 class="text-center p-5">Bem vindo ao dashboard do seu resturante,
+    <?= Session::getSession('active_user')->getNome_pessoa() ?></h1>
+<?= Session::getSession('active_user')->getId() ?>
+<?php if (isset($this->msg)) { ?>
+    <h2 class="text-center" id="msg"><?= $this->msg ?></h2>
+<?php } ?>
+
+<?php if (!is_null($this->vendas)) { ?>
+    <div class="table-responsive">
+        <table class="table-stripped" id="myTable" style="width:100%;">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">NOME</th>
+                    <th class="text-center">EMAIL</th>
+                    <th class="text-center">CPF</th>
+                    <th class="text-center">TOTAL</th>
+                    <th class="text-center">DATA</th>
+                    <th class="text-center">HORA</th>
+                    <th class="text-center">TIPO</th>
+                    <th class="text-center">PRODUTO</th>
+                    <th class="text-center">UNITARIO</th>
+                    <th class="text-center">QUANTIDADE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 12 -->
+                <tr>
+                    <?php foreach ($this->vendas as $row) { ?>
+                        <td class="text-center"> <?= $row['id_pessoa'] ?></td>
+                        <td class="text-center"> <?= $row['nome_pessoa'] ?></td>
+                        <td class="text-center"> <?= $row['email_pessoa'] ?></td>
+                        <td class="text-center"> <?= $row['cpf_fisica'] ?></td>
+                        <td class="text-center"> <?= $row['preco_total'] ?></td>
+                        <td class="text-center"> <?= $row['data_venda'] ?></td>
+                        <td class="text-center"> <?= $row['hora_venda'] ?></td>
+                        <td class="text-center"> <?= $row['tipo_pagamento'] ?></td>
+                        <td class="text-center"> <?= $row['nome_produto'] ?></td>
+                        <td class="text-center"> <?= $row['preco_produto'] ?></td>
+                        <td class="text-center"> <?= $row['quantidade'] ?></td>
+                    <?php } ?>
+                </tr>
+
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <p class="text-center">Sem Vendas Ainda</p>
+    <?php } ?>
+    </div>

@@ -1,0 +1,1 @@
+﻿select * from venda v inner join pessoa_juridica pj on pj.id_juridica = v.id_restaurante inner join pessoa p on v.id_pessoa = p.id_pessoa inner join pessoa_fisica pf on p.id_pessoa = pf.id_pessoa inner join produto pr on v.id_produto = pr.id_produto

@@ -14,8 +14,6 @@ final class CategoriaModel extends Model {
     }
 
     
-
-
     /**
      * Get the value of nome_categoria
      */ 

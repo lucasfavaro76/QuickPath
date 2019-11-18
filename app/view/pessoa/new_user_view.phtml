@@ -17,7 +17,7 @@
                     <input type="hidden" name="id" id="id">
                     <input type="hidden" name="id_pessoa" id="id_pessoa">
 
-                    <div class="row">
+                    <div class="row cadastro">
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="name">Nome:</label>
@@ -92,14 +92,6 @@
                                 <input type="text" class="form-control p-2 rounded-0" name="uf" id="uf" maxlength="50" required>
                             </div>
                         </div>
-                        <div class="col-md p-t-10">
-                            <div class="cnpj invisible">
-                                <div class="custom-file">
-                                    <input type="file" value="" class="custom-file-input" id="image" name="image">
-                                    <label class="custom-file-control" for="image">Selecione uma Imagem</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row">
@@ -119,7 +111,7 @@
                             <div class="form-group">
                                 <div class="cnpj invisible">
                                     <label for="razao_social">Razão Social:</label>
-                                    <input type="text" class="form-control p-2 rounded-0" name="razao_social" id="cpf" maxlength="50">
+                                    <input type="text" class="form-control p-2 rounded-0" name="razao_social" id="razao_social" maxlength="50">
                                 </div>
                             </div>
                         </div>
@@ -133,7 +125,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row p-b-20">
+                        <div class="col-md-5 p-b-10">
+                            <div class="cnpj invisible">
+                                <div class="custom-file">
+                                    <input type="file" value="" class="custom-file-input" id="image" name="image">
+                                    <label class="custom-file-label" for="image">Selecione uma Imagem</label>
+                                    <input type="hidden" name="imagem" id="caminho" value="">
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="col-md-2 cnpj invisible">
+                            <a class="upload btn pb_outline-dark pb_font-13 pb_letter-spacing-2 rounded-2">Upload</a>
+                        </div>
+                        <div class="col-md-5">
+
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
@@ -145,19 +154,19 @@
                             <div class="form-group">
 
                                 <label for="senha_pessoa">Senha</label>
-                                <input type="password" id="senha" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa" required> <!-- don't show the password -->                                
+                                <input type="password" id="senha" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa" required> <!-- don't show the password -->
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-
                                 <label for="senha_pessoa">Confirme Senha</label>
                                 <input type="password" id="confSenha" class="form-control p-2 rounded-0" required> <!-- don't show the password -->
-                                <div class="valid-feedback">
-                                    OK!!!
+
+                                <div class="senha-valida">
+
                                 </div>
-                                <div class="invalid-feedback">
-                                    As senhas nao sao Iguais!!!
+                                <div class="senha-invalida">
+
                                 </div>
                             </div>
                         </div>

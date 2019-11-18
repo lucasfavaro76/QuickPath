@@ -22,20 +22,10 @@ final class CategoriaCtr extends Controller
     {
         if (isset($this->post) && !empty($this->post)) {
             $id = (int)$this->post['id'];
-            $name = ltrim($this->post['name']);                       
+            $nome_categoria = ltrim($this->post['nome_categoria']);
             return new CategoriaModel($id, $nome_categoria);
         }
     }
-
-    public function showList() {
-        if($this->post){
-            $this->criteria = "upper(nome_categoria) like upper('{$this->post['data'][0]}')";
-            $this->orderBy = 'nome_categoria';
-        }
-        parent::showList();
-    }
-   
- 
 }
 
 

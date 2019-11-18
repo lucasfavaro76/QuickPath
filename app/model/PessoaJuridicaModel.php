@@ -10,6 +10,7 @@ class PessoaJuridicaModel extends PessoaModel
     protected $razao_social;
     protected $descricao;
     protected $tipo_pessoa;
+    protected $imagem;
 
     protected $id_pessoa;
 
@@ -33,6 +34,7 @@ class PessoaJuridicaModel extends PessoaModel
         $senha_pessoa = null,
         $status = null,
         $tipo_pessoa = null,
+        $imagem = null,
         $id_pessoa = null
     ) {
         parent::__construct(
@@ -57,6 +59,7 @@ class PessoaJuridicaModel extends PessoaModel
         $this->razao_social = $razao_social;
         $this->descricao = $descricao;
         $this->tipo_pessoa = $tipo_pessoa;
+        $this->imagem = $imagem;
         $this->id_pessoa = $id_pessoa;
     }
 
@@ -137,6 +140,26 @@ class PessoaJuridicaModel extends PessoaModel
     public function setDescricao($descricao)
     {
         $this->descricao = $descricao;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of imagem
+     */ 
+    public function getImagem()
+    {
+        return $this->imagem;
+    }
+
+    /**
+     * Set the value of imagem
+     *
+     * @return  self
+     */ 
+    public function setImagem($imagem)
+    {
+        $this->imagem = $imagem;
 
         return $this;
     }

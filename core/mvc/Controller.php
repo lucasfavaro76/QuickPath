@@ -101,7 +101,7 @@ abstract class Controller
     public function showView()
     {
         if(Session::getSession('active_user')){
-            $activeUserName = Session::getSession('active_user')->getName();
+            $activeUserName = Session::getSession('active_user')->getNome_pessoa();
             $this->view->setActiveUserName($activeUserName);
         }
 

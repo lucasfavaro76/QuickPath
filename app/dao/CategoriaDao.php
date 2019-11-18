@@ -1,22 +1,24 @@
 <?php
 namespace app\dao;
 
-use app\model\CategoriaModel;
+
 use core\dao\Connection;
 use core\dao\IDao;
+
+use app\model\CategoriaModel;
 
 class CategoriaDao implements IDao
 {
     /**
      * Persists a model in database
      */
-    public function insert(CategoryModel $model = null)
+    public function insert(CategoriaModel $model = null)
     {
         try {
             $connection = Connection::getConnection();
             $sql = "insert into categoria (nome_categoria) values (:nome_categoria)";
             $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":name", $model->getName());           
+            $stmt->bindValue(":nome_categoria", $model->getNome_categoria());           
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -25,14 +27,14 @@ class CategoriaDao implements IDao
         }
     }
 
-    public function update(CategoryModel $model = null)
+    public function update(CategoriaModel $model = null)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "update categoria set nome_categoria = :nome_categoria where id_categoria = :id";
+            $sql = "update cargo set nome_categoria = :nome_categoria where id_categoria = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $model->getId());
-            $stmt->bindValue(":name", $model->getNome_categoria());           
+            $stmt->bindValue(":nome_categoria", $model->getNome_categoria());           
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -64,7 +66,7 @@ class CategoriaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from categoria where id_categoria = :id";
+            $sql = "select * from categoria where id_cargo = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
@@ -105,7 +107,7 @@ class CategoriaDao implements IDao
                 foreach ($result as $row) {
                     $list->append(
                         new CategoriaModel(
-                            $row['id'],
+                            $row['id_categoria'],
                             $row['nome_categoria']
                         )
                     );

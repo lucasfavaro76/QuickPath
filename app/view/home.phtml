@@ -6,38 +6,44 @@ use core\Application;
 /*if (!Session::getSession('active_user')) {*/
 ?>
 <div class="text-center">
-<?php
-    if (!Session::getSession('active_user')) {
-    ?>
-    <h1>Bem vindo ao <?=Application::$APP_NAME?> </h1>    
-    <p><a href="Request.php?class=UserCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p>
-<?php
-} else{
-    ?>
-    <h1 class="p-5">Bem vindo ao <?= Application::$APP_NAME ?>, <?=Session::getSession('active_user')->getNome_pessoa() ?></h1>
     <?php
-}
-?>
-
-
-    <!-- <h3>Faça o login!</h3>
-    <form method="post" action="Request.php?class=PessoaCtr&method=doLogin">
-        <label for="login_pessoa">Login</label><br>
-        <input type="text" name="login_pessoa" id="login_pessoa"><br>
-        <label for="senha_pessoa">Senha</label><br>
-        <input type="password" name="senha_pessoa" id="senha_pessoa"><br>
-        <input type="submit" name="command" value="OK">
-        <input type="reset" name="command" value="Limpar">
-    </form>
-    <p><a href="Request.php?class=PessoaCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p> -->
-    <div class="row all">
-
-        <?php
-        $this->showAll();
+    if (!Session::getSession('active_user')) {
         ?>
-
+        <h1 class="p-t-10">Bem vindo ao <?= Application::$APP_NAME ?> </h1>
+        <p><a href="Request.php?class=PessoaCtr&method=showView&action=new">Ainda não tem cadastro? Clique aqui!</a></p>
+    <?php
+    } else {
+        ?>
+        <h1 class="p-5">Bem vindo ao <?= Application::$APP_NAME ?>, <?= Session::getSession('active_user')->getNome_pessoa() ?></h1> <?= Session::getSession('active_user')->getId() ?>
+    <?php
+    }
+    ?>
+    <div class="row">
+        <?php
+        if (!is_null($this->restaurantes)) {
+            foreach ($this->restaurantes as $row) {
+                ?>
+                <div style="margin-left:3vw;" class="p-5 md-col-4">
+                    <div class="card">
+                        <img class="card-img-top" src="<?= $row->getImagem() ?>" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $row->getRazao_social() ?></h5>
+                            <p class="card-text"><?= $row->getDescricao() ?></p>
+                            <a href="Request.php?class=DescCtr&method=showView&rest=<?= $row->getId() ?>" class="btn btn-primary">Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            <?php
+                }
+                ?>
     </div>
+<?php
+} else {
+    ?>
+
+    <p class="text-center">Nenhum Restaurante encontrado</p>
+<?php } ?>
 
 
-    <hr>
+<hr>
 </div>

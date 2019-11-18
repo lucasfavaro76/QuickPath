@@ -1,0 +1,42 @@
+<?php
+
+use core\util\Session;
+
+// if (!isset($_SESSION)) session_start();
+?>
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Cargo</h2>
+                    <p class="text-center">Caso tenha algum funcionario novo com um cargo novo, voçê pode adicionar o cargo por aqui!!</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=CargoCtr&method=run&action=new">                    
+                    <input type="hidden" name="id" id="id">                    
+                    <input type="hidden" value="<?= Session::getSession('active_user')->getId() ?>" name="id_juridica" id="juridica">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <label for="nome_cargo">Cargo:</label>
+                                <input type="text" class="form-control rounded-0" name="nome_cargo" id="nome_cargo" maxlength="50" required>
+                            </div>
+                        </div>                        
+                    </div>                            
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

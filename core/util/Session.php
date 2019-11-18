@@ -13,16 +13,24 @@ namespace core\util;
  *
  * @author jlgregorio81
  */
-class Session {
+class Session
+{
+    private $session;
 
-    public static function createSession($nome, $obj) {
+    public function __construct($session)
+    {
+        $this->session = session_start();
+    }
+
+    public static function createSession($nome, $obj)
+    {
         if (!isset($_SESSION))
             session_start();
         $_SESSION[$nome] = $obj;
     }
 
-    public static function getSession($nome = null) {
-        
+    public static function getSession($nome = null)
+    {
         if ($nome) {
             return isset($_SESSION[$nome]) ? $_SESSION[$nome] : NULL;
         } else {
@@ -30,7 +38,8 @@ class Session {
         }
     }
 
-    public static function destroySession($nome = NULL) {
+    public static function destroySession($nome = NULL)
+    {
         if (!isset($_SESSION))
             session_start();
         if (is_null($nome))
@@ -38,5 +47,4 @@ class Session {
         else
             unset($_SESSION[$nome]);
     }
-
 }

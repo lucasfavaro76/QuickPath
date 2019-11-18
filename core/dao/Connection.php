@@ -3,22 +3,43 @@ namespace core\dao;
 
 class Connection
 {
+    // /**
+    //  * The name of the database
+    //  */
+    // const DBNAME = 'lucasfavaro76';
+    // /**
+    //  * the user name
+    //  */
+    // const USER = 'lucasfavaro76';
+    // /**
+    //  * the password
+    //  */
+    // const PASSWORD = 'deadinside2017';
+    // /**
+    //  * The host of the database. by default it is '127.0.0.1' or 'localhost'
+    //  */
+    // const HOST = 'projetos.fatecjales.edu.br';
+    // /**
+    //  * The port of the databse. The Postgres default port is 5432.
+    //  */
+    // const PORT = 5432;
+
     /**
      * The name of the database
      */
-    const DBNAME = 'lucasfavaro76';
+    const DBNAME = 'bd_QuickPath';
     /**
      * the user name
      */
-    const USER = 'lucasfavaro76';
+    const USER = 'postgres';
     /**
      * the password
      */
-    const PASSWORD = 'deadinside2017';
+    const PASSWORD = '123456';
     /**
      * The host of the database. by default it is '127.0.0.1' or 'localhost'
      */
-    const HOST = 'projetos.fatecjales.edu.br';
+    const HOST = 'localhost';
     /**
      * The port of the databse. The Postgres default port is 5432.
      */

@@ -15,13 +15,14 @@ final class PessoaJuridicaDao extends PessoaDao
     {
         try {
             $this->connection->beginTransaction();
-            $id = parent::insert($model);   
-            $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, descricao, id_pessoa) values (:cnpj_juridica, :razao_social, :descricao, :id_pessoa)";
+            $id = parent::insert($model);
+            $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, descricao, id_pessoa, imagem) values (:cnpj_juridica, :razao_social, :descricao, :id_pessoa, :imagem )";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
             $stmt->bindValue(":razao_social", $model->getRazao_social());
             $stmt->bindValue(":descricao", $model->getDescricao());
-            $stmt->bindValue(":id_pessoa", $id);                      
+            $stmt->bindValue(":id_pessoa", $id);
+            $stmt->bindValue(":imagem", $model->getImagem());
             $stmt->execute();
             $this->connection->commit();
         } catch (\Exception $ex) {
@@ -84,21 +85,34 @@ final class PessoaJuridicaDao extends PessoaDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from \"user\" where id = :id";
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa where p.id_pessoa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new UserModel(
-                    $result['id'],
-                    $result['name'],
-                    $result['gender'],
-                    $result['email'],
+                return new PessoaJuridicaModel(
+                    $result['id_pessoa'],
+                    $result['nome_pessoa'],
+                    $result['telefone_pessoa'],
+                    $result['celular_pessoa'],
+                    $result['email_pessoa'],
+                    $result['cep'],
+                    $result['logradouro'],
+                    $result['numero'],
+                    $result['complemento'],
+                    $result['bairro'],
+                    $result['cidade'],
+                    $result['uf'],
+                    $result['cnpj_juridica'],
+                    $result['razao_social'],
+                    $result['descricao'],
+                    $result['login_pessoa'],
+                    null,
                     $result['status'],
-                    $result['type'],
-                    $result['photo']
+                    $result['tipo_pessoa'],
+                    $result['imagem']
                 );
             } else {
                 return null;
@@ -110,10 +124,11 @@ final class PessoaJuridicaDao extends PessoaDao
         }
     }
 
-    public function selectAll() {
+    public function selectAll()
+    {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa where p.status = 'A' ";           
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa where p.status = 'A' ";
             $stmt = $this->connection->prepare($sql);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
@@ -137,7 +152,11 @@ final class PessoaJuridicaDao extends PessoaDao
                             $row['cnpj_juridica'],
                             $row['razao_social'],
                             $row['descricao'],
-                            $row['login_pessoa']                            
+                            $row['login_pessoa'],
+                            null,
+                            $row['status'],
+                            $row['tipo_pessoa'],
+                            $row['imagem']
                         )
                     );
                 }
@@ -161,7 +180,7 @@ final class PessoaJuridicaDao extends PessoaDao
     ) {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from \"user\" ";
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa";
             if ($criteria)
                 $sql .= " where $criteria ";
             if ($limit)
@@ -175,14 +194,27 @@ final class PessoaJuridicaDao extends PessoaDao
                 $list = new \ArrayObject();
                 foreach ($result as $row) {
                     $list->append(
-                        new CategoryModel(
-                            $row['id'],
-                            $row['name'],
-                            $row['gender'],
-                            $row['email'],
+                        new PessoaJuridicaModel(
+                            $row['id_pessoa'],
+                            $row['nome_pessoa'],
+                            $row['telefone_pessoa'],
+                            $row['celular_pessoa'],
+                            $row['email_pessoa'],
+                            $row['cep'],
+                            $row['logradouro'],
+                            $row['numero'],
+                            $row['complemento'],
+                            $row['bairro'],
+                            $row['cidade'],
+                            $row['uf'],
+                            $row['cnpj_juridica'],
+                            $row['razao_social'],
+                            $row['descricao'],
+                            $row['login_pessoa'],
+                            null,
                             $row['status'],
-                            $row['type'],
-                            $row['photo']
+                            $row['tipo_pessoa'],
+                            $row['imagem']
                         )
                     );
                 }

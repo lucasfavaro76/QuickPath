@@ -1,0 +1,88 @@
+<?php
+
+use core\util\Session;
+
+// if (!isset($_SESSION)) session_start();
+?>
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Produto</h2>
+                    <p class="text-center">Produtos adicionados aqui apareceram na pagina do seu restaurante ou lanchonete, então seja criativo!!!</p>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+
+
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=ProdutoCtr&method=run&action=new">                    
+                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id_pessoa" id="id_pessoa">
+                    <input type="hidden" value="<?= Session::getSession('active_user')->getId() ?>" name="id_juridica" id="juridica">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="nome_produto">Nome Produto:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="nome_produto" id="nome_produto" maxlength="50" required>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="unidade_produto">Unidade Produto:</label>
+                                <input type="text" class="form-control p-2 rounded-0" name="unidade_produto" id="unidade_produto" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="preco_produto">Preço Produto:</label>
+                                <input type="number" step="0.01" class="form-control p-2 rounded-0" name="preco_produto" id="preco_produto" maxlength="50" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="quant_estoque">Estoque:</label>
+                                <input type="number" class="form-control p-2 rounded-0" name="quant_estoque" id="quant_estoque" maxlength="50" required>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="categoria">Categoria:</label>
+                                <select class="form-control p-2 rounded-0" name="categoria" id="cargo">
+                                    <option value="Selecione" selected>Selecione um cargo</option>
+                                    <?php
+                                    if (!is_null($this->categoria)) {
+                                        foreach ($this->categoria as $categoria) {
+                                            ?>
+                                            <option value="<?= $categoria->getId() ?>"><?= $categoria->getNome_categoria() ?></option>
+                                        <?php
+                                            }
+                                        } else { ?>
+                                        <option value="Vazio">Nenhum registro encontrado</option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select><br>
+
+                            </div>
+                        </div>
+                    </div>                   
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

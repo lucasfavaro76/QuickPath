@@ -48,3 +48,99 @@ $(document).ready(function () {
         }
     });
 })
+
+$('.upload').on('click', function () {
+
+
+
+    var fd = new FormData();
+    var files = $('#image')[0].files[0];
+    fd.append('file', files);
+    var nome = $('#razao_social').val();
+    //var file = $('#image').file[0];
+    console.log(files);
+    console.log(nome);
+    console.log(fd);
+    var url = "Request.php?class=PessoaCtr&method=uploadImage&nome=" + nome + "&file=" + files;
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'JSON',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.result == 1) {
+                var text = response.caminho;
+                $('#caminho').val(text);
+                $.confirm({
+                    title: 'Sucesso',
+                    content: response.mensagem,
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Sucesso',
+                            btnClass: 'btn-green',
+                            action: function () {
+                            }
+                        },
+                        close: function () {
+                        }
+                    }
+                });
+            } else {
+                $.confirm({
+                    title: 'Erro ao fazer Upload',
+                    content: response.mensagem,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: 'Tente Novamente',
+                            btnClass: 'btn-red',
+                            action: function () {
+                            }
+                        },
+                        close: function () {
+                        }
+                    }
+                });
+            }
+
+        },
+    });
+})
+
+$(document).ready(function () {
+    $('#myTable').dataTable({
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por pagina",
+            "zeroRecords": "Sem regitro - desculpe",
+            "info": "Mostrando pagina _PAGE_ of _PAGES_",
+            "infoEmpty": "Sem registros",
+            "infoFiltered": "(Filtrados de _MAX_ total registros)",
+            "search": "Buscar",
+            "paginate": {
+                "next": "Proximo",
+                "previous": "Anterior",
+                "first": "Inicio",
+                "last": "Final"
+            }
+        }
+    });
+});
+function removeMensagem(){
+    setTimeout(function () {
+      var msg = $('#msg');
+      msg.remove();
+    }, 10000);
+  }
+  document.onreadystatechange = () => {
+    if (document.readyState === 'complete') {
+  
+      removeMensagem();
+    }
+  } 

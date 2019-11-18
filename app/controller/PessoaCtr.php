@@ -1,5 +1,6 @@
 <?php
 
+
 namespace app\controller;
 
 use core\mvc\Controller;
@@ -16,18 +17,28 @@ use app\view\Home;
 use app\model\EnderecoModel;
 use app\dao\PessoaFisicaDao;
 use app\dao\PessoaJuridicaDao;
+use app\view\dashboard\DashboardView;
 use core\dao\Connection;
+use app\model\FuncionarioModel;
+use app\model\CargoModel;
+use app\view\pessoa\NewFuncionarioView;
+use app\dao\CargoDao;
+use app\dao\FuncionarioDao;
 
 class PessoaCtr extends Controller
 {
 
     private $newUserView;
     private $action; //..determine if show NewUserView or UserView
+    private $viewFunc;
+    private $session;
 
     public function __construct()
     {
         parent::__construct();
+        $this->session = session_start();
         $this->view = new UserView();
+        $this->viewFunc = new NewFuncionarioView();
         $this->newUserView = new NewUserView();
         $this->connection = Connection::getConnection();
         //$this->dao = new PessoaDao($connection);
@@ -38,9 +49,16 @@ class PessoaCtr extends Controller
 
     public function showView()
     {
-        if ($this->action == 'new')
-            $this->newUserView->show();
-        else
+        if ($this->action == 'new') {
+            if (isset($this->get['tipo'])) {
+                if ($this->get['tipo'] == 'Func') {
+                    $cargo = (new CargoDao($this->connection))->select('id_restaurante = ' . Session::getSession('active_user')->getId());
+                    $this->viewFunc->setCargo($cargo);
+                    $this->viewFunc->show();
+                }
+            } else
+                $this->newUserView->show();
+        } else
             parent::showView();
     }
 
@@ -68,10 +86,11 @@ class PessoaCtr extends Controller
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
                     'I',
-                    $this->post['tipo']
+                    'Juridica',
+                    $this->post['imagem']
 
                 );
-            } else {
+            } else if ($this->post['tipo'] == "Fisica") {
                 return new PessoaFisicaModel(
                     $this->post['id'],
                     $this->post['nome_pessoa'],
@@ -89,8 +108,29 @@ class PessoaCtr extends Controller
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
                     'I',
-                    $this->post['tipo']
+                    'Fisica'
 
+                );
+            } else {
+                return new FuncionarioModel(
+                    $this->post['id'],
+                    $this->post['nome_pessoa'],
+                    $this->post['telefone_pessoa'],
+                    $this->post['celular_pessoa'],
+                    $this->post['email_pessoa'],
+                    $this->post['cep'],
+                    $this->post['logradouro'],
+                    $this->post['numero'],
+                    $this->post['complemento'],
+                    $this->post['bairro'],
+                    $this->post['cidade'],
+                    $this->post['uf'],
+                    new CargoModel($this->post['cargo'], null),
+                    $this->post['id_juridica'],
+                    $this->post['login_pessoa'],
+                    $this->post['senha_pessoa'],
+                    'I',
+                    'Funcionario'
                 );
             }
         }
@@ -114,16 +154,15 @@ class PessoaCtr extends Controller
 
                 $model = $this->getModelFromView();
 
-                $res = $this->uploadImage($model->getRazao_social());
-
-                $res['resul'];
-
                 if ($model->getTipo_pessoa() == "Juridica") {
                     $Juridica = new PessoaJuridicaDao($this->connection);
                     $result = $Juridica->insert($model);
-                } else {
+                } else if ($model->getTipo_pessoa() == "Fisica") {
                     $Fisica =  new PessoaFisicaDao($this->connection);
                     $result = $Fisica->insert($model);
+                } else if ($model->getTipo_pessoa() == "Funcionario") {
+                    $Funcionario = new FuncionarioDao($this->connection);
+                    $result = $Funcionario->insert($model);
                 }
 
                 $link = Application::$HOST . "Request.php?class=PessoaCtr&method=activateUser&email={$model->getEmail_pessoa()}";
@@ -141,8 +180,16 @@ class PessoaCtr extends Controller
                     $msg .= "<p><a href=\"$link\">Clique Aqui para confirmar seu E-mail</a></p>";
                     $msg .= "<p class='p-5'>Atenciosamente, Equipe " . Application::$APP_NAME . "</p>";
                 }
+
                 Application::sendEmail($model->getEmail_pessoa(), 'Ativação de Cadastro', $msg);
-                (new Message('Mensagem', $res['tumb'] . 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
+
+                if ($model->getTipo_pessoa() == "Funcionario") {
+                    $dash = new DashboardView;
+                    $dash->setMsg("Cadastro efetuado com sucesso!!!");
+                    $dash->show();
+                } else {
+                    (new Message('Mensagem', 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
+                }
             } catch (\Exception $ex) {
                 //$connection->rollBack();
                 (new Message(null, Application::$MSG_ERROR, Application::$ICON_ERROR))->show();
@@ -152,12 +199,13 @@ class PessoaCtr extends Controller
         }
     }
 
-    public function uploadImage($nome_image)
+    public function uploadImage()
     {
 
-        if (isset($_FILES['image']['name']) && $_FILES['image']['error'] == 0) {
+        if (isset($_FILES['file']['name']) && $_FILES['file']['error'] == 0) {
 
-            $nome = $this->files['image']['name'];
+            $nome_arquivo = $this->get['nome'];
+            $nome = $this->files['file']['name'];
             // Pega a extensão
             $extensao = pathinfo($nome, PATHINFO_EXTENSION);
 
@@ -171,26 +219,26 @@ class PessoaCtr extends Controller
                 // Cria um nome único para esta imagem
                 // Evita que duplique as imagens no servidor.
                 // Evita nomes com acentos, espaços e caracteres não alfanuméricos
-
+                $imagem = $nome_arquivo .".". $extensao;
                 $destino = '/wamp64/www/QuickPath/app/img/';
-                $uploadfile = $destino . $nome_image . "." . $extensao;
-                $tpm_file =  $this->files['image']['tmp_name'];
+                $uploadfile = $destino . $imagem;
+                $tpm_file =  $this->files['file']['tmp_name'];
 
                 // tenta mover o arquivo para o destino
                 if (@move_uploaded_file($tpm_file, $uploadfile)) {
-                    $tumb = 'Arquivo salvo com sucesso em : <strong>' . $destino . '</strong><br />';
-                    return ["resul" => true, "msg" => $tumb];
+                    $result = array("result" => 1, "mensagem" => 'Arquivo salvo com sucesso!!!', "caminho" => $imagem);
+                    echo json_encode($result);
                 } else {
-                    $tumb = 'Erro ao salvar o arquivo. Verifique o seu Perfil.<br />';
-                    return ["resul" => false, "msg" => $tumb];
+                    $result = array("result" => 0, "mensagem" => 'Erro ao salvar o arquivo.');
+                    echo json_encode($result);
                 }
             } else {
-                $tumb = 'Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png", Verifique o seu Perfil<br />';
-                return ["resul" => false, "msg" => $tumb];
+                $result = array("result" => 0, "mensagem" => 'Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png"');
+                echo json_encode($result);
             }
         } else {
-            $tumb = 'Você não enviou nenhum arquivo! Verifique o seu Perfil';
-            return ["resul" => false, "msg" => $tumb];
+            $result = array("result" => 0, "mensagem" => 'Você não enviou nenhum arquivo!');
+            echo json_encode($result);
         }
     }
 
@@ -202,8 +250,13 @@ class PessoaCtr extends Controller
                 $senha_pessoa = $this->post['senha_pessoa'];
                 $Pessoa = (new PessoaDao($this->connection))->doLogin($login_pessoa, $senha_pessoa);
                 if ($Pessoa) {
-                    Session::createSession('active_user', $Pessoa);
-                    Application::start();
+                    if ($Pessoa->getTipo_pessoa() == "Juridica") {
+                        Session::createSession('active_user', $Pessoa);
+                        (new DashboardView())->show();
+                    } else {
+                        Session::createSession('active_user', $Pessoa);
+                        Application::start();
+                    }
                 } else (new Message(
                     Application::$MSG_TITLE,
                     Application::$MSG_INCORRECT_LOGIN,

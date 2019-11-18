@@ -34,3 +34,19 @@ body{
     color:#28a745;
     font-size: 80%;
 }
+
+.dataTables_length, #myTable_info{
+    margin-left: 2%;
+}
+#myTable_filter{
+    margin-right: 2%;
+}
+#nome_cargo, #numero_mesa{
+    width: 30vw;
+}
+.navbar-nav{
+    padding-left: 10vw;
+}
+.row.cadastro{
+    width: 80vw;;
+}

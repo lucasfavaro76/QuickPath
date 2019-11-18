@@ -10,7 +10,7 @@ use core\dao\Connection;
 
 class PessoaDao implements IDao
 {
-    
+
     protected $connection;
 
     public function __construct(\PDO $connection)
@@ -27,7 +27,7 @@ class PessoaDao implements IDao
             values (:nome_pessoa, :telefone_pessoa, :celular_pessoa, :email_pessoa, :cep,
              :logradouro, :numero, :complemento, :bairro, :cidade, :uf,
              :login_pessoa, :senha_pessoa, :status, :tipo_pessoa)";
-            
+
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome_pessoa", $model->getNome_pessoa());
             $stmt->bindValue(":telefone_pessoa", $model->getTelefone_pessoa());
@@ -39,33 +39,33 @@ class PessoaDao implements IDao
             $stmt->bindValue(":complemento", $model->getComplemento());
             $stmt->bindValue(":bairro", $model->getBairro());
             $stmt->bindValue(":cidade", $model->getCidade());
-            $stmt->bindValue(":uf", $model->getUf());            
+            $stmt->bindValue(":uf", $model->getUf());
             $stmt->bindValue(":login_pessoa", $model->getLogin_pessoa());
             $stmt->bindValue(":senha_pessoa", md5($model->getSenha_pessoa())); //..hash md5 to protect 
-            $stmt->bindValue(":status", $model->getStatus());    
-            $stmt->bindValue(":tipo_pessoa", $model->getTipo_pessoa());            
+            $stmt->bindValue(":status", $model->getStatus());
+            $stmt->bindValue(":tipo_pessoa", $model->getTipo_pessoa());
             $stmt->execute();
             return $this->connection->lastInsertId('sid_pessoa');
             //$ultimoid = $stmt->fetch(\PDO::FETCH_ASSOC);           
             //return $ultimoid;
-        } catch (\Exception $ex) {           
+        } catch (\Exception $ex) {
             throw $ex;
-        } 
+        }
     }
 
-     // nome_pessoa varchar(70) not null,
-            // telefone_pessoa varchar(15),
-            // celular_pessoa varchar(15),
-            // email_pessoa varchar(50),
-            // cep varchar(9),
-            // logradouro varchar(50),
-            // numero integer,
-            // complemento varchar(70),
-            // bairro varchar(50),
-            // cidade varchar(50),
-            // uf char(2),
-            // login_pessoa varchar(16) not null,
-            // senha_pessoa text not null,
+    // nome_pessoa varchar(70) not null,
+    // telefone_pessoa varchar(15),
+    // celular_pessoa varchar(15),
+    // email_pessoa varchar(50),
+    // cep varchar(9),
+    // logradouro varchar(50),
+    // numero integer,
+    // complemento varchar(70),
+    // bairro varchar(50),
+    // cidade varchar(50),
+    // uf char(2),
+    // login_pessoa varchar(16) not null,
+    // senha_pessoa text not null,
 
     public function update(PessoaModel $model = null)
     {
@@ -216,7 +216,20 @@ class PessoaDao implements IDao
                 return new PessoaModel(
                     $result['id_pessoa'],
                     $result['nome_pessoa'],
-                    $result['email_pessoa']                   
+                    $result['telefone_pessoa'],
+                    $result['celular_pessoa'],
+                    $result['email_pessoa'],
+                    $result['cep'],
+                    $result['logradouro'],
+                    $result['numero'],
+                    $result['complemento'],
+                    $result['bairro'],
+                    $result['cidade'],
+                    $result['uf'],
+                    $result['login_pessoa'],
+                    $result['senha_pessoa'],
+                    $result['status'],
+                    $result['tipo_pessoa']
                 );
             } else {
                 return null;
