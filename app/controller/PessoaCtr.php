@@ -87,7 +87,8 @@ class PessoaCtr extends Controller
                     $this->post['senha_pessoa'],
                     'I',
                     'Juridica',
-                    $this->post['imagem']
+                    $this->post['imagem'],  
+                    $this->post['id']                  
 
                 );
             } else if ($this->post['tipo'] == "Fisica") {

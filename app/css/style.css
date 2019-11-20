@@ -41,7 +41,7 @@ body{
 #myTable_filter{
     margin-right: 2%;
 }
-#nome_cargo, #numero_mesa{
+#nome_cargo, #numero_mesa, #nome_categoria{
     width: 30vw;
 }
 .navbar-nav{

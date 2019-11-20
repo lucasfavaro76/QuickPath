@@ -6,13 +6,13 @@ use core\mvc\Model;
 
 class PessoaJuridicaModel extends PessoaModel
 {
+    protected $id_juridica;
     protected $cnpj_juridica;
     protected $razao_social;
     protected $descricao;
     protected $tipo_pessoa;
     protected $imagem;
-
-    protected $id_pessoa;
+    
 
     public function __construct(
         $id = null,
@@ -35,7 +35,7 @@ class PessoaJuridicaModel extends PessoaModel
         $status = null,
         $tipo_pessoa = null,
         $imagem = null,
-        $id_pessoa = null
+        $id_juridica = null
     ) {
         parent::__construct(
             $id,
@@ -55,12 +55,13 @@ class PessoaJuridicaModel extends PessoaModel
             $status
         );
 
+        $this->id_juridica = $id_juridica;
         $this->cnpj_juridica = $cnpj_juridica;
         $this->razao_social = $razao_social;
         $this->descricao = $descricao;
         $this->tipo_pessoa = $tipo_pessoa;
         $this->imagem = $imagem;
-        $this->id_pessoa = $id_pessoa;
+       
     }
 
 
@@ -104,26 +105,7 @@ class PessoaJuridicaModel extends PessoaModel
         return $this;
     }
 
-    /**
-     * Get the value of id_pessoa
-     */
-    public function getId_pessoa()
-    {
-        return $this->id_pessoa;
-    }
-
-    /**
-     * Set the value of id_pessoa
-     *
-     * @return  self
-     */
-    public function setId_pessoa($id_pessoa)
-    {
-        $this->id_pessoa = $id_pessoa;
-
-        return $this;
-    }
-
+  
     /**
      * Get the value of descricao
      */ 
@@ -160,6 +142,26 @@ class PessoaJuridicaModel extends PessoaModel
     public function setImagem($imagem)
     {
         $this->imagem = $imagem;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id_juridica
+     */ 
+    public function getId_juridica()
+    {
+        return $this->id_juridica;
+    }
+
+    /**
+     * Set the value of id_juridica
+     *
+     * @return  self
+     */ 
+    public function setId_juridica($id_juridica)
+    {
+        $this->id_juridica = $id_juridica;
 
         return $this;
     }

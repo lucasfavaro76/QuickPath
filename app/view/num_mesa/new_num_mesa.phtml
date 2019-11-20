@@ -11,20 +11,39 @@ use core\util\Session;
                 <div class="col-md-12 text-center">
                     <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Nova Mesa</h2>
                     <p class="text-center">Adicione as mesas do seu restaurante ou lanchonete, atraves delas seu cliente podera realizar reservas.</p>
+                    <?php if (is_null($this->msg)) { } else {
+                        ?><h3 id="msg"><?= $this->msg ?></h3>
+                    <?php } ?>
                 </div>
             </div>
 
             <div class="row justify-content-md-center">
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=NumMesaCtr&method=run&action=new">                    
-                    <input type="hidden" name="id" id="id">                                        
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="envia" action="Request.php?class=NumMesaCtr&method=run&action=new&tipo=single">
+                    <input type="hidden" name="id" id="id">
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
                             <div class="form-group">
                                 <label for="numero_mesa">Numeo da Mesa:</label>
-                                <input type="text" class="form-control rounded-0" name="numero_mesa" id="numero_mesa" maxlength="50" required>
+                                <input type="number" class="form-control rounded-0" name="numero_mesa" id="numero_mesa" maxlength="50" required>
                             </div>
-                        </div>                        
-                    </div>                            
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="form-group">
+                                <p>Caso queira adicionar vairas mesas, selecione um intervalo abaixo</p>
+                                <label for="numero_mesa">Numeo da Mesa:</label>
+                                <select class="form-control" name="intervalo" id="num_mesa">
+                                    <option value="0" selected>Selecione um intervalo</option>
+                                    <option value="10">1-10</option>
+                                    <option value="20">1-20</option>
+                                    <option value="30">1-30</option>
+                                </select>
+                                <!-- <input type="text" class="form-control rounded-0" name="numero_mesa" id="numero_mesa" maxlength="50" required> -->
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
@@ -36,5 +55,6 @@ use core\util\Session;
             </div>
         </div>
     </div>
+
 
 </section>

@@ -16,9 +16,10 @@ class CategoriaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "insert into categoria (nome_categoria) values (:nome_categoria)";
+            $sql = "insert into categoria (nome_categoria, id_restaurante) values (:nome_categoria, :id_restaurante)";
             $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":nome_categoria", $model->getNome_categoria());           
+            $stmt->bindValue(":nome_categoria", $model->getNome_categoria());
+            $stmt->bindValue(":id_restaurante", $model->getId_restaurante());           
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -66,7 +67,7 @@ class CategoriaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from categoria where id_cargo = :id";
+            $sql = "select * from categoria where id_categoria = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
@@ -74,8 +75,9 @@ class CategoriaDao implements IDao
             if ($result) {
                 $result = $result[0];
                 return new CategoriaModel(
-                    $result['id'],
-                    $result['nome_categoria']                    
+                    $result['id_categoria'],
+                    $result['nome_categoria'],
+                    $result['id_restaurante']
                 );
             } else {
                 return null;

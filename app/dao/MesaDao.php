@@ -1,14 +1,12 @@
 <?php
-
 namespace app\dao;
 
 
 use core\dao\Connection;
 use core\dao\IDao;
 use app\model\CargoModel;
-use app\model\NumMesaModel;
 
-class NumMesaDao implements IDao
+class MesaDao implements IDao
 {
 
     protected $connection;
@@ -21,33 +19,15 @@ class NumMesaDao implements IDao
     /**
      * Persists a model in database
      */
-    public function insert(NumMesaModel $model = null, $tipo = null)
+    public function insert(CargoModel $model = null)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "insert into num_mesa (numero_mesa, id_restaurante, mesa_ocupada) values (:numero_mesa, :id_restaurante, :mesa_ocupada)";
+            $sql = "insert into cargo (nome_cargo, id_restaurante) values (:nome_cargo, :id_restaurante)";
             $stmt = $connection->prepare($sql);
-
-            if ($tipo == "intervalo") {
-                for ($i = 1; $i <= $model->getNum_mesa(); $i++) {
-
-                    $stmt->bindValue(":numero_mesa", $i);
-                    $stmt->bindValue(":id_restaurante", $model->getId_restaurante());
-                    $stmt->bindValue(":mesa_ocupada", $model->getMesa_ocupada());
-
-                    $stmt->execute();
-                }
-            } else {
-                // $sql = "insert into num_mesa (numero_mesa, id_restaurante) values (:numero_mesa, :id_restaurante)";
-                // $stmt = $connection->prepare($sql);
-                $stmt->bindValue(":numero_mesa", $model->getNum_mesa());
-                $stmt->bindValue(":id_restaurante", $model->getId_restaurante());
-                $stmt->bindValue(":mesa_ocupada", $model->getMesa_ocupada());
-                $stmt->execute();
-            }
-
-
-            return $stmt;
+            $stmt->bindValue(":nome_cargo", $model->getNome_cargo());           
+            $stmt->bindValue(":id_restaurante", $model->getId_restaurante());
+            return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
         } finally {
@@ -62,7 +42,7 @@ class NumMesaDao implements IDao
             $sql = "update cargo set nome_cargo = :nome_cargo where id_cargo = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $model->getId());
-            $stmt->bindValue(":nome_cargo", $model->getNome_cargo());
+            $stmt->bindValue(":nome_cargo", $model->getNome_cargo());           
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -103,7 +83,7 @@ class NumMesaDao implements IDao
                 $result = $result[0];
                 return new CategoriaModel(
                     $result['id'],
-                    $result['nome_cargo']
+                    $result['nome_cargo']                    
                 );
             } else {
                 return null;
@@ -115,32 +95,28 @@ class NumMesaDao implements IDao
         }
     }
 
-    public function select(
-        $criteria = null,       
-        $limit = null,
-        $offSet = null
-    ) {
+    public function select($criteria = null, $orderBy = 'nome_cargo', 
+        $limit = null, $offSet = null)
+    {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from num_mesa where mesa_ocupada = 'L' and ";
-            if ($criteria)
-                $sql .= " $criteria ";
-            if ($limit)
+            $sql = "select * from cargo ";
+            if($criteria)
+                $sql .= " where $criteria ";
+            if($limit)
                 $sql .= " limit $limit ";
-            if ($offSet)
+            if($offSet)
                 $sql .= " offset $offSet ";
-            $stmt = $connection->prepare($sql);
-            $result = $stmt->execute();
+            $stmt = $connection->prepare($sql);                                             
+            $result = $stmt->execute();            
             $result = $stmt->fetchAll();
             if ($result) {
                 $list = new \ArrayObject();
                 foreach ($result as $row) {
                     $list->append(
-                        new NumMesaModel(
-                            $row['id_num_mesa'],
-                            $row['numero_mesa'],
-                            $row['id_restaurante'],
-                            $row['mesa_ocupada']
+                        new CargoModel(
+                            $row['id_cargo'],
+                            $row['nome_cargo']
                         )
                     );
                 }
@@ -148,11 +124,11 @@ class NumMesaDao implements IDao
             } else {
                 return null;
             }
-        } catch (\Exception $ex) {
+        } catch (\Exception $ex) { 
             throw $ex;
         } finally {
             $connection = null;
-        }
+         }
     }
 
     public function selectCount($criteria = null)
@@ -161,11 +137,11 @@ class NumMesaDao implements IDao
             $conn = Connection::getConnection();
             $sql = "select count(*) from cargo where $criteria";
             $stmt = $conn->prepare($sql);
-            $result = $stmt->execute();
+            $result = $stmt->execute();            
             $result = $stmt->fetchAll();
             if ($result)
                 return $result[0]['count'];
-            else
+            else 
                 return 0;
         } catch (\Exception $ex) {
             throw $ex;

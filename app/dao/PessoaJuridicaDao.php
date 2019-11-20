@@ -16,12 +16,13 @@ final class PessoaJuridicaDao extends PessoaDao
         try {
             $this->connection->beginTransaction();
             $id = parent::insert($model);
-            $sql = "insert into pessoa_juridica (cnpj_juridica, razao_social, descricao, id_pessoa, imagem) values (:cnpj_juridica, :razao_social, :descricao, :id_pessoa, :imagem )";
+            $sql = "insert into pessoa_juridica (id_juridica, cnpj_juridica, razao_social, descricao, imagem) values (:id_juridica, :cnpj_juridica, :razao_social, :descricao,:imagem )";
             $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindValue(":id_juridica", $id);
             $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
             $stmt->bindValue(":razao_social", $model->getRazao_social());
-            $stmt->bindValue(":descricao", $model->getDescricao());
-            $stmt->bindValue(":id_pessoa", $id);
+            $stmt->bindValue(":descricao", $model->getDescricao());            
             $stmt->bindValue(":imagem", $model->getImagem());
             $stmt->execute();
             $this->connection->commit();
@@ -85,7 +86,7 @@ final class PessoaJuridicaDao extends PessoaDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa where p.id_pessoa = :id";
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_juridica where p.id_pessoa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
@@ -128,7 +129,7 @@ final class PessoaJuridicaDao extends PessoaDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_pessoa where p.status = 'A' ";
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_juridica where p.status = 'A' ";
             $stmt = $this->connection->prepare($sql);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();

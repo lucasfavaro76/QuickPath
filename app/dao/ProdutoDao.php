@@ -61,21 +61,6 @@ class ProdutoDao implements IDao
         }
     }
 
-    public function activateUser($email)
-    {
-        try {
-            $connection = Connection::getConnection();
-            $sql = "update pessoa set status = 'A' where email_pessoa = :email";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":email", $email);
-            return $stmt->execute();
-        } catch (\Exception $ex) {
-            throw $ex;
-        } finally {
-            $connection = null;
-        }
-    }
-
     public function delete($id)
     {
         //..needless    
@@ -119,7 +104,7 @@ class ProdutoDao implements IDao
     ) {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from \"user\" ";
+            $sql = "select * from produto p inner join categoria c on p.id_categoria = c.id_categoria ";
             if ($criteria)
                 $sql .= " where $criteria ";
             if ($limit)
@@ -133,14 +118,14 @@ class ProdutoDao implements IDao
                 $list = new \ArrayObject();
                 foreach ($result as $row) {
                     $list->append(
-                        new CategoryModel(
-                            $row['id'],
-                            $row['name'],
-                            $row['gender'],
-                            $row['email'],
-                            $row['status'],
-                            $row['type'],
-                            $row['photo']
+                        new ProdutoModel(
+                            $row['id_produto'],
+                            $row['nome_produto'],
+                            $row['unidade_produto'],
+                            $row['preco_produto'],
+                            (new CategoriaDao())->findById($row['id_categoria']),
+                            $row['id_restaurante'],
+                            $row['quant_estoque']
                         )
                     );
                 }
@@ -171,47 +156,4 @@ class ProdutoDao implements IDao
             throw $ex;
         }
     }
-
-    public function doLogin($login_pessoa, $senha_pessoa)
-    {
-        try {
-            $connection = Connection::getConnection();
-            $sql = "select * from pessoa where status = 'A' and upper(login_pessoa) = upper(:login_pessoa) and senha_pessoa = md5(:senha_pessoa)";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":login_pessoa", $login_pessoa);
-            $stmt->bindValue(":senha_pessoa", $senha_pessoa);
-            $result = $stmt->execute();
-            $result = $stmt->fetchAll();
-            if ($result) {
-                $result = $result[0];
-                return new PessoaModel(
-                    $result['id_pessoa'],
-                    $result['nome_pessoa'],
-                    $result['telefone_pessoa'],
-                    $result['celular_pessoa'],
-                    $result['email_pessoa'],
-                    $result['cep'],
-                    $result['logradouro'],
-                    $result['numero'],
-                    $result['complemento'],
-                    $result['bairro'],
-                    $result['cidade'],
-                    $result['uf'],
-                    $result['login_pessoa'],
-                    $result['senha_pessoa'],
-                    $result['status'],
-                    $result['tipo_pessoa']
-                );
-            } else {
-                return null;
-            }
-        } catch (\Exception $ex) {
-            throw $ex;
-        } finally {
-            $connection = null;
-        }
-    }
-
-    public function LastId()
-    { }
 }

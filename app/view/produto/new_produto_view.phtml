@@ -12,13 +12,16 @@ use core\util\Session;
                 <div class="col-md-12 text-center">
                     <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Produto</h2>
                     <p class="text-center">Produtos adicionados aqui apareceram na pagina do seu restaurante ou lanchonete, então seja criativo!!!</p>
+                    <?php if (is_null($this->msg)) { } else {
+                        ?><h3 id="msg"><?= $this->msg ?></h3>
+                    <?php } ?>
                 </div>
             </div>
 
             <div class="row justify-content-md-center">
 
 
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=ProdutoCtr&method=run&action=new">                    
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=ProdutoCtr&method=run&action=new">
                     <input type="hidden" name="id" id="id">
                     <input type="hidden" name="id_pessoa" id="id_pessoa">
                     <input type="hidden" value="<?= Session::getSession('active_user')->getId() ?>" name="id_juridica" id="juridica">
@@ -50,7 +53,7 @@ use core\util\Session;
                                 <input type="number" class="form-control p-2 rounded-0" name="quant_estoque" id="quant_estoque" maxlength="50" required>
                             </div>
                         </div>
-                        
+
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="categoria">Categoria:</label>
@@ -72,7 +75,7 @@ use core\util\Session;
 
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">

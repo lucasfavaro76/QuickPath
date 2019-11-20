@@ -35,4 +35,24 @@ final class NewCargoView extends HtmlPage
         require_once($this->htmlFile);
         $this->renderFooter();
     }
+
+    /**
+     * Get the value of msg
+     */ 
+    public function getMsg()
+    {
+        return $this->msg;
+    }
+
+    /**
+     * Set the value of msg
+     *
+     * @return  self
+     */ 
+    public function setMsg($msg)
+    {
+        $this->msg = $msg;
+
+        return $this;
+    }
 }

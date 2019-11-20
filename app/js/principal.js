@@ -132,15 +132,40 @@ $(document).ready(function () {
         }
     });
 });
-function removeMensagem(){
+function removeMensagem() {
     setTimeout(function () {
-      var msg = $('#msg');
-      msg.remove();
+        var msg = $('#msg');
+        msg.remove();
     }, 10000);
-  }
-  document.onreadystatechange = () => {
+}
+document.onreadystatechange = () => {
     if (document.readyState === 'complete') {
-  
-      removeMensagem();
+
+        removeMensagem();
     }
-  } 
+}
+
+$('#num_mesa').change(function () {
+    console.log($(this).val());
+    var url = $('#envia').attr('action');
+    $('#numero_mesa').attr('required', false);
+    $('#numero_mesa').val("");
+    console.log(url);
+
+    url = url.replace("single", "intervalo");
+    $('#envia').attr('action', url);
+    console.log(url);
+});
+
+$('#numero_mesa').on('click', function () {
+
+    $('#num_mesa').val(0).change();
+
+    var url = $('#envia').attr('action');
+    console.log(url);
+
+    url = url.replace("intervalo", "single");
+    $('#envia').attr('action', url);
+    console.log(url);
+
+})

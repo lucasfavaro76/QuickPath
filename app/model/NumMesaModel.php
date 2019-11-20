@@ -7,16 +7,20 @@ use core\mvc\Model;
 class NumMesaModel extends Model
 {
     protected $num_mesa;
-    protected $id_restaurante;    
+    protected $id_restaurante;   
+    
+    protected $mesa_ocupada;
 
     public function __construct(
         $id = null,
         $num_mesa = null,
-        $id_restaurante = null
+        $id_restaurante = null,
+        $mesa_ocupada = null
     ) {
         parent::__construct($id);
         $this->num_mesa = $num_mesa;
         $this->id_restaurante = $id_restaurante;
+        $this->mesa_ocupada = $mesa_ocupada;
     }
 
 
@@ -56,6 +60,26 @@ class NumMesaModel extends Model
     public function setId_restaurante($id_restaurante)
     {
         $this->id_restaurante = $id_restaurante;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of mesa_ocupada
+     */ 
+    public function getMesa_ocupada()
+    {
+        return $this->mesa_ocupada;
+    }
+
+    /**
+     * Set the value of mesa_ocupada
+     *
+     * @return  self
+     */ 
+    public function setMesa_ocupada($mesa_ocupada)
+    {
+        $this->mesa_ocupada = $mesa_ocupada;
 
         return $this;
     }

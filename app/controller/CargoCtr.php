@@ -54,11 +54,11 @@ class CargoCtr extends Controller
     {
         if (!empty($this->post)) {
 
-                return new CargoModel(
-                    $this->post['id'],
-                    $this->post['nome_cargo'],
-                    Session::getSession('active_user')->getId()                    
-                );            
+            return new CargoModel(
+                $this->post['id'],
+                $this->post['nome_cargo'],
+                Session::getSession('active_user')->getId()
+            );
         }
     }
 
@@ -70,98 +70,20 @@ class CargoCtr extends Controller
 
                 $model = $this->getModelFromView();
 
-               
-                    $cargo = new CargoDao($this->connection);
-                    $cargo->insert($model);               
-                
-                    $dash = new DashboardView;
-                    $dash->setMsg("Cargo cadastrado com sucesso!!!");
-                    $dash->show();
 
-            } catch (\Exception $ex) {                
-                $dash = new DashboardView;
-                $dash->setMsg("Problemas ao cadastrar cargo". $ex);
-                $dash->show();
+                $cargo = new CargoDao($this->connection);
+                $cargo->insert($model);
+
+                $cargo = new NewCargoView();
+                $cargo->setMsg("Cargo cadastrado com sucesso!!!");
+                $cargo->show();
+            } catch (\Exception $ex) {
+                $cargo = new NewCargoView();
+                $cargo->setMsg("Problemas ao cadastrar cargo" . $ex);
+                $cargo->show();
             }
         } else {
             parent::insertUpdate();
-        }
-    }
-
-    public function uploadImage()
-    {
-
-        if (isset($_FILES['file']['name']) && $_FILES['file']['error'] == 0) {
-
-            $nome_arquivo = $this->get['nome'];
-            $nome = $this->files['file']['name'];
-            // Pega a extensão
-            $extensao = pathinfo($nome, PATHINFO_EXTENSION);
-
-            // Converte a extensão para minúsculo
-            $extensao = strtolower($extensao);
-
-            // Somente imagens, .jpg;.jpeg;.gif;.png
-            // Aqui eu enfileiro as extensões permitidas e separo por ';'
-            // Isso serve apenas para eu poder pesquisar dentro desta String
-            if (strstr('.jpg;.jpeg;.gif;.png', $extensao)) {
-                // Cria um nome único para esta imagem
-                // Evita que duplique as imagens no servidor.
-                // Evita nomes com acentos, espaços e caracteres não alfanuméricos
-
-                $destino = '/wamp64/www/QuickPath/app/img/';
-                $uploadfile = $destino . $nome_arquivo . "." . $extensao;
-                $tpm_file =  $this->files['file']['tmp_name'];
-
-                // tenta mover o arquivo para o destino
-                if (@move_uploaded_file($tpm_file, $uploadfile)) {
-                    $result = array("result" => 1, "mensagem" => 'Arquivo salvo com sucesso em : ' . $destino . '');
-                    echo json_encode($result);
-                } else {
-                    $result = array("result" => 0, "mensagem" => 'Erro ao salvar o arquivo.');
-                    echo json_encode($result);
-                }
-            } else {
-                $result = array("result" => 0, "mensagem" => 'Você poderá enviar apenas arquivos "*.jpg;*.jpeg;*.gif;*.png"');
-                echo json_encode($result);
-            }
-        } else {
-            $result = array("result" => 0, "mensagem" => 'Você não enviou nenhum arquivo!');
-            echo json_encode($result);
-        }
-    }
-
-    public function doLogin()
-    {
-        if (!empty($this->get) && $this->get['method'] == 'doLogin') {
-            try {
-                $login_pessoa = $this->post['login_pessoa'];
-                $senha_pessoa = $this->post['senha_pessoa'];
-                $Pessoa = (new PessoaDao($this->connection))->doLogin($login_pessoa, $senha_pessoa);
-                if ($Pessoa) {
-                    if ($Pessoa->getTipo_pessoa() == "Juridica") {
-                        Session::createSession('active_user', $Pessoa);
-                        (new DashboardView())->show();
-                    } else {
-                        Session::createSession('active_user', $Pessoa);
-                        Application::start();
-                    }
-                } else (new Message(
-                    Application::$MSG_TITLE,
-                    Application::$MSG_INCORRECT_LOGIN,
-                    Application::$ICON_ERROR
-                ))->show();
-            } catch (\Exception $ex) { }
-        } else {
-            Application::start();
-        }
-    }
-
-    public function doLogout()
-    {
-        if (!empty($this->get) && $this->get['method'] == 'doLogout') {
-            Session::destroySession('active_user');
-            Application::start();
         }
     }
 }

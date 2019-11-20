@@ -42,10 +42,15 @@ class NumMesaCtr extends Controller
     public function getModelFromView()
     {
         if (!empty($this->post)) {
+            if ($this->post['intervalo'] != 0) {
+                $mesa = $this->post['intervalo'];
+            }else{
+                $mesa = $this->post['numero_mesa'];
+            }
             return new NumMesaModel(
                 $this->post['id'],
-                $this->post['numero_mesa'],
-                Session::getSession('active_user')->getId()
+                $mesa,                
+                Session::getSession('active_user')->getId(), "L"
             );
         }
     }
@@ -57,16 +62,19 @@ class NumMesaCtr extends Controller
 
                 $model = $this->getModelFromView();
 
-                $num_mesa = new NumMesaDao($this->connection);
-                $num_mesa->insert($model);
+                
+                    $tipo = $this->get['tipo'];
+                    $num_mesa = new NumMesaDao($this->connection);
+                    $num_mesa->insert($model, $tipo);               
+               
 
-                $dash = new DashboardView;
-                $dash->setMsg("Cadastro efetuado com sucesso!!!");
-                $dash->show();
+                $num_mesa = new NumMesaView();
+                $num_mesa->setMsg("Cadastro efetuado com sucesso!!!");
+                $num_mesa->show();
             } catch (\Exception $ex) {
-                $dash = new DashboardView;
-                $dash->setMsg("Problemas ao cadastrar mesa!! Erro:" . $ex);
-                $dash->show();
+                $num_mesa = new NumMesaView();
+                $num_mesa->setMsg("Problemas ao efetuar o cadastro!!!");
+                $num_mesa->show();
             }
         } else {
             parent::insertUpdate();

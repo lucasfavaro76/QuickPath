@@ -34,7 +34,9 @@ class DescCtr extends Controller
 
     public function showView()
     {   
-        $this->view->showRest($this->id);    
+        $this->view->showRest($this->id); 
+        $this->view->showProd($this->id);
+        $this->view->showMesas($this->id);   
         $this->view->show();
     }
     public function getModelFromView()

@@ -30,10 +30,7 @@ class ProdutoCtr extends Controller
     public function showView()
     {
 
-        if ($this->action == 'new') {
-            $prod = new CategoriaDao();
-            $result = $prod->select('id_restaurante = ' . Session::getSession('active_user')->getId());
-            $this->prodView->setCategoria($result);
+        if ($this->action == 'new') {           
             $this->prodView->show();
         } else
             parent::showView();
@@ -63,13 +60,13 @@ class ProdutoCtr extends Controller
                 $produto = new ProdutoDao($this->connection);
                 $produto->insert($model);
 
-                $dash = new DashboardView;
-                $dash->setMsg("Produto cadastrado com sucesso!!!");
-                $dash->show();
+                $prod = new AppNewProdutoView();
+                $prod->setMsg("Produto cadastrado com sucesso!!!");
+                $prod->show();
             } catch (\Exception $ex) {
-                $dash = new DashboardView;
-                $dash->setMsg("Erro ao cadastrar Produto!!! Erro: ". $ex);
-                $dash->show();
+                $prod = new AppNewProdutoView();
+                $prod->setMsg("Problemas ao cadastrar produto!!!");
+                $prod->show();
             }
         } else {
             parent::insertUpdate();

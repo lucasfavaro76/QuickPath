@@ -25,7 +25,7 @@ use core\Application;
                 ?>
                 <div style="margin-left:3vw;" class="p-5 md-col-4">
                     <div class="card">
-                        <img class="card-img-top" src="<?= $row->getImagem() ?>" alt="">
+                        <img class="card-img-top" src="app/img/<?= $row->getImagem() ?>" alt="">
                         <div class="card-body">
                             <h5 class="card-title"><?= $row->getRazao_social() ?></h5>
                             <p class="card-text"><?= $row->getDescricao() ?></p>
@@ -40,7 +40,6 @@ use core\Application;
 <?php
 } else {
     ?>
-
     <p class="text-center">Nenhum Restaurante encontrado</p>
 <?php } ?>
 
