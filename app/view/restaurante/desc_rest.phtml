@@ -27,6 +27,12 @@ use core\util\Session;
 </section>
 <!-- END section -->
 
+<?php if (is_null($this->produtos)) {
+
+    ?><p class="text-center">Em breve!!!</p>
+
+<?php } else { } ?>
+
 <section class="pb_section" id="section-menu">
     <div class="container">
         <div class="row justify-content-center mb-5">
@@ -35,133 +41,91 @@ use core\util\Session;
             </div>
         </div>
         <div class="row">
+
             <div class="col">
-
                 <ul class="nav justify-content-center pb_tab_v1">
-                    <li class="nav-item">
-                        <a class="nav-link active p-3" data-toggle="list" href="#food" role="tab">Comidas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link p-3" data-toggle="list" href="#drinks" role="tab">Bebidas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link p-3" data-toggle="list" href="#salads" role="tab">Saladas</a>
-                    </li>
-                </ul>
+                    <?php foreach ($this->categorias as $cat) { ?>
 
+                        <li class="nav-item">
+                            <a class="nav-link active p-3" data-toggle="list" href="#<?= $cat->getNome_categoria() ?>" role="tab"><?= $cat->getNome_categoria() ?></a>
+                        </li>
+
+                    <?php } ?>
+                </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane fade show active" id="food" role="tabpanel">
-                        <div class="row">
 
-                            <?php foreach ($this->produtos as $row) {
-                                if ($row->getCategoria()->getNome_categoria() == "Comida") {
-                                    ?>
-                                    <div class="col-md-6">
-                                        <ul class="list-unstyled pb_food-menu">
-
-
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-lg-10">
-                                                        <h3 class="pb_font-18 font-weight-bold"><?= $row->getNome_produto() ?></h3>
-                                                        <p class="mb-0"></p>
+                    <?php foreach ($this->categorias as $cat) { ?>
+                        <div class="tab-pane fade active" id="<?= $cat->getNome_categoria() ?>" role="tabpanel">
+                            <div class="row">
+                                <?php foreach ($this->produtos as $row) {
+                                        if ($row->getCategoria()->getNome_categoria() == $cat->getNome_categoria()) {
+                                            ?>
+                                        <div class="col-md-6">
+                                            <ul class="list-unstyled pb_food-menu">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-lg-10">
+                                                            <h3 class="pb_font-18 font-weight-bold"><?= $row->getNome_produto() ?></h3>
+                                                            <p class="mb-0"></p>
+                                                        </div>
+                                                        <div class="col-lg-2"><span class="price"><sup>$</sup><?= $row->getPreco_produto() ?></span></div>
                                                     </div>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                                    <div class="col-lg-2"><span class="price"><sup>$</sup><?= $row->getPreco_produto() ?></span></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                            <?php }
-                            } ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="drinks" role="tabpanel">
-                        <div class="row">
-                            <?php foreach ($this->produtos as $row) {
-                                if ($row->getCategoria()->getNome_categoria() == "Bebida") { ?>
-                                    <div class="col-md-6">
-                                        <ul class="list-unstyled pb_food-menu">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-lg-10">
-                                                        <h3 class="pb_font-18 font-weight-bold"><?= $row->getNome_produto() ?></h3>
-                                                        <p class="mb-0"></p>
-                                                    </div>
-                                                    <div class="col-lg-2"><span class="price"><sup>$</sup><?= $row->getPreco_produto() ?></span></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                            <?php }
-                            } ?>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="salads" role="tabpanel">
-                        <div class="row">
-                            <?php foreach ($this->produtos as $row) {
-                                if ($row->getCategoria()->getNome_categoria() == "Salada") {
-                                    ?>
-                                    <div class="col-md-6">
-                                        <ul class="list-unstyled pb_food-menu">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-lg-10">
-                                                        <h3 class="pb_font-18 font-weight-bold"><?= $row->getNome_produto() ?></h3>
-                                                        <p class="mb-0"></p>
-                                                    </div>
-                                                    <div class="col-lg-2"><span class="price"><sup>$</sup><?= $row->getPreco_produto() ?></span></div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                            <?php }
-                            } ?>
-                        </div>
-                    </div>
+            <?php }
+                }
+            } ?>
+
                 </div>
-                <section class="pb_section pt-0 pb-0" id="section-contact">
-                    <div class="d-flex">
-                        <div class="pb_half py-5">
-                            <div class="row justify-content-center mb-5">
-                                <div class="col-md-12 text-center">
-                                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Reserve sua Mesa</h2>
-                                    <p class="text-center"></p>
-                                </div>
-                            </div>
-                            <div class="row justify-content-md-center">
-                                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=CategoriaCtr&method=run&action=new">
-                                    <input type="hidden" name="id" id="id">
-                                    <div class="row">                                    
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="numero_mesa">Mesas Disponiveis</label>
-                                                <select class="form-control" name="numero_mesa" id="numero_mesa">
-                                                    <option value="0">Selecione uma mesa</option>
-                                                    <?php foreach ($this->mesas as $row) { ?>
-                                                        <option value="<?= $row->getId() ?>"><?= $row->getNum_mesa() ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md">
-                                            <div class="form-group">
-                                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
             </div>
         </div>
     </div>
 </section>
+
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Reserve sua Mesa</h2>
+                    <p class="text-center"></p>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=CategoriaCtr&method=run&action=new">
+                    <input type="hidden" name="id" id="id">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="numero_mesa">Mesas Disponiveis</label>
+                                <select class="form-control" name="numero_mesa" id="numero_mesa">
+                                    <option value="0">Selecione uma mesa</option>
+                                    <?php foreach ($this->mesas as $row) { ?>
+                                        <option value="<?= $row->getId() ?>"><?= $row->getNum_mesa() ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
 <!-- END section -->

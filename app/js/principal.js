@@ -1,12 +1,34 @@
-$(".botao").click(function (event) {
+$(document).ready(function () {
+    $('#telefone').mask('(00)0000-0000');
+    $('#celular').mask('(00)00000-0000');
+    $('#cep').mask('00000-000');
+    $('#cpf').mask('000.000.000-00');
+    // $('#rg').mask('00.000.000.AA');
+})
+
+
+
+$(".botao").on('click', function (event) {
     event.preventDefault();
+
     $('div.cnpj').toggleClass('invisible');
     $('div.cpf').toggleClass('invisible');
 
     if ($('.botao').html() == "Cadastrar Restaurante") {
+
         $('.botao').html('Cadastrar Pessoa');
+
+        $('#cnpj_juridica').attr("required", true);
+        $('#nome').attr("required", true);
+
+        $('#cpf').attr("required", false);
+
     } else {
         $('.botao').html('Cadastrar Restaurante');
+        $('#cpf').attr("required", true);
+
+        $('#cnpj_juridica').attr("required", false);
+        $('#nome').attr("required", false);
     }
 
     //var x = $(".botao").html();
@@ -20,31 +42,29 @@ $(".botao").click(function (event) {
 
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
-    $(this).siblings(".custom-file-control").addClass("selected").html(fileName);
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
 $(document).ready(function () {
-    $("#confSenha").keyup(function () {
+    $("#confSenha").on('keyup', function () {
         var senha = $("#senha").val();
         var confsenha = $("#confSenha").val();
 
+        console.log(senha);
+        console.log(confsenha);
+
+
+
         if (senha != confsenha) {
 
-            var msg = "Senha Incorreta";
-            var limpa_campo = "";
-            var valido = $("#senha_valida");
-            var invalido = $("#senha_invalida");
-            invalido.html(msg);
-            valido.html(limpa_campo);
+            $('#senha_invalida').html("Senha Incorreta");
+            $('#senha_valida').html("");
 
         } else {
-            //event.preventDefault();
-            var msg = "Senha Correta";
-            var limpa_campo = "";
-            var valido = $("#senha_valida");
-            var invalido = $("#senha_invalida");
-            valido.html(msg);
-            invalido.html(limpa_campo);
+
+            $("#senha_valida").html("Senha Correta");
+            $("#senha_invalida").html("");
+
         }
     });
 })
@@ -56,11 +76,11 @@ $('.upload').on('click', function () {
     var fd = new FormData();
     var files = $('#image')[0].files[0];
     fd.append('file', files);
-    var nome = $('#razao_social').val();
+    var nome = $('#nome').val();
     //var file = $('#image').file[0];
-    console.log(files);
-    console.log(nome);
-    console.log(fd);
+    // console.log(files);
+    // console.log(nome);
+    // console.log(fd);
     var url = "Request.php?class=PessoaCtr&method=uploadImage&nome=" + nome + "&file=" + files;
 
     $.ajax({
@@ -83,11 +103,9 @@ $('.upload').on('click', function () {
                         tryAgain: {
                             text: 'Sucesso',
                             btnClass: 'btn-green',
-                            action: function () {
-                            }
+                            action: function () {}
                         },
-                        close: function () {
-                        }
+                        close: function () {}
                     }
                 });
             } else {
@@ -100,11 +118,9 @@ $('.upload').on('click', function () {
                         tryAgain: {
                             text: 'Tente Novamente',
                             btnClass: 'btn-red',
-                            action: function () {
-                            }
+                            action: function () {}
                         },
-                        close: function () {
-                        }
+                        close: function () {}
                     }
                 });
             }
@@ -115,7 +131,10 @@ $('.upload').on('click', function () {
 
 $(document).ready(function () {
     $('#myTable').dataTable({
-        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+        "lengthMenu": [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"]
+        ],
         "language": {
             "lengthMenu": "Mostrando _MENU_ resultados por pagina",
             "zeroRecords": "Sem regitro - desculpe",
@@ -129,9 +148,10 @@ $(document).ready(function () {
                 "first": "Inicio",
                 "last": "Final"
             }
-        }
+        },
     });
 });
+
 function removeMensagem() {
     setTimeout(function () {
         var msg = $('#msg');
@@ -146,15 +166,13 @@ document.onreadystatechange = () => {
 }
 
 $('#num_mesa').change(function () {
-    console.log($(this).val());
+    // console.log($(this).val());
     var url = $('#envia').attr('action');
     $('#numero_mesa').attr('required', false);
     $('#numero_mesa').val("");
-    console.log(url);
 
     url = url.replace("single", "intervalo");
     $('#envia').attr('action', url);
-    console.log(url);
 });
 
 $('#numero_mesa').on('click', function () {
@@ -168,4 +186,96 @@ $('#numero_mesa').on('click', function () {
     $('#envia').attr('action', url);
     console.log(url);
 
+});
+
+$('#relatorio').on('click', function () {
+    var url2 = "Request.php?class=DashboardCtr&method=GerarPdf";
+
+    $.ajax({
+        url: url2,
+        type: 'post',
+        contentType: false,
+        processData: false,
+    });
 })
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+$('#excluir').on("click", function () {
+
+    $.confirm({
+        title: 'Excluir',
+        content: "Tem certeza que deseja excluir esse registro?",
+        type: 'red',
+        typeAnimated: true,
+        buttons: {
+            confirm: {
+                text: 'Confirmar',
+                btnClass: 'btn-warning',
+                keys: ['enter', 'shift'],
+                action: function () {
+                    // $.alert('OK!!!');
+                    var id = $('#id').html();
+                    var url = "Request.php?class=FuncCtr&method=delete&id=" + id;
+
+
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        contentType: false,
+                        processData: false,
+
+                        success: function () {
+                            window.location.href = "Request.php?class=FuncCtr&method=func";
+                        }
+                    })
+                }
+            },
+            close: function () {
+                $.alert('Cancelado!');
+            }
+        }
+    });
+});
+
+//----------Funcões respnsaveis pela verificação de login e cpf e futuramente cnpj------//
+$('#cpf').on('blur', function () {
+    var cpf = $('#cpf').val();
+    enviar('cpf_fisica', cpf);
+});
+
+$('.login_pessoa').on('blur', function () {
+    var login = $('.login_pessoa').val();
+    enviar('login_pessoa', login);
+});
+
+
+function enviar(campo, valor) {
+    var url = "Request.php?class=PessoaCtr&method=VerificaCampo&campo=" + campo + "&valor=" + valor;
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'JSON',
+        contentType: false,
+        processData: false,
+
+        success: function (response) {
+            if (response.result == 1 && campo == "login_pessoa") {
+                $('#invalid').html("Esse login ja existe");
+                $('#valid').html("");
+            }else if (response.result == 0 && campo == "login_pessoa") {
+                $('#valid').html("Muito Bom!!");
+                $('#invalid').html("");
+            }else if (response.result == 1 && campo == "cpf_fisica") {
+                $('#invalid_cpf').html("Esse cpf ja existe");
+                $('#valid_cpf').html("");
+            }  else if (response.result == 0 && campo == "cpf_fisica") {
+                $('#valid_cpf').html("Muito Bom!!");
+                $('#invalid_cpf').html("");
+            }
+        }
+    })
+}
+//-------------end----------//

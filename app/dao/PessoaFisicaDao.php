@@ -18,10 +18,10 @@ final class PessoaFisicaDao extends PessoaDao
         try {
             $this->connection->beginTransaction();
             $id = parent::insert($model);                            
-            $sql = "insert into pessoa_fisica (cpf_fisica, id_pessoa) values (:cpf_fisica, :id_pessoa)";
+            $sql = "insert into pessoa_fisica (id_pessoa, cpf_fisica) values (:id_pessoa, :cpf_fisica)";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue(":cpf_fisica", $model->getCpf_fisica());
-            $stmt->bindValue(":id_pessoa", $id);                    
+            $stmt->bindValue(":id_pessoa", $id);
+            $stmt->bindValue(":cpf_fisica", $model->getCpf_fisica());                               
             $stmt->execute();
             $this->connection->commit();           
         } catch (\Exception $ex) {            

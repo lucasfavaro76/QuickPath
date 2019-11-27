@@ -15,6 +15,7 @@ use core\Application;
     <meta name="keywords" content="Quick Path">
 
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" href="core/vendor/assets/css/bootstrap/bootstrap.css">
 
     <link rel="stylesheet" href="core/vendor/assets/fonts/ionicons/css/ionicons.min.css">
@@ -55,11 +56,11 @@ use core\Application;
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Funcionario
+                            Funcionario
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="Request.php?class=PessoaCtr&method=showView&action=new&tipo=Func">Cadastrar</a>
-                            <a class="dropdown-item" href="Request.php?class=PessoaCtr&method=showView&action=new&tipo=Func">Listar</a>
+                            <a class="dropdown-item" href="Request.php?class=FuncCtr&method=showView&action=new">Cadastrar</a>
+                            <a class="dropdown-item" href="Request.php?class=FuncCtr&method=func">Listar</a>
                             <a class="dropdown-item" href="#"></a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Something else here</a>
@@ -71,8 +72,7 @@ use core\Application;
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="Request.php?class=CargoCtr&method=showView&action=new">Cadastrar</a>
-                            <a class="dropdown-item" href="Request.php?class=PessoaCtr&method=showView&action=new&tipo=Func">Listar</a>
-                            <a class="dropdown-item" href="#">Alterar</a>
+                            <a class="dropdown-item" href="Request.php?class=CargoCtr&method=showView">Listar</a>                            
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Something else here</a>
                         </div>
@@ -107,7 +107,7 @@ use core\Application;
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Mesa
+                            Mesa
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="Request.php?class=NumMesaCtr&method=showView&action=new">Cadastrar</a>

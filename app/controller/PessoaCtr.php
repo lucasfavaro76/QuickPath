@@ -21,16 +21,15 @@ use app\view\dashboard\DashboardView;
 use core\dao\Connection;
 use app\model\FuncionarioModel;
 use app\model\CargoModel;
-use app\view\pessoa\NewFuncionarioView;
 use app\dao\CargoDao;
 use app\dao\FuncionarioDao;
+use app\view\funcionario\NewFuncionarioView;
 
 class PessoaCtr extends Controller
 {
 
     private $newUserView;
     private $action; //..determine if show NewUserView or UserView
-    private $viewFunc;
     private $session;
 
     public function __construct()
@@ -38,7 +37,6 @@ class PessoaCtr extends Controller
         parent::__construct();
         $this->session = session_start();
         $this->view = new UserView();
-        $this->viewFunc = new NewFuncionarioView();
         $this->newUserView = new NewUserView();
         $this->connection = Connection::getConnection();
         //$this->dao = new PessoaDao($connection);
@@ -50,14 +48,7 @@ class PessoaCtr extends Controller
     public function showView()
     {
         if ($this->action == 'new') {
-            if (isset($this->get['tipo'])) {
-                if ($this->get['tipo'] == 'Func') {
-                    $cargo = (new CargoDao($this->connection))->select('id_restaurante = ' . Session::getSession('active_user')->getId());
-                    $this->viewFunc->setCargo($cargo);
-                    $this->viewFunc->show();
-                }
-            } else
-                $this->newUserView->show();
+            $this->newUserView->show();
         } else
             parent::showView();
     }
@@ -66,6 +57,7 @@ class PessoaCtr extends Controller
     {
         if (!empty($this->post)) {
 
+            //caso o usuario venha a ser uma pessoa juridica, uma nova PessoaJuridicaModel é instanciada
             if ($this->post['tipo'] == "Juridica") {
                 return new PessoaJuridicaModel(
                     $this->post['id'],
@@ -87,10 +79,11 @@ class PessoaCtr extends Controller
                     $this->post['senha_pessoa'],
                     'I',
                     'Juridica',
-                    $this->post['imagem'],  
-                    $this->post['id']                  
+                    $this->post['imagem'],
+                    $this->post['id']
 
                 );
+                //se nao ela podera ser tipo Fisica, pessoa comum que pode acessar o site, visualizar os restaurantes e fazer resevas
             } else if ($this->post['tipo'] == "Fisica") {
                 return new PessoaFisicaModel(
                     $this->post['id'],
@@ -112,6 +105,8 @@ class PessoaCtr extends Controller
                     'Fisica'
 
                 );
+
+                //por fim o funcionario, o qual sera cadastrado pelo respectivo estabelecimento que trabalha, apenas o dono e gerente poderão faze-lo
             } else {
                 return new FuncionarioModel(
                     $this->post['id'],
@@ -127,6 +122,7 @@ class PessoaCtr extends Controller
                     $this->post['cidade'],
                     $this->post['uf'],
                     new CargoModel($this->post['cargo'], null),
+                    $this->post['salario'],
                     $this->post['id_juridica'],
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
@@ -137,6 +133,7 @@ class PessoaCtr extends Controller
         }
     }
 
+    //metodo responsavel por ativar os usuarios
     public function activateUser()
     {
         try {
@@ -153,20 +150,29 @@ class PessoaCtr extends Controller
         if ($this->get['action'] == 'new') {
             try {
 
+                //pega os dados do formulario new_user_view
                 $model = $this->getModelFromView();
 
+                //caso seja juridica
                 if ($model->getTipo_pessoa() == "Juridica") {
                     $Juridica = new PessoaJuridicaDao($this->connection);
                     $result = $Juridica->insert($model);
-                } else if ($model->getTipo_pessoa() == "Fisica") {
+                }
+                //caso seja Fisica 
+                else if ($model->getTipo_pessoa() == "Fisica") {
                     $Fisica =  new PessoaFisicaDao($this->connection);
                     $result = $Fisica->insert($model);
-                } else if ($model->getTipo_pessoa() == "Funcionario") {
+                }
+                //caso seja funcionario
+                else if ($model->getTipo_pessoa() == "Funcionario") {
                     $Funcionario = new FuncionarioDao($this->connection);
                     $result = $Funcionario->insert($model);
                 }
 
+                //para cada tipo de usuario sera enviado um e-mail diferente    
                 $link = Application::$HOST . "Request.php?class=PessoaCtr&method=activateUser&email={$model->getEmail_pessoa()}";
+                //caso seja juridica, esse sera o corpo da mensagem
+                $apagar  = Application::$HOST . "Request.php?class=PessoaCtr&method=delete&email={$model->getEmail_pessoa()}";
                 if ($model->getTipo_pessoa() == "Juridica") {
 
                     $msg = "<div class='text-center'><h1>" . Application::$APP_NAME . "</h1><hr>";
@@ -174,10 +180,20 @@ class PessoaCtr extends Controller
                     $msg .= "<p>Seja bem vindo ao " . Application::$APP_NAME . " " . $model->getNome_pessoa() . ", seu cadastro foi realizado com sucesso!! Apartir do momento em que ativar seu cadastro voçê terá total acesso as configurações do seu restaurante e ele aparecera na pagina inicial do site</p>";
                     $msg .= "<p><a href=\"$link\">Clique Aqui para ativar seu restaurante</a></p></div>";
                     $msg .= "<p class='p-5'>Atenciosamente, Equipe " . Application::$APP_NAME . "</p>";
-                } else {
+                }
+                //caso seja fisica, esse sera o corpo da mensagem
+                else if ($model->getTipo_pessoa() == "Fisica") {
                     $msg = "<h1>" . Application::$APP_NAME . "</h1><hr>";
                     $msg .= "<h2>Ativação de cadastro - não responda!</h2>";
                     $msg .= "<p>Seja Bem vindo ao " . Application::$APP_NAME . " " . $model->getNome_pessoa() . ", confirme seu E-mail para acessar o site, realizar a reserva de mesa e ganhar descontos especiais que voçê só encontra aqui!!</p>";
+                    $msg .= "<p><a href=\"$link\">Clique Aqui para confirmar seu E-mail</a></p>";
+                    $msg .= "<p class='p-5'>Atenciosamente, Equipe " . Application::$APP_NAME . "</p>";
+                }
+                //caso seja funcionario, esse sera o corpo da mensagem
+                else {
+                    $msg = "<h1>" . Application::$APP_NAME . "</h1><hr>";
+                    $msg .= "<h2>Ativação de cadastro - não responda!</h2>";
+                    $msg .= "<p>Seja Bem vindo ao " . Application::$APP_NAME . " " . $model->getNome_pessoa() . ", você foi cadastrado no estabelecimento " . Session::getSession('active_user')->getRazao_social() . ", caso nao esteja ciente disso, desconsidere essa mensagem !!</p>";
                     $msg .= "<p><a href=\"$link\">Clique Aqui para confirmar seu E-mail</a></p>";
                     $msg .= "<p class='p-5'>Atenciosamente, Equipe " . Application::$APP_NAME . "</p>";
                 }
@@ -185,9 +201,9 @@ class PessoaCtr extends Controller
                 Application::sendEmail($model->getEmail_pessoa(), 'Ativação de Cadastro', $msg);
 
                 if ($model->getTipo_pessoa() == "Funcionario") {
-                    $dash = new DashboardView;
-                    $dash->setMsg("Cadastro efetuado com sucesso!!!");
-                    $dash->show();
+                    $func = new NewFuncionarioView();
+                    $func->setMsg("Cadastro efetuado com sucesso!!!");
+                    $func->show();
                 } else {
                     (new Message('Mensagem', 'Cadastro efetuado com sucesso! Verifique seu e-mail!', Application::$ICON_SUCCESS))->show();
                 }
@@ -199,6 +215,8 @@ class PessoaCtr extends Controller
             parent::insertUpdate();
         }
     }
+
+
 
     public function uploadImage()
     {
@@ -220,9 +238,9 @@ class PessoaCtr extends Controller
                 // Cria um nome único para esta imagem
                 // Evita que duplique as imagens no servidor.
                 // Evita nomes com acentos, espaços e caracteres não alfanuméricos
-                $imagem = $nome_arquivo .".". $extensao;
-                $destino = '/wamp64/www/QuickPath/app/img/';
-                $uploadfile = $destino . $imagem;
+                $imagem = $nome_arquivo . "." . $extensao;
+                $destino = realpath('../QuickPath/app/img/');
+                $uploadfile = $destino . "/" . $imagem;
                 $tpm_file =  $this->files['file']['tmp_name'];
 
                 // tenta mover o arquivo para o destino
@@ -243,6 +261,24 @@ class PessoaCtr extends Controller
         }
     }
 
+    public function VerificaCampo()
+    {
+        $campo = $this->get['campo'];
+        $valor = $this->get['valor'];
+        $result = (new PessoaDao($this->connection))->VeficaCampo($campo, $valor);
+
+        if ($result == "exite") {
+            $result = array("result" => 1);
+            echo json_encode($result);
+        } else if ($result == "nao existe") {
+            $result = array("result" => 0);
+            echo json_encode($result);
+        } else {
+            $result = array("result" => null);
+            echo json_encode($result);
+        }
+    }
+
     public function doLogin()
     {
         if (!empty($this->get) && $this->get['method'] == 'doLogin') {
@@ -252,7 +288,8 @@ class PessoaCtr extends Controller
                 $Pessoa = (new PessoaDao($this->connection))->doLogin($login_pessoa, $senha_pessoa);
                 if ($Pessoa) {
                     if ($Pessoa->getTipo_pessoa() == "Juridica") {
-                        Session::createSession('active_user', $Pessoa);
+                        $dados = (new PessoaJuridicaDao($this->connection))->findById($Pessoa->getId());
+                        Session::createSession('active_user', $dados);
                         (new DashboardView())->show();
                     } else {
                         Session::createSession('active_user', $Pessoa);

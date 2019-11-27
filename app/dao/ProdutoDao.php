@@ -22,8 +22,8 @@ class ProdutoDao implements IDao
     public function insert(ProdutoModel $model = null)
     {
         try {
-            $sql = "insert into produto (nome_produto, unidade_produto, preco_produto, quant_estoque, id_categoria, id_restaurante ) 
-            values (:nome_produto, :unidade_produto, :preco_produto, :quant_estoque, :id_categoria, :id_restaurante)";
+            $sql = "insert into produto (nome_produto, unidade_produto, preco_produto, quant_estoque, id_categoria, id_restaurante, imagem ) 
+            values (:nome_produto, :unidade_produto, :preco_produto, :quant_estoque, :id_categoria, :id_restaurante, :imagem)";
 
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":nome_produto", $model->getNome_produto());
@@ -32,6 +32,7 @@ class ProdutoDao implements IDao
             $stmt->bindValue(":quant_estoque", $model->getQuant_estoque());
             $stmt->bindValue(":id_categoria", $model->getCategoria()->getId());
             $stmt->bindValue(":id_restaurante", $model->getId_restaurante());
+            $stmt->bindValue(":imagem", $model->getImagem());
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -125,7 +126,8 @@ class ProdutoDao implements IDao
                             $row['preco_produto'],
                             (new CategoriaDao())->findById($row['id_categoria']),
                             $row['id_restaurante'],
-                            $row['quant_estoque']
+                            $row['quant_estoque'],
+                            $row['imagem']
                         )
                     );
                 }

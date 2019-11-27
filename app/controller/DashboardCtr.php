@@ -24,6 +24,12 @@ class DashboardCtr extends Controller
     {
         $this->newDashView->show();
     }
+
+    public function GerarPdf()
+    {
+        $this->newDashView->pdf();
+    }     
+    
     public function getModelFromView()
     { }
 }

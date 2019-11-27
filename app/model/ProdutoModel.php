@@ -12,8 +12,9 @@ class ProdutoModel extends Model
     protected $categoria;
     protected $id_restaurante;
     protected $quant_estoque;
+    protected $imagem;
 
-    public function __construct($id,$nome_produto, $unidade_produto, $preco_produto,CategoriaModel  $categoria = null , $id_restaurante, $quant_estoque)
+    public function __construct($id,$nome_produto, $unidade_produto, $preco_produto,CategoriaModel  $categoria = null , $id_restaurante, $quant_estoque, $imagem)
     {
         parent::__construct($id);
         $this->nome_produto = $nome_produto;
@@ -22,6 +23,7 @@ class ProdutoModel extends Model
         $this->categoria = is_null($categoria) ? new CategoriaModel() : $categoria;
         $this->id_restaurante = $id_restaurante;
         $this->quant_estoque = $quant_estoque;
+        $this->imagem = $imagem;
     }
 
     
@@ -142,6 +144,26 @@ class ProdutoModel extends Model
     public function setQuant_estoque($quant_estoque)
     {
         $this->quant_estoque = $quant_estoque;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of imagem
+     */ 
+    public function getImagem()
+    {
+        return $this->imagem;
+    }
+
+    /**
+     * Set the value of imagem
+     *
+     * @return  self
+     */ 
+    public function setImagem($imagem)
+    {
+        $this->imagem = $imagem;
 
         return $this;
     }

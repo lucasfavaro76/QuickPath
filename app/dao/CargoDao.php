@@ -81,8 +81,8 @@ class CargoDao implements IDao
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new CategoriaModel(
-                    $result['id'],
+                return new CargoModel(
+                    $result['id_cargo'],
                     $result['nome_cargo']                    
                 );
             } else {

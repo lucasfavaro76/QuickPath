@@ -62,21 +62,6 @@ final class PessoaJuridicaDao extends PessoaDao
         }
     }
 
-    public function activateUser($email)
-    {
-        try {
-            $connection = Connection::getConnection();
-            $sql = "update \"user\" set status = 'A' where email = :email";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":email", $email);
-            return $stmt->execute();
-        } catch (\Exception $ex) {
-            throw $ex;
-        } finally {
-            $connection = null;
-        }
-    }
-
     public function delete($id)
     {
         //..needless    

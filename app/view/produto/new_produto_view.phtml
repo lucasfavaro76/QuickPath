@@ -29,7 +29,7 @@ use core\util\Session;
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="nome_produto">Nome Produto:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="nome_produto" id="nome_produto" maxlength="50" required>
+                                <input type="text" class="form-control p-2 rounded-0" name="nome_produto" id="nome" maxlength="50" required>
                             </div>
                         </div>
                         <div class="col-md">
@@ -76,6 +76,25 @@ use core\util\Session;
                             </div>
                         </div>
                     </div>
+
+                    <div class="row p-b-20">
+                        <div class="col-md-6">
+                            <div>
+
+                                <div class="custom-file">
+                                    <input type="file" value="" class="custom-file-input" id="image" name="image" data-toggle="tooltip" data-placement="top" title="Essa imagem estara na pagina inicial e na pagina do seu restaurante!!!">
+                                    <label class="custom-file-label" for="image">Selecione uma Imagem</label>
+                                    <input type="hidden" name="imagem" id="caminho" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <a class="upload btn pb_outline-dark pb_font-13 pb_letter-spacing-2 rounded-2">Upload</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">

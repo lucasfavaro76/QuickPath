@@ -6,7 +6,7 @@ use app\model\CategoriaModel;
 
 final class CategoriaView extends HtmlPage{
 
-    private $msg;
+    protected $msg;
     
     public function __construct(CategoriaModel $model = null)
     {
@@ -14,7 +14,10 @@ final class CategoriaView extends HtmlPage{
         $this->htmlFile = 'app/view/categoria/categoria_view.phtml';
     }
 
-    
+    public function renderHeader()
+    {
+        require_once('core\mvc\view\header_dashboard.phtml');
+    }
 
 
     /**

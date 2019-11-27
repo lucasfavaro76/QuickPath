@@ -24,19 +24,22 @@ use app\model\CargoModel;
 use app\view\pessoa\NewFuncionarioView;
 use app\dao\CargoDao;
 use app\dao\FuncionarioDao;
+use app\view\cargo\CargoView;
 use app\view\cargo\NewCargoView;
 
 class CargoCtr extends Controller
 {
 
     private $cargoView;
+    protected $cargo;
     private $session;
 
     public function __construct()
     {
         parent::__construct();
-        $this->cargoView = new NewCargoView();
         $this->session = session_start();
+        $this->cargoView = new NewCargoView();
+        $this->cargo = new CargoView();
         $this->connection = Connection::getConnection();
         //..verify if show a view do perform a new user or update a user
         $this->action = isset($this->get['action']) ? $this->get['action'] : 'update';
@@ -47,7 +50,7 @@ class CargoCtr extends Controller
         if ($this->action == 'new') {
             $this->cargoView->show();
         } else
-            parent::showView();
+            $this->cargo->show();
     }
 
     public function getModelFromView()
@@ -67,10 +70,7 @@ class CargoCtr extends Controller
     {
         if ($this->get['action'] == 'new') {
             try {
-
                 $model = $this->getModelFromView();
-
-
                 $cargo = new CargoDao($this->connection);
                 $cargo->insert($model);
 

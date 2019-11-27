@@ -11,7 +11,7 @@ use app\controller\PessoaCtr;
 
 final class Home extends HtmlPage
 {
-    protected $restaurantes;
+    protected $restaurantes;    
     public function __construct()
     {
         $this->htmlFile = 'app/view/home.phtml';

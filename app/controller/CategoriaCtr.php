@@ -51,9 +51,12 @@ final class CategoriaCtr extends Controller
                     $categoria = new CategoriaDao($this->connection);
                     $categoria->insert($model);               
                 
-                    $dash = new DashboardView;
-                    $dash->setMsg("Categoria cadastrado com sucesso!!!");
-                    $dash->show();
+                    $cat = new CategoriaView();
+                    $cat->setMsg("Categoria cadastrada com sucesso!!!");
+                    $cat->show();
+                    // $dash = new DashboardView;
+                    // $dash->setMsg("");
+                    // $dash->show();
 
             } catch (\Exception $ex) {                
                 $dash = new DashboardView;

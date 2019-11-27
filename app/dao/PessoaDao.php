@@ -7,6 +7,7 @@ use app\model\PessoaJuridicaModel;
 use core\dao\IDao;
 use app\model\PessoaModel;
 use core\dao\Connection;
+use PDO;
 
 class PessoaDao implements IDao
 {
@@ -107,7 +108,44 @@ class PessoaDao implements IDao
 
     public function delete($id)
     {
-        //..needless    
+        try {
+            $connection = Connection::getConnection();
+            $sql = "delete from pessoa where id_pessoa = :id_pessoa";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":id_pessoa", $id);
+            return $stmt->execute();
+        } catch (\Exception $ex) {
+            throw $ex;
+        } finally {
+            $connection = null;
+        }
+    }
+
+    public function VeficaCampo($campo = null, $valor = null)
+    {
+        try {
+            if ($campo == "login_pessoa" ) {
+                $sql = "select login_pessoa from pessoa where login_pessoa = :valor";
+            } else if($campo == "cpf_fisica"){
+                $sql = "select cpf_fisica from pessoa p inner join pessoa_fisica pf on p.id_pessoa = pf.id_pessoa where pf.cpf_fisica = :valor";
+            }
+
+            $stmt = $this->connection->prepare($sql);                              
+            $stmt->bindValue(":valor", $valor);
+            $result = $stmt->execute();
+            $result = $stmt->fetchAll();
+
+            if($result){
+                return "exite";
+            }else{
+                return "nao existe";
+            }
+
+            
+
+        } catch (\Exception $ex) {
+            throw $ex;
+        }
     }
 
     public function findById($id)
@@ -240,7 +278,4 @@ class PessoaDao implements IDao
             $connection = null;
         }
     }
-
-    public function LastId()
-    { }
 }

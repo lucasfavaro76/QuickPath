@@ -2,6 +2,7 @@
 
 namespace app\view\restaurante;
 
+use app\dao\CategoriaDao;
 use app\dao\MesaDao;
 use app\dao\NumMesaDao;
 use app\dao\PessoaJuridicaDao;
@@ -9,12 +10,13 @@ use app\dao\ProdutoDao;
 use core\mvc\view\HtmlPage;
 
 use core\dao\Connection;
-
+use core\util\Session;
 
 final class DescRestView extends HtmlPage
 {
 
     protected $desc;
+    protected $categorias;
     protected $produtos;
     protected $mesas;
 
@@ -23,6 +25,10 @@ final class DescRestView extends HtmlPage
         $this->connection = Connection::getConnection();
         $this->htmlFile = 'app/view/restaurante/desc_rest.phtml';
     }
+
+    // if (Session::getSession('active_user')->getId() != null) {
+    //     echo ("solicitar")
+    // }
 
 
     public function showRest($id)
@@ -40,6 +46,12 @@ final class DescRestView extends HtmlPage
     {
        $mesa = (new NumMesaDao($this->connection))->select(" id_restaurante = " . $id );
        $this->setMesas($mesa);
+    }
+
+    public function Categorias($id)
+    {
+       $cat = (new CategoriaDao($this->connection))->select(" id_restaurante = " . $id );
+       $this->setCategorias($cat);
     }
 
 
@@ -99,6 +111,26 @@ final class DescRestView extends HtmlPage
     public function setMesas($mesas)
     {
         $this->mesas = $mesas;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of categorias
+     */ 
+    public function getCategorias()
+    {
+        return $this->categorias;
+    }
+
+    /**
+     * Set the value of categorias
+     *
+     * @return  self
+     */ 
+    public function setCategorias($categorias)
+    {
+        $this->categorias = $categorias;
 
         return $this;
     }

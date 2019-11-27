@@ -18,33 +18,33 @@ login_pessoa varchar(16) not null,
 senha_pessoa text not null,
 tipo_pessoa VARCHAR(20),
 status VARCHAR(1),
-	CONSTRAINT pk_pessoa PRIMARY KEY (id_pessoa)
+CONSTRAINT pk_pessoa PRIMARY KEY (id_pessoa)
 );
 
 
 
 create sequence sid_fisica;
 create table pessoa_fisica(
-id_fisica integer not null default nextval('sid_fisica'),
+id_pessoa integer not null,
 cpf_fisica varchar(15) not null UNIQUE,
-id_pessoa integer,
 
-CONSTRAINT pk_fisica PRIMARY KEY (id_fisica),
-CONSTRAINT fk_pessoafisica FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa)
+
+CONSTRAINT pk_fisica PRIMARY KEY (id_pessoa),
+CONSTRAINT fk_pessoa FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa)
 );
 
 
 
-create sequence sid_juridica;
+
 create table pessoa_juridica(
-id_juridica integer not null default nextval('sid_juridica'),
+id_juridica integer NOT NULL,
 cnpj_juridica varchar(18) not null UNIQUE,
 razao_social varchar(70) not null UNIQUE,
 descricao text,
-id_pessoa integer,
+imagem VARCHAR(50),
 
 CONSTRAINT pk_juridica PRIMARY KEY (id_juridica),
-CONSTRAINT fk_pessoajuridica FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa)
+CONSTRAINT fk_pessoajuridica FOREIGN KEY(id_juridica) REFERENCES pessoa(id_pessoa)
 );
 
 create sequence sid_cargo;
@@ -53,6 +53,7 @@ create table cargo(
 id_cargo integer not null default nextval('sid_cargo'),
 nome_cargo varchar(20),
 id_restaurante INTEGER NOT NULL,
+
 CONSTRAINT pk_cargo PRIMARY KEY(id_cargo),
 CONSTRAINT fk_rest FOREIGN KEY(id_restaurante) REFERENCES pessoa_juridica(id_juridica)
 );
@@ -64,20 +65,21 @@ create table categoria(
 id_categoria integer not null default nextval('sid_categoria'),
 nome_categoria varchar(20),
 id_restaurante INTEGER NOT NULL,
+
 CONSTRAINT pk_categoria PRIMARY KEY(id_categoria),
 CONSTRAINT fk_rest FOREIGN KEY(id_restaurante) REFERENCES pessoa_juridica(id_juridica)
 );
 
 create sequence sid_funcionario;
-create table funcionario(
 
-id_funcionario integer not null default nextval('sid_funcionario'),
-id_pessoa integer,
+create table funcionario(
+id_funcionario integer not null,
 id_cargo integer,
+salario numeric(18,5),
 id_restaurante integer,
 
 CONSTRAINT pk_funcionario PRIMARY KEY (id_funcionario),
-CONSTRAINT fk_pessoafunc FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa),
+CONSTRAINT fk_pessoa FOREIGN KEY(id_funcionario) REFERENCES pessoa(id_pessoa),
 CONSTRAINT fk_cargofunc FOREIGN KEY(id_cargo) REFERENCES cargo(id_cargo),
 CONSTRAINT fk_rest FOREIGN KEY(id_restaurante) REFERENCES pessoa_juridica(id_juridica)
 );
@@ -86,13 +88,18 @@ create sequence sid_num_mesa;
 create table num_mesa(
 id_num_mesa integer not null default nextval('sid_num_mesa'),
 numero_mesa INTEGER NOT NULL,
-)
+mesa_ocupada char(1),
+id_restaurante integer,
+
+CONSTRAINT pk_num_mesa PRIMARY KEY (id_num_mesa),
+CONSTRAINT fk_rest FOREIGN KEY(id_restaurante) REFERENCES pessoa_juridica(id_juridica)
+
+);
 
 create sequence sid_mesa;
 create table mesa(
 id_mesa integer not null default nextval('sid_mesa'),
 numero_mesa integer,
-mesa_ocupada char(1),
 id_funcionario integer,
 id_pessoa integer,
 id_restaurante integer,
@@ -101,7 +108,8 @@ id_restaurante integer,
 CONSTRAINT pk_mesa PRIMARY KEY(id_mesa),
 CONSTRAINT fk_rest FOREIGN KEY(id_restaurante) REFERENCES pessoa_juridica(id_juridica),
 CONSTRAINT fk_num_mesa FOREIGN KEY (numero_mesa)REFERENCES num_mesa (id_num_mesa),
-CONSTRAINT fk_funcmesa FOREIGN KEY(id_funcionario) REFERENCES funcionario(id_funcionario)
+CONSTRAINT fk_funcmesa FOREIGN KEY(id_funcionario) REFERENCES funcionario(id_funcionario),
+CONSTRAINT fk_pessoa FOREIGN KEY(id_pessoa) REFERENCES pessoa(id_pessoa)
 );
 
 create sequence sid_produto;
@@ -114,6 +122,7 @@ preco_produto numeric(10,2) not null,
 quant_estoque integer,
 id_categoria integer,
 id_restaurante INTEGER,
+imagem VARCHAR(30),
 
 
 CONSTRAINT pk_produto PRIMARY KEY(id_produto),
@@ -138,6 +147,7 @@ id_venda integer not null default nextval('sid_venda'),
 preco_total numeric(10,2) NOT NULL,
 data_venda VARCHAR(12),
 hora_venda VARCHAR(10),
+quantidade INTEGER,
 tipo_pagamento VARCHAR(20),
 
 id_funcionario INTEGER,
