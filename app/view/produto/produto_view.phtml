@@ -4,7 +4,7 @@
     ?><h3 class="text-center p-b-10" id="msg"><?= $this->msg ?></h3>
 <?php } ?>
 
-<?php if (!is_null($this->cargos)) { ?>
+<?php if (!is_null($this->produto)) { ?>
     <div class="p-l-10 p-b-10">
         <!-- <button class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 " id="relatorio">Funcionarios</button> -->
     </div>
@@ -15,8 +15,14 @@
                 <tr>
                     <th class="text-center">ID</th>
                     <th class="text-center">NOME</th>
+                    <th class="text-center">UNIDADE</th>
+                    <th class="text-center">PREÇO</th>
+                    <th class="text-center">ESTOQUE</th>
+                    <th class="text-center">CATEGORIA</th>
+                    <th class="text-center">IMAGEM</th>
                     <th class="text-center">ALTERAR</th>
                     <th class="text-center">EXCLUIR</th>
+
                 </tr>
             </thead>
 
@@ -24,11 +30,18 @@
             <tbody>
                 <!-- 12 -->
 
-                <?php foreach ($this->cargos as $row) { ?>
+                <?php foreach ($this->produto as $row) { ?>
                     <tr>
 
                         <td id="id" class="text-center"> <?= $row->getId() ?></td>
-                        <td class="text-center"> <?= $row->getNome_cargo() ?></td>
+                        <td class="text-center"> <?= $row->getNome_produto() ?></td>
+                        <td id="id" class="text-center"> <?= $row->getUnidade_produto() ?></td>
+                        <td class="text-center"> <?= $row->getPreco_produto() ?></td>
+                        <td id="id" class="text-center"> <?= $row->getQuant_estoque() ?></td>
+                        <td class="text-center"> <?= $row->getCategoria()->getNome_categoria() ?></td>
+                        <td id="id" class="text-center"> <?= $row->getImagem()?></td>
+
+
                         <td class="text-center"><a href="#" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
                         <td class="text-center"><a href="#" id="excluir" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
 

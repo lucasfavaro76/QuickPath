@@ -10,21 +10,24 @@ use app\dao\CategoriaDao;
 use app\dao\ProdutoDao;
 use app\model\CategoriaModel;
 use app\model\ProdutoModel;
-use app\view\produto\NewProdutoView as AppNewProdutoView;
+use app\view\produto\NewProdutoView;
+use app\view\produto\ProdutoView;
 
 class ProdutoCtr extends Controller
 {
     private $action; //..determine if show NewUserView or UserView
     private $prodView;
+    private $prod;
     private $session;
 
     public function __construct()
     {
         parent::__construct();
         $this->session = session_start();
-        $this->prodView = new AppNewProdutoView;
+        $this->prodView = new NewProdutoView;
+        $this->prod = new ProdutoView();
         $this->connection = Connection::getConnection();
-        $this->action = isset($this->get['action']) ? $this->get['action'] : 'update';
+        $this->action = isset($this->get['action']) ? $this->get['action'] : '';
     }
 
     public function showView()
@@ -32,8 +35,10 @@ class ProdutoCtr extends Controller
 
         if ($this->action == 'new') {           
             $this->prodView->show();
-        } else
-            parent::showView();
+        } else if($this->action == 'show'){
+            $this->prod->show();
+        }
+            
     }
 
     public function getModelFromView()

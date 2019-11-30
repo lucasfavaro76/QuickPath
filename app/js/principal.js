@@ -265,13 +265,13 @@ function enviar(campo, valor) {
             if (response.result == 1 && campo == "login_pessoa") {
                 $('#invalid').html("Esse login ja existe");
                 $('#valid').html("");
-            }else if (response.result == 0 && campo == "login_pessoa") {
+            } else if (response.result == 0 && campo == "login_pessoa") {
                 $('#valid').html("Muito Bom!!");
                 $('#invalid').html("");
-            }else if (response.result == 1 && campo == "cpf_fisica") {
+            } else if (response.result == 1 && campo == "cpf_fisica") {
                 $('#invalid_cpf').html("Esse cpf ja existe");
                 $('#valid_cpf').html("");
-            }  else if (response.result == 0 && campo == "cpf_fisica") {
+            } else if (response.result == 0 && campo == "cpf_fisica") {
                 $('#valid_cpf').html("Muito Bom!!");
                 $('#invalid_cpf').html("");
             }
@@ -279,3 +279,46 @@ function enviar(campo, valor) {
     })
 }
 //-------------end----------//
+
+
+$('#tabs :first-child').addClass("active");
+
+$("ul").on("click", "a", function () {
+    var a = $(this).attr("href");
+    console.log(a);
+    //  var a = a.replace("#", " ")
+    //  console.log(a);
+    var x = $(a);
+    x.toggleClass('active');
+
+    $( x ).siblings().removeClass('active');
+    console.log(x);
+});
+
+
+$('td').on("click", "a", function () {
+    var a = $(this).attr("caminho");
+    console.log(a);
+
+    $.confirm({
+        title: 'Excluir!!!',
+        content: 'Deseja realmente excluir esse registro?',
+        buttons: {
+            confirm: {
+                text: 'Confirmar',
+                btnClass: 'btn-warning',
+                keys: ['enter', 'shift'],
+                action: function () {
+
+                    var location = a;
+                    location = location.trim();
+                    window.location.href = location;
+                }
+            },
+            cancel: function () {
+                $.alert('Cancelado!');
+            }
+        }
+    });
+    
+})

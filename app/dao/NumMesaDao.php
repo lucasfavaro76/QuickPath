@@ -75,7 +75,7 @@ class NumMesaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "delete from cargo where id_cargo = :id";
+            $sql = "delete from num_mesa where id_num_mesa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             return $stmt->execute();

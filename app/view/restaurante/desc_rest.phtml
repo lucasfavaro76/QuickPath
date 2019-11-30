@@ -27,65 +27,52 @@ use core\util\Session;
 </section>
 <!-- END section -->
 
-<?php if (is_null($this->produtos)) {
 
-    ?><p class="text-center">Em breve!!!</p>
-
-<?php } else { } ?>
-
-<section class="pb_section" id="section-menu">
-    <div class="container">
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-10 text-center">
-                <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Menu</h2>
-            </div>
-        </div>
-        <div class="row">
-
-            <div class="col">
-                <ul class="nav justify-content-center pb_tab_v1">
-                    <?php foreach ($this->categorias as $cat) { ?>
-
-                        <li class="nav-item">
-                            <a class="nav-link active p-3" data-toggle="list" href="#<?= $cat->getNome_categoria() ?>" role="tab"><?= $cat->getNome_categoria() ?></a>
-                        </li>
-
-                    <?php } ?>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-
-                    <?php foreach ($this->categorias as $cat) { ?>
-                        <div class="tab-pane fade active" id="<?= $cat->getNome_categoria() ?>" role="tabpanel">
-                            <div class="row">
-                                <?php foreach ($this->produtos as $row) {
-                                        if ($row->getCategoria()->getNome_categoria() == $cat->getNome_categoria()) {
-                                            ?>
-                                        <div class="col-md-6">
-                                            <ul class="list-unstyled pb_food-menu">
-                                                <li>
-                                                    <div class="row">
-                                                        <div class="col-lg-10">
-                                                            <h3 class="pb_font-18 font-weight-bold"><?= $row->getNome_produto() ?></h3>
-                                                            <p class="mb-0"></p>
-                                                        </div>
-                                                        <div class="col-lg-2"><span class="price"><sup>$</sup><?= $row->getPreco_produto() ?></span></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                            </div>
-                        </div>
-            <?php }
-                }
-            } ?>
-
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
+
+<ul class="nav justify-content-center pb_tab_v1" id="myTab" role="tablist">
+
+    <?php foreach ($this->categorias as $cat) { ?>
+        <li class="nav-item">
+            <a class="nav-link active p-3" id="home-tab" data-toggle="tab" href="#<?= $cat->getNome_categoria() ?>" role="tab" aria-controls="<?= $cat->getNome_categoria() ?>" aria-selected="true"><?= $cat->getNome_categoria() ?></a>
+        </li>
+    <?php } ?>
+
+</ul>
+
+<div id="tabs" class="tab-content">
+
+    <?php foreach ($this->categorias as $cat) { ?>
+
+        <div class="tab-pane" id="<?= $cat->getNome_categoria() ?>" role="tabpanel" aria-labelledby="home-tab">
+
+            <div class="row">
+
+                <?php foreach ($this->produtos as $prod) {
+                        if ($cat->getNome_categoria() == $prod->getCategoria()->getNome_categoria()) { ?>
+                        <div class="col-md-10">
+                            <ul class="list-unstyled pb_food-menu">
+                                <li>
+                                    <div class="row prod">
+                                        <div class="prod col-md-4 col-lg-4">
+                                            <h3 class="pb_font-18 font-weight-bold"><?= $prod->getNome_produto() ?></h3>
+                                            <p class="mb-0"></p>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4"><span class="price"><sup>$</sup><?= $prod->getPreco_produto() ?></span></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                <?php }
+                    } ?>
+
+            </div>
+
+        </div>
+
+    <?php } ?>
+
+</div>
 
 <section class="pb_section pt-0 pb-0" id="section-contact">
     <div class="d-flex">

@@ -1,10 +1,10 @@
-<h1 class="text-center p-b-50">Funcionarios cadastrados no estabelecimento</h1>
+<h1 class="text-center p-b-50">Mesas cadastradas no estabelecimento</h1>
 
 <?php if (is_null($this->msg)) { } else {
     ?><h3 class="text-center p-b-10" id="msg"><?= $this->msg ?></h3>
 <?php } ?>
 
-<?php if (!is_null($this->cargos)) { ?>
+<?php if (!is_null($this->mesas)) { ?>
     <div class="p-l-10 p-b-10">
         <!-- <button class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 " id="relatorio">Funcionarios</button> -->
     </div>
@@ -14,7 +14,8 @@
             <thead>
                 <tr>
                     <th class="text-center">ID</th>
-                    <th class="text-center">NOME</th>
+                    <th class="text-center">NUMERO</th>
+                    <th class="text-center">OCUPADA</th>
                     <th class="text-center">ALTERAR</th>
                     <th class="text-center">EXCLUIR</th>
                 </tr>
@@ -24,13 +25,15 @@
             <tbody>
                 <!-- 12 -->
 
-                <?php foreach ($this->cargos as $row) { ?>
+                <?php foreach ($this->mesas as $row) { ?>
                     <tr>
 
                         <td id="id" class="text-center"> <?= $row->getId() ?></td>
-                        <td class="text-center"> <?= $row->getNome_cargo() ?></td>
+                        <td class="text-center"> <?= $row->getNum_mesa() ?></td>
+                        <td class="text-center"> <?= $row->getMesa_ocupada() ?></td>
                         <td class="text-center"><a href="#" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
-                        <td class="text-center"><a href="#" id="excluir" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+
+                        <td class="text-center"><a href="#" caminho="Request.php?class=NumMesaCtr&method=delete&id=<?= $row->getId() ?>" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
 
                     </tr>
                 <?php } ?>

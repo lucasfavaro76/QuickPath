@@ -4,6 +4,7 @@ namespace app\controller;
 use core\mvc\Controller;
 use app\dao\CategoriaDao;
 use app\model\CategoriaModel;
+use app\view\categoria\Categoria;
 use app\view\categoria\CategoriaView;
 use app\view\dashboard\DashboardView;
 use core\dao\Connection;
@@ -14,23 +15,26 @@ final class CategoriaCtr extends Controller
 
     private $session;
     private $connection;
+    private $cat;
 
     public function __construct()
     {
         parent::__construct();        
         $this->session = session_start();
+        $this->cat = new Categoria();
         $this->connection = Connection::getConnection();
         $this->dao = new CategoriaDao(); //..The DAO object
         $this->view = new CategoriaView(); //..the View Object 
-        $this->action = isset($this->get['action']) ? $this->get['action'] : 'update';       
+        $this->action = isset($this->get['action']) ? $this->get['action'] : '';       
     }
 
     public function showView()
     {
         if ($this->action == 'new') {
             $this->view->show();
-        } else
-            parent::showView();
+        } else if ($this->action == 'show') {
+            $this->cat->show();
+        }
     }
 
     public function getModelFromView()
