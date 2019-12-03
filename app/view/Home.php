@@ -3,19 +3,21 @@
 namespace app\view;
 
 use app\dao\PessoaJuridicaDao;
-use core\Application;
+
 use core\dao\Connection;
 use core\mvc\view\HtmlPage;
-use core\mvc\view\Message;
-use app\controller\PessoaCtr;
+
 
 final class Home extends HtmlPage
 {
-    protected $restaurantes;    
+    protected $restaurantes;
+    protected $session;
     public function __construct()
     {
         $this->htmlFile = 'app/view/home.phtml';
         $this->connection = Connection::getConnection();
+
+        $this->session = !isset($_SESSION) ? session_start() : "";        
         $this->showAll();
     }
 
@@ -23,15 +25,14 @@ final class Home extends HtmlPage
     {
         $rest = new PessoaJuridicaDao($this->connection);
         $result = $rest->selectAll();
-        if (empty($result)) {        
-        } else {  
-            $this->setRestaurantes($result);                
+        if (empty($result)) { } else {
+            $this->setRestaurantes($result);
         }
     }
 
     /**
      * Get the value of restaurantes
-     */ 
+     */
     public function getRestaurantes()
     {
         return $this->restaurantes;
@@ -41,7 +42,7 @@ final class Home extends HtmlPage
      * Set the value of restaurantes
      *
      * @return  self
-     */ 
+     */
     public function setRestaurantes($restaurantes)
     {
         $this->restaurantes = $restaurantes;

@@ -19,20 +19,15 @@ final class CargoView extends HtmlPage
     {
         //$this->session = session_start();
         $this->connection = Connection::getConnection();
-        $this->showCargos();
+        
         $this->htmlFile = 'app/view/cargo/cargo_view.phtml';
     }
 
     public function renderHeader()
     {
         require_once('core\mvc\view\header_dashboard.phtml');
-    }
-
-    public function showCargos()
-    {
-        $cargo = (new CargoDao($this->connection))->select("id_restaurante = " . Session::getSession('active_user')->getId());
-        $this->setCargos($cargo);
-    }
+    }        
+    
 
     /**
      * Get the value of msg

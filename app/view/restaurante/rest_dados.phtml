@@ -1,0 +1,180 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" id="restdados">
+
+                <div class="card-body">
+                    <div class="card-title mb-4">
+                        <p class="text-center">Meus Dados</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Nome:</label>
+                                </div>
+                                <input id="id_pessoa" type="hidden" value="<?= $this->dados->getId() ?>">
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getNome_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Telefone</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getTelefone_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Celular:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getCelular_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Email:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getEmail_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Cep:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getCep() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Logradouro:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getLogradouro() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Numero:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getNumero() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Complemento:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getComplemento() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Bairro:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getBairro() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Cidade:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getCidade() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Estado:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getUf() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Login:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getLogin_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Cnpj:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getCnpj_juridica() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Razão Social:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getRazao_social() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Descrição:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->dados->getDescricao() ?>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Imagem:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <a class="image" href="app/img/<?= $this->dados->getImagem() ?>">
+                                        <img src="app/img/<?= $this->dados->getImagem() ?>">
+                                    </a>
+
+                                </div>
+                            </div>
+                            <hr />
+
+                            <a class="p-r-10" href="Request.php?class=DashboardCtr&method=showView&action=update" data-toggle="tooltip" data-placement="top" title="Altere suas informações!!!"><button class="btn btn-focus">Alterar</button></a>
+
+                            <a id="restdados" href="#" data-toggle="tooltip" data-placement="top" title="Exclua sua Conta.."><button class="btn btn-focus">Excluir</button></a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

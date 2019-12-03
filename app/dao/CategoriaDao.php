@@ -32,7 +32,7 @@ class CategoriaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "update cargo set nome_categoria = :nome_categoria where id_categoria = :id";
+            $sql = "update categoria set nome_categoria = :nome_categoria where id_categoria = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $model->getId());
             $stmt->bindValue(":nome_categoria", $model->getNome_categoria());           

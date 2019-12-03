@@ -19,7 +19,7 @@ final class ProdutoView extends HtmlPage
     {
         //$this->session = session_start();
         $this->connection = Connection::getConnection();
-        $this->showProdutos();
+        
         $this->htmlFile = 'app/view/produto/produto_view.phtml';
     }
 
@@ -28,11 +28,6 @@ final class ProdutoView extends HtmlPage
         require_once('core\mvc\view\header_dashboard.phtml');
     }
 
-    public function showProdutos()
-    {
-        $prod = (new ProdutoDao($this->connection))->select("p.id_restaurante = " . Session::getSession('active_user')->getId());
-        $this->setProduto($prod);
-    }
 
     /**
      * Get the value of msg

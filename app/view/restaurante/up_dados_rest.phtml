@@ -1,0 +1,292 @@
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Altere seus dados</h2>
+                    <a class="botao" name="" href="#">Cadastrar Restaurante</a>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+
+
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=update">
+
+                    <input id="tipo" name="tipo" type="hidden" value="Juridica">
+
+                    <input type="hidden" name="id" id="id" value="<?= $this->dados->getId() ?>">
+                    <input type="hidden" name="status" id="status" value="<?= $this->dados->getStatus() ?>">
+
+                    <div class="form-row cadastro">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="name">Nome:</label>
+                                <input type="text" value="<?= $this->dados->getNome_pessoa() ?>" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um nome valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="telefone">Telefone:</label>
+                                <input type="text" value="<?= $this->dados->getTelefone_pessoa() ?>" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50">
+
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="celular">Celular:</label>
+                                <input type="text" value="<?= $this->dados->getCelular_pessoa() ?>" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um celular valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" value="<?= $this->dados->getEmail_pessoa() ?>" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um e-mail valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="cep">Cep:</label>
+                                <input type="text" value="<?= $this->dados->getCep() ?>" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um cep valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="logradouro">Logradouro:</label>
+                                <input type="text" value="<?= $this->dados->getLogradouro() ?>" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um logradouro valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="numero">Numero:</label>
+                                <input type="text" value="<?= $this->dados->getNumero() ?>" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um numero valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="complemento">Complemento:</label>
+                                <input type="text" value="<?= $this->dados->getComplemento() ?>" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" value="<?= $this->dados->getBairro() ?>" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um bairro valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="cidade">Cidade:</label>
+                                <input type="text" value="<?= $this->dados->getCidade() ?>" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite uma cidade valida!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="uf">Estado:</label>
+                                <input type="text" value="<?= $this->dados->getUf() ?>" class="form-control p-2 rounded-0" readonly name="uf" id="uf" maxlength="50" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cnpj_juridica">CNPJ:</label>
+                                <input type="text" value="<?= $this->dados->getCnpj_juridica() ?>" class="form-control p-2 rounded-0" name="cnpj_juridica" id="cnpj_juridica" maxlength="50" required>
+
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um cnpj valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+
+                                <label for="razao_social">Razão Social:</label>
+                                <input type="text" value="<?= $this->dados->getRazao_social() ?>" class="form-control p-2 rounded-0" name="razao_social" id="nome" maxlength="50" required>
+
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um Razao Social valida!! (minimo 6)
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="descricao">Descrição:</label>
+
+                                <textarea name="descricao" class="form-control" cols="30" rows="3" data-toggle="tooltip" data-placement="top" title="Essa descrição estara na pagina inicial, escreva algo que chama a atenção!!!" required>
+                                    <?= $this->dados->getDescricao() ?>
+                                </textarea>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite uma descrição valido!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row p-b-20">
+                        <div class="col-md-6">
+
+                            <div class="custom-file">
+
+                                <input type="file" value="" class="custom-file-input" id="image" name="image" data-toggle="tooltip" data-placement="top" title="Essa imagem estara na pagina inicial e na pagina do seu restaurante!!!">
+
+                                <label class="custom-file-label" for="image">Selecione uma Imagem</label>
+                                <input type="hidden" name="imagem" id="caminho" value="">
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Escolha uma imagem valida!! (minimo 6)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <a class="upload btn pb_outline-dark pb_font-13 pb_letter-spacing-2 rounded-2">Upload</a>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="login_pessoa">Login</label>
+                                <input type="text" value="<?= $this->dados->getLogin_pessoa() ?>" class="form-control p-2 rounded-0 login_pessoa" name="login_pessoa" id="login_pessoa" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um login valido!! (minimo 6)
+                                </div>
+                                <div class="valido" id="valid"></div>
+                                <div class="invalido" id="invalid"></div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+
+                                <label for="senha_pessoa">Senha</label>
+                                <input type="password" id="senha" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite uma senha valida!! (minimo 6)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="senha_pessoa">Confirme Senha</label>
+                                <input type="password" id="confSenha" class="form-control p-2 rounded-0" required> <!-- don't show the password -->
+
+                                <div class="valido p-t-5" id="senha_valida">
+
+                                </div>
+                                <div class="invalido p-t-5" id="senha_invalida">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- END section -->
+
+<!-- cep character varying(9),
+    logradouro character varying(50),
+    numero integer,
+    complemento character varying(70),
+    bairro character varying(50),
+    cidade character varying(50),
+    uf character(2), -->
+
+<!-- nome_pessoa varchar (70) not null,
+telefone_pessoa varchar(15),
+celular_pessoa varchar(15),
+email_pessoa varchar(50),
+login_pessoa varchar(16) not null,
+senha_pessoa varchar(16) not null, -->

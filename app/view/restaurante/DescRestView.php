@@ -19,17 +19,15 @@ final class DescRestView extends HtmlPage
     protected $categorias;
     protected $produtos;
     protected $mesas;
+    protected $session;
+    protected $msg;
 
     public function __construct()
     {
+        
         $this->connection = Connection::getConnection();
         $this->htmlFile = 'app/view/restaurante/desc_rest.phtml';
     }
-
-    // if (Session::getSession('active_user')->getId() != null) {
-    //     echo ("solicitar")
-    // }
-
 
     public function showRest($id)
     {
@@ -131,6 +129,26 @@ final class DescRestView extends HtmlPage
     public function setCategorias($categorias)
     {
         $this->categorias = $categorias;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of msg
+     */ 
+    public function getMsg()
+    {
+        return $this->msg;
+    }
+
+    /**
+     * Set the value of msg
+     *
+     * @return  self
+     */ 
+    public function setMsg($msg)
+    {
+        $this->msg = $msg;
 
         return $this;
     }

@@ -24,7 +24,8 @@
                     <th class="text-center">BAIRRO</th>
                     <th class="text-center">CIDADE</th>
                     <th class="text-center">UF</th>
-                    <th class="text-center">LOGIN</th>
+                    <th class="text-center">CPF</th>
+                    <th class="text-center">LOGIN</th>                    
                     <th class="text-center">CARGO</th>
                     <th class="text-center">SALARIO</th>
                     <th class="text-center">EXCLUIR</th>
@@ -45,10 +46,12 @@
                         <td class="text-center"> <?= $row->getBairro() ?></td>
                         <td class="text-center"> <?= $row->getCidade() ?></td>
                         <td class="text-center"> <?= $row->getUf() ?></td>
+                        <td class="text-center"> <?= $row->getCpf_funcionario() ?></td>
                         <td class="text-center"> <?= $row->getLogin_pessoa() ?></td>
                         <td class="text-center"> <?= $row->getCargo()->getNome_cargo() ?></td>
                         <td class="text-center"> <?= $row->getSalario() ?></td>
-                        <td class="text-center"> <a href="#" id="excluir" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+
+                        <td class="excluir text-center" caminho="Request.php?class=FuncCtr&method=delete&id=<?= $row->getId() ?>"> <a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
                     </tr>
                 <?php } ?>
             </tbody>

@@ -49,7 +49,10 @@ use core\Application;
                         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="Request.php?class=DashboardCtr&method=showView">Dashboard</a>
+                        <a class="nav-link" href="Request.php?class=DashboardCtr&method=showView&action=show">Meus Dados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Request.php?class=DashboardCtr&method=showView&action=new">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="">Caixa</a>
@@ -60,10 +63,9 @@ use core\Application;
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="Request.php?class=FuncCtr&method=showView&action=new">Cadastrar</a>
-                            <a class="dropdown-item" href="Request.php?class=FuncCtr&method=func">Listar</a>
-                            <a class="dropdown-item" href="#"></a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+
+                            <a class="dropdown-item" href="Request.php?class=FuncCtr&method=showView&action=show">Listar</a>
+                           
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -72,9 +74,9 @@ use core\Application;
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="Request.php?class=CargoCtr&method=showView&action=new">Cadastrar</a>
-                            <a class="dropdown-item" href="Request.php?class=CargoCtr&method=showView">Listar</a>                            
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+
+                            <a class="dropdown-item" href="Request.php?class=CargoCtr&method=showView&action=show">Listar</a>   
+                        
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -87,8 +89,7 @@ use core\Application;
 
                             <a class="dropdown-item" href="Request.php?class=ProdutoCtr&method=showView&action=show">Listar</a>
 
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -101,8 +102,7 @@ use core\Application;
 
                             <a class="dropdown-item" href="Request.php?class=CategoriaCtr&method=showView&action=show">Listar</a>
 
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -112,23 +112,14 @@ use core\Application;
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="Request.php?class=NumMesaCtr&method=showView&action=new">Cadastrar</a>
 
-                            <a class="dropdown-item" href="Request.php?class=NumMesaCtr&method=showView&action=show">Listar</a>
-                            <a class="dropdown-item" href="#"></a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="Request.php?class=NumMesaCtr&method=showView&action=show">Listar</a>                           
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
+                  
                     <li class="nav-item">
                         <a class="nav-link" href="Request.php?class=PessoaCtr&method=doLogout">Sair</a>
                     </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </ul>                
             </div>
         </nav>
     </header>

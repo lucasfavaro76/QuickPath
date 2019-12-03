@@ -19,7 +19,7 @@ class Session
 
     public function __construct($session)
     {
-        $this->session = session_start();
+        $this->session = !isset($_SESSION) ? session_start() : "";
     }
 
     public static function createSession($nome, $obj)

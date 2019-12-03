@@ -14,6 +14,7 @@ use app\dao\NumMesaDao;
 use app\model\NumMesaModel;
 use app\view\num_mesa\MesaView;
 use app\view\num_mesa\NumMesaView;
+use app\view\num_mesa\UpNumMesa;
 use core\util\Session;
 
 class NumMesaCtr extends Controller
@@ -22,6 +23,8 @@ class NumMesaCtr extends Controller
     private $action; //..determine if show NewUserView or UserView
     private $session;
     private $mesa;
+    protected $up_mesa;
+    protected $dao;
     protected $connection;
 
     public function __construct()
@@ -31,6 +34,9 @@ class NumMesaCtr extends Controller
         $this->session = session_start();
         $this->mesa = new MesaView();
         $this->view = new NumMesaView();
+        $this->up_mesa = new UpNumMesa();
+        $this->dao = new NumMesaDao($this->connection);
+
         $this->connection = Connection::getConnection();
         //..verify if show a view do perform a new user or update a user
         $this->action = isset($this->get['action']) ? $this->get['action'] : '';
@@ -41,14 +47,21 @@ class NumMesaCtr extends Controller
         if ($this->action == 'new') {
             $this->view->show();
         } else if ($this->action == 'show') {
+            $mesa = $this->dao->select("id_restaurante = " . Session::getSession('active_user')->getId());
+            $this->mesa->setMesas($mesa);
             $this->mesa->show();
+        } else {
+            $id = $this->get['id'];
+            $mesa = $this->dao->findById($id);
+            $this->up_mesa->setNum_mesa($mesa);
+            $this->up_mesa->show();
         }
     }
 
     public function getModelFromView()
     {
         if (!empty($this->post)) {
-            if ($this->post['intervalo'] != 0) {
+            if (isset($this->post['intervalo']) != 0) {
                 $mesa = $this->post['intervalo'];
             } else {
                 $mesa = $this->post['numero_mesa'];
@@ -75,16 +88,31 @@ class NumMesaCtr extends Controller
                 $num_mesa->insert($model, $tipo);
 
 
-                $num_mesa = new NumMesaView();
-                $num_mesa->setMsg("Cadastro efetuado com sucesso!!!");
-                $num_mesa->show();
+
+                $this->mesa->setMsg("Cadastro efetuado com sucesso!!!");
+                $this->action = "show";
+                $this->showView();
             } catch (\Exception $ex) {
-                $num_mesa = new NumMesaView();
-                $num_mesa->setMsg("Problemas ao efetuar o cadastro!!!");
-                $num_mesa->show();
+                $this->mesa->setMsg("Problemas ao efetuar o cadastro!!!");
+                $this->action = "show";
+                $this->showView();
             }
         } else {
-            parent::insertUpdate();
+             try {
+
+                $model = $this->getModelFromView();
+                $this->dao->update($model);
+
+                $this->mesa->setMsg("Mesa alterada com sucesso");
+                $this->action = "show";
+                $this->showView();
+
+            } catch (\Throwable $th) {
+
+                $this->mesa->setMsg("Problemas ao alterar mesa ". $th);
+                $this->action = "show";
+                $this->showView();
+            }
         }
     }
 
@@ -95,14 +123,15 @@ class NumMesaCtr extends Controller
                 $id = $this->get['id'];
                 $result = (new NumMesaDao($this->connection))->delete($id);
 
-                $num_mesa = new NumMesaView();
-                $num_mesa->setMsg("Mesa deletada com sucesso!!!");
-                $num_mesa->show();
+
+                $this->mesa->setMsg("Mesa deletada com sucesso!!!");
+                $this->action = "show";
+                $this->showView();
             }
         } catch (\Throwable $th) {
-            $num_mesa = new NumMesaView();
-            $num_mesa->setMsg("Erro ao deletar Mesa!!");
-            $num_mesa->show();
+            $this->nesa->setMsg("Erro ao deletar Mesa!!");
+            $this->action = "show";
+            $this->showView();
         }
     }
 }

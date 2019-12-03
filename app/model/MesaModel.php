@@ -5,19 +5,17 @@ use core\mvc\Model;
 
 class MesaModel extends Model{
 
-    protected $numero_mesa;
-    protected $mesa_ocupada;
+    protected $numero_mesa;   
     protected $id_funcionario;
     protected $id_pessoa;
     protected $id_restaurante;
 
-    public function __construct($id = null, NumMesaModel $numero_mesa = null, $mesa_ocupada, $id_funcionario, $id_pessoa, $id_restaurante)
+    public function __construct($id = null, NumMesaModel $numero_mesa = null, $id_funcionario, PessoaModel $id_pessoa = null, $id_restaurante)
     {
         parent::__construct($id);
-        $this->numero_mesa = is_null($numero_mesa) ? new NumMesaModel() : $numero_mesa;
-        $this->mesa_ocupada = $mesa_ocupada;
+        $this->numero_mesa = is_null($numero_mesa) ? new NumMesaModel() : $numero_mesa;    
         $this->id_funcionario = $id_funcionario;
-        $this->id_pessoa = $id_pessoa;
+        $this->id_pessoa = is_null($id_pessoa) ? new PessoaModel() : $id_pessoa;
         $this->id_restaurante = $id_restaurante;
     }
 
@@ -39,26 +37,6 @@ class MesaModel extends Model{
     public function setNumero_mesa($numero_mesa)
     {
         $this->numero_mesa = $numero_mesa;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of mesa_ocupada
-     */ 
-    public function getMesa_ocupada()
-    {
-        return $this->mesa_ocupada;
-    }
-
-    /**
-     * Set the value of mesa_ocupada
-     *
-     * @return  self
-     */ 
-    public function setMesa_ocupada($mesa_ocupada)
-    {
-        $this->mesa_ocupada = $mesa_ocupada;
 
         return $this;
     }

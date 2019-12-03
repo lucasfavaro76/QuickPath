@@ -7,37 +7,42 @@ $(document).ready(function () {
 })
 
 
+$(document).ready(function () {
+    $('#cpf').attr("required", true);
 
-$(".botao").on('click', function (event) {
-    event.preventDefault();
+    $('#cnpj_juridica').attr("required", false);
+    $('#nome').attr("required", false);
+    $(".botao").on('click', function (event) {
+        event.preventDefault();
 
-    $('div.cnpj').toggleClass('invisible');
-    $('div.cpf').toggleClass('invisible');
+        $('div.cnpj').toggleClass('invisible');
+        $('div.cpf').toggleClass('invisible');
 
-    if ($('.botao').html() == "Cadastrar Restaurante") {
+        if ($('.botao').html() == "Cadastrar Restaurante") {
 
-        $('.botao').html('Cadastrar Pessoa');
+            $('.botao').html('Cadastrar Pessoa');
 
-        $('#cnpj_juridica').attr("required", true);
-        $('#nome').attr("required", true);
+            $('#cnpj_juridica').attr("required", true);
+            $('#nome').attr("required", true);
 
-        $('#cpf').attr("required", false);
+            $('#cpf').attr("required", false);
 
-    } else {
-        $('.botao').html('Cadastrar Restaurante');
-        $('#cpf').attr("required", true);
+        } else {
+            $('.botao').html('Cadastrar Restaurante');
+            $('#cpf').attr("required", true);
 
-        $('#cnpj_juridica').attr("required", false);
-        $('#nome').attr("required", false);
-    }
+            $('#cnpj_juridica').attr("required", false);
+            $('#nome').attr("required", false);
+        }
 
-    //var x = $(".botao").html();
-    //var a = x.substr(10, 16);
-    if ($("#tipo").attr('value') == "Juridica")
-        $("#tipo").attr('value', "Fisica");
-    else
-        $("#tipo").attr('value', "Juridica");
+        //var x = $(".botao").html();
+        //var a = x.substr(10, 16);
+        if ($("#tipo").attr('value') == "Juridica")
+            $("#tipo").attr('value', "Fisica");
+        else
+            $("#tipo").attr('value', "Juridica");
 
+    })
 })
 
 $(".custom-file-input").on("change", function () {
@@ -94,6 +99,20 @@ $('.upload').on('click', function () {
             if (response.result == 1) {
                 var text = response.caminho;
                 $('#caminho').val(text);
+
+                $('.atual').toggleClass('invisible');
+                
+                $('#prod').attr("src", "app/img/" + text);
+                $('#link').attr("href", "app/img/" + text);
+                $('.nova').toggleClass('invisible');
+
+                // $('#teste').remove(a);
+                // // $('#imageprod').attr("src", " ");
+                // // $('#linkprod').attr("href", " ");
+                
+                // $('#prod').attr("src", "app/img/" + text);
+                // $('#link').attr("href", "app/img/" + text);
+
                 $.confirm({
                     title: 'Sucesso',
                     content: response.mensagem,
@@ -203,42 +222,7 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-$('#excluir').on("click", function () {
 
-    $.confirm({
-        title: 'Excluir',
-        content: "Tem certeza que deseja excluir esse registro?",
-        type: 'red',
-        typeAnimated: true,
-        buttons: {
-            confirm: {
-                text: 'Confirmar',
-                btnClass: 'btn-warning',
-                keys: ['enter', 'shift'],
-                action: function () {
-                    // $.alert('OK!!!');
-                    var id = $('#id').html();
-                    var url = "Request.php?class=FuncCtr&method=delete&id=" + id;
-
-
-                    $.ajax({
-                        url: url,
-                        type: 'post',
-                        contentType: false,
-                        processData: false,
-
-                        success: function () {
-                            window.location.href = "Request.php?class=FuncCtr&method=func";
-                        }
-                    })
-                }
-            },
-            close: function () {
-                $.alert('Cancelado!');
-            }
-        }
-    });
-});
 
 //----------Funcões respnsaveis pela verificação de login e cpf e futuramente cnpj------//
 $('#cpf').on('blur', function () {
@@ -283,7 +267,7 @@ function enviar(campo, valor) {
 
 $('#tabs :first-child').addClass("active");
 
-$("ul").on("click", "a", function () {
+$(".test").on("click", '#nav', function () {
     var a = $(this).attr("href");
     console.log(a);
     //  var a = a.replace("#", " ")
@@ -291,12 +275,13 @@ $("ul").on("click", "a", function () {
     var x = $(a);
     x.toggleClass('active');
 
-    $( x ).siblings().removeClass('active');
+    $(x).siblings().removeClass('active');
     console.log(x);
 });
 
 
-$('td').on("click", "a", function () {
+$('.excluir').on("click", $('#teste'), function () {
+
     var a = $(this).attr("caminho");
     console.log(a);
 
@@ -309,10 +294,7 @@ $('td').on("click", "a", function () {
                 btnClass: 'btn-warning',
                 keys: ['enter', 'shift'],
                 action: function () {
-
-                    var location = a;
-                    location = location.trim();
-                    window.location.href = location;
+                    window.location.replace(a);
                 }
             },
             cancel: function () {
@@ -320,5 +302,78 @@ $('td').on("click", "a", function () {
             }
         }
     });
-    
+
 })
+
+// $('#excluir').on("click", function () {
+
+//     $.confirm({
+//         title: 'Excluir',
+//         content: "Tem certeza que deseja excluir esse registro?",
+//         type: 'red',
+//         typeAnimated: true,
+//         buttons: {
+//             confirm: {
+//                 text: 'Confirmar',
+//                 btnClass: 'btn-warning',
+//                 keys: ['enter', 'shift'],
+//                 action: function () {
+//                     // $.alert('OK!!!');
+//                     var id = $('#id').html();
+//                     var url = "Request.php?class=FuncCtr&method=delete&id=" + id;
+
+
+//                     $.ajax({
+//                         url: url,
+//                         type: 'post',
+//                         contentType: false,
+//                         processData: false,
+
+//                         success: function () {
+//                             window.location.href = "Request.php?class=FuncCtr&method=func";
+//                         }
+//                     })
+//                 }
+//             },
+//             close: function () {
+//                 $.alert('Cancelado!');
+//             }
+//         }
+//     });
+// });
+
+$(document).ready(function () {
+
+    $('.image').magnificPopup({
+        type: 'image',
+        closeOnContentClick: true,
+        mainClass: 'mfp-img-mobile',
+        image: {
+            verticalFit: true
+        }
+
+    });
+});
+
+$(document).ready(function () {
+    $('#mesas').dataTable({
+        "lengthMenu": [
+            [5, 10, 25, 50, -1],
+            [5, 10, 25, 50, "All"]
+        ],
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por pagina",
+            "zeroRecords": "Sem regitro - desculpe",
+            "info": "Mostrando pagina _PAGE_ of _PAGES_",
+            "infoEmpty": "Sem registros",
+            "infoFiltered": "(Filtrados de _MAX_ total registros)",
+            "search": "Buscar",
+            "paginate": {
+                "next": "Proximo",
+                "previous": "Anterior",
+                "first": "Inicio",
+                "last": "Final"
+            }
+        },
+    });
+});

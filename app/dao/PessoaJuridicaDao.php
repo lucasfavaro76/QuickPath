@@ -22,7 +22,7 @@ final class PessoaJuridicaDao extends PessoaDao
             $stmt->bindValue(":id_juridica", $id);
             $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
             $stmt->bindValue(":razao_social", $model->getRazao_social());
-            $stmt->bindValue(":descricao", $model->getDescricao());            
+            $stmt->bindValue(":descricao", $model->getDescricao());
             $stmt->bindValue(":imagem", $model->getImagem());
             $stmt->execute();
             $this->connection->commit();
@@ -42,20 +42,27 @@ final class PessoaJuridicaDao extends PessoaDao
     public function update(PessoaModel $model = null)
     {
         try {
-            $connection = Connection::getConnection();
-            $sql = "update \"user\" set name = :name, gender = :gender, email = :email, 
-                    password = :password, status = :status, type = :type, photo = :photo 
-                    where id = :id";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":name", $model->getName());
-            $stmt->bindValue(":gender", $model->getGender());
-            $stmt->bindValue(":email", $model->getEmail());
-            $stmt->bindValue(":password", md5($model->getPassword())); //..hash md5 to protect the password
-            $stmt->bindValue(":status", $model->getStatus());
-            $stmt->bindValue(":type", $model->getType());
-            $stmt->bindValue(":photo", $model->getPhoto());
-            return $stmt->execute();
+            $this->connection->beginTransaction();
+            $sql = "update pessoa_juridica set cnpj_juridica = :cnpj_juridica, razao_social = :razao_social, descricao = :descricao, imagem = :imagem where id_juridica = :id";
+
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindValue(":cnpj_juridica", $model->getCnpj_juridica());
+            $stmt->bindValue(":razao_social", $model->getRazao_social());
+            $stmt->bindValue(":descricao", $model->getDescricao());
+            $stmt->bindValue(":imagem", $model->getImagem());
+            $stmt->bindValue(":id", $model->getId());
+
+            if (parent::update($model)) {
+                $stmt->execute();
+                $this->connection->commit();
+                return true;
+            } else {
+                $this->connection->rollBack();
+                return false;
+            }
         } catch (\Exception $ex) {
+            $this->connection->rollBack();
             throw $ex;
         } finally {
             $connection = null;

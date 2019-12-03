@@ -9,9 +9,49 @@ use core\util\Session;
     <h2 class="text-center" id="msg"><?= $this->msg ?></h2>
 <?php } ?>
 
+<?php if (!is_null($this->mesas)) { ?>
+    <div class="p-l-10 p-b-10">
+        <!-- <button class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 " id="relatorio">Funcionarios</button> -->
+    </div>
+    <div class="table-responsive">
+        <table class="table-stripped" id="mesas" style="width:100%;">
+            <thead>
+                <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">NOME</th>                    
+                    <th class="text-center">CELULAR</th>
+                    <th class="text-center">EMAIL</th>
+                    <th class="text-center">NUMERO MESA</th>
+                    
+                   
+                    <th class="text-center">ALTERAR</th>
+                    <th class="text-center">EXCLUIR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->mesas as $row) { ?>
+                    <tr>
+                        <td id="id" class="text-center"> <?= $row->getId() ?></td>
+                        <td class="text-center"> <?= $row->getId_pessoa()->getNome_pessoa() ?></td>                       
+                        <td class="text-center"> <?= $row->getId_pessoa()->getCelular_pessoa() ?></td>
+                        <td class="text-center"> <?= $row->getId_pessoa()->getEmail_pessoa() ?></td>
+                        
+                        <td class="text-center"> <?= $row->getNumero_mesa()->getNum_mesa() ?></td>                        
+                        <td class="excluir text-center" caminho="Request.php?class=FuncCtr&method=delete&id=<?= $row->getId() ?>"> <a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
+
+                        <td class="excluir text-center" caminho="Request.php?class=FuncCtr&method=delete&id=<?= $row->getId() ?>"> <a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <p class="text-center">Sem Mesas Reservadas Ainda</p>
+    <?php } ?>
+    </div>
+
 <?php if (!is_null($this->vendas)) { ?>
     <div class="p-l-10 p-b-10">
-    <button class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 " id="relatorio">Relatório</button>
+        <button class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 " id="relatorio">Relatório</button>
     </div>
     <div class="table-responsive">
         <table class="table-stripped" id="myTable" style="width:100%;">
@@ -50,7 +90,7 @@ use core\util\Session;
 
             </tbody>
         </table>
-    <?php } else { ?>
-        <p class="text-center">Sem Vendas Ainda</p>
-    <?php } ?>
     </div>
+<?php } else { ?>
+    <p class="text-center">Sem Vendas Ainda</p>
+<?php } ?>

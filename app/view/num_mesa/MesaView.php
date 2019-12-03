@@ -20,20 +20,15 @@ final class MesaView extends HtmlPage
     {
         //$this->session = session_start();
         $this->connection = Connection::getConnection();
-        $this->showMesas();
+        
         $this->htmlFile = 'app/view/num_mesa/mesa_view.phtml';
     }
 
     public function renderHeader()
     {
         require_once('core\mvc\view\header_dashboard.phtml');
-    }
-
-    public function showMesas()
-    {
-        $mesa = (new NumMesaDao($this->connection))->select("id_restaurante = " . Session::getSession('active_user')->getId());
-        $this->setMesas($mesa);
-    }
+    }       
+    
 
     /**
      * Get the value of msg

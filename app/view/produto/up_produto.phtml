@@ -1,0 +1,132 @@
+<?php
+
+use core\util\Session;
+
+// if (!isset($_SESSION)) session_start();
+?>
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Produto</h2>
+                    <p class="text-center">Produtos adicionados aqui apareceram na pagina do seu restaurante ou lanchonete, então seja criativo!!!</p>
+                    <?php if (is_null($this->msg)) { } else {
+                        ?><h3 id="msg"><?= $this->msg ?></h3>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+
+
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=ProdutoCtr&method=run&action=update">
+
+                    <input type="hidden" value="<?= $this->produto->getId() ?>" name="id">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="nome_produto">Nome Produto:</label>
+                                <input type="text" value="<?= $this->produto->getNome_produto() ?>" class="form-control p-2 rounded-0" name="nome_produto" id="nome" maxlength="50" required>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="unidade_produto">Unidade Produto:</label>
+                                <input type="text" value="<?= $this->produto->getUnidade_produto() ?>" class="form-control p-2 rounded-0" name="unidade_produto" id="unidade_produto" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="preco_produto">Preço Produto:</label>
+                                <input type="number" value="<?= $this->produto->getPreco_produto() ?>" step="0.01" class="form-control p-2 rounded-0" name="preco_produto" id="preco_produto" maxlength="50" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="quant_estoque">Estoque:</label>
+                                <input type="number" value="<?= $this->produto->getQuant_estoque() ?>" class="form-control p-2 rounded-0" name="quant_estoque" id="quant_estoque" maxlength="50" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="categoria">Categoria:</label>
+                                <select class="form-control p-2 rounded-0" name="categoria" id="cargo">
+                                    <option value="Selecione" selected>Selecione uma categoria</option>
+                                    <?php
+                                    if (!is_null($this->categoria)) {
+                                        foreach ($this->categoria as $categoria) {
+                                            ?>
+                                            <option <?= $this->produto->getCategoria()->getId() == $categoria->getId() ? "selected" : "" ?> value="<?= $categoria->getId() ?>"><?= $categoria->getNome_categoria() ?></option>
+                                        <?php
+                                            }
+                                        } else { ?>
+                                        <option value="Vazio">Nenhum registro encontrado</option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select><br>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row p-b-20">
+
+                        <div class="col-md-6">
+
+                            <div class="custom-file">
+
+                                <input type="file" value="" class="custom-file-input" id="image" name="image" data-toggle="tooltip" data-placement="top" title="Essa imagem estara na pagina inicial e na pagina do seu restaurante!!!">
+                                <label class="custom-file-label" for="image">Selecione uma Imagem</label>
+
+                                <input type="hidden" name="caminho" id="caminho" value="<?= $this->produto->getImagem() ?>">
+                            </div>
+                            <div class="p-b-5">
+                                <label for="">Imagem Atual</label>
+
+                                <div class="atual">
+
+                                    <a class="image" href="app/img/<?= $this->produto->getNome_produto() ?>">
+                                        <img id="upprod" src="app/img/<?= $this->produto->getNome_produto() ?>" alt="">
+                                    </a>
+                                </div>
+
+                                <div class="nova invisible">
+                                    <a id="link" class="image" href="app/img/<?= $this->produto->getNome_produto() ?>">
+                                        <img id="prod upprod" src="app/img/<?= $this->produto->getNome_produto() ?>" alt="">
+                                    </a>
+                                </div>
+
+
+
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <a class="upload btn pb_outline-dark pb_font-13 pb_letter-spacing-2 rounded-2">Upload</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

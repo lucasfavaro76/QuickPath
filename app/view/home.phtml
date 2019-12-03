@@ -14,7 +14,7 @@ use core\Application;
     <?php
     } else {
         ?>
-        <h1 class="p-5">Bem vindo ao <?= Application::$APP_NAME ?>, <?= Session::getSession('active_user')->getNome_pessoa() ?></h1> <?= Session::getSession('active_user')->getId() ?>
+        <h1 class="p-5">Bem vindo ao <?= Application::$APP_NAME ?>, <?= Session::getSession('active_user')->getNome_pessoa() ?></h1>
     <?php
     }
     ?>
@@ -24,7 +24,7 @@ use core\Application;
             foreach ($this->restaurantes as $row) {
                 ?>
                 <div style="margin-left:3vw;" class="p-5 md-col-4">
-                    <div class="card">
+                    <div class="card imgeRest">
                         <img class="card-img-top" src="app/img/<?= $row->getImagem() ?>" alt="">
                         <div class="card-body">
                             <h5 class="card-title"><?= $row->getRazao_social() ?></h5>

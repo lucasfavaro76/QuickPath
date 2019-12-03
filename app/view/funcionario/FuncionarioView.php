@@ -16,21 +16,13 @@ final class FuncionarioView extends HtmlPage
 
     public function __construct()
     {
-        $this->connection = Connection::getConnection();
-        $this->showFuncs();
+        $this->connection = Connection::getConnection();        
         $this->htmlFile = 'app/view/funcionario/funcionario_view.phtml';
     }
 
     public function renderHeader()
     {
         require_once('core\mvc\view\header_dashboard.phtml');
-    }
-
-
-    public function showFuncs()
-    {
-        $func = (new FuncionarioDao($this->connection))->select("id_restaurante = " . Session::getSession('active_user')->getId());
-        $this->setFuncs($func);
     }
 
     /**

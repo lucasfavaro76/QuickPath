@@ -77,6 +77,7 @@ id_funcionario integer not null,
 id_cargo integer,
 salario numeric(18,5),
 id_restaurante integer,
+cpf_funcionario VARCHAR(14),
 
 CONSTRAINT pk_funcionario PRIMARY KEY (id_funcionario),
 CONSTRAINT fk_pessoa FOREIGN KEY(id_funcionario) REFERENCES pessoa(id_pessoa),

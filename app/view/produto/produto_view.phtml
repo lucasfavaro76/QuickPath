@@ -1,4 +1,4 @@
-<h1 class="text-center p-b-50">Funcionarios cadastrados no estabelecimento</h1>
+<h1 class="text-center p-b-50">Produtos cadastrados no estabelecimento</h1>
 
 <?php if (is_null($this->msg)) { } else {
     ?><h3 class="text-center p-b-10" id="msg"><?= $this->msg ?></h3>
@@ -10,7 +10,7 @@
     </div>
     <div class="table-responsive">
 
-        <table class="table-stripped" id="myTable" style="width:100%;">
+        <table class="table-stripped" id="myTable" style="width:95%;">
             <thead>
                 <tr>
                     <th class="text-center">ID</th>
@@ -39,11 +39,17 @@
                         <td class="text-center"> <?= $row->getPreco_produto() ?></td>
                         <td id="id" class="text-center"> <?= $row->getQuant_estoque() ?></td>
                         <td class="text-center"> <?= $row->getCategoria()->getNome_categoria() ?></td>
-                        <td id="id" class="text-center"> <?= $row->getImagem()?></td>
+
+                        <td class="text-center">
+                            <a class="image" href="app/img/<?= $row->getImagem() ?>">
+                                <img id="imgprod" src="app/img/<?= $row->getImagem() ?>">
+                            </a>
+                        </td>
 
 
-                        <td class="text-center"><a href="#" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
-                        <td class="text-center"><a href="#" id="excluir" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+                        <td class="text-center"><a href="Request.php?class=ProdutoCtr&method=showView&id=<?= $row->getId() ?>" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
+
+                        <td class="excluir text-center" caminho="Request.php?class=ProdutoCtr&method=delete&id=<?= $row->getId() ?>"><a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
 
                     </tr>
                 <?php } ?>
@@ -54,6 +60,6 @@
 
 
     <?php } else { ?>
-        <p class="text-center">Sem Funcionarios Ainda</p>
+        <p class="text-center">Sem Produtos Ainda</p>
     <?php } ?>
     </div>

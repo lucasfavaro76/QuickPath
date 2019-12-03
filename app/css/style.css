@@ -1,13 +1,21 @@
-label{
+label {
     color: #000;
 }
-form{
-    margin-left: 2vw;
+
+form.new_pessoa{
+    margin-left: 6vw;
 }
-body{
+
+form.login{
+    margin-left: 3vw;
+}
+body {
     color: #000;
 }
-.pb_half{
+
+
+
+.pb_half {
     width: 100%;
     float: none;
 }
@@ -15,42 +23,78 @@ body{
 .invisible {
     display: none;
 }
-.all{
+
+.all {
     margin-left: 2vw;
 }
-.card{
-    width: 18rem;
-}
-.p-t-10{
+
+
+
+.p-t-10 {
     padding-top: 4.5vh;
 }
 
-.invalido{
-    color:#dc3545;
+.invalido {
+    color: #dc3545;
     font-size: 80%;
 }
 
-.valido{
-    color:#28a745;
+.valido {
+    color: #28a745;
     font-size: 80%;
 }
 
-.dataTables_length, #myTable_info{
+.dataTables_length,
+#myTable_info {
     margin-left: 2%;
 }
-#myTable_filter{
+
+#myTable_filter {
     margin-right: 2%;
 }
-#nome_cargo, #numero_mesa, #nome_categoria{
+
+#nome_cargo,
+#numero_mesa,
+#nome_categoria {
     width: 30vw;
 }
-.navbar-nav{
-    padding-left: 10vw;
-}
-.row.cadastro{
-    width: 80vw;;
+
+.form-row.cadastro {
+    width: 55vw;
+    
 }
 
-div.prod{
-    margin-left: 18vw;;
+div.prod {
+    margin-left: 9.5vw;    
+   
+}
+
+.nav-link {
+    white-space: nowrap;
+}
+
+div#restdados {
+    width: 100%;
+}
+
+.imgeRest {
+    width: 18rem;
+}
+
+#imgprod {
+    width: 10vw;
+}
+
+.cardtext{    
+    display: inline;
+}
+#upprod{
+    width: 20vw;
+}
+.light{
+    color: rgba(255, 255, 255, 0.8);
+    list-style: none;
+}
+.dark{
+    color: #000;
 }

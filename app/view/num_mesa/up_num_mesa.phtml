@@ -1,0 +1,52 @@
+<?php
+
+use core\util\Session;
+
+// if (!isset($_SESSION)) session_start();
+?>
+<section class="pb_section pt-0 pb-0" id="section-contact">
+    <div class="d-flex">
+        <div class="pb_half py-5">
+
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-12 text-center">
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Alterar o Numero da Mesa</h2>
+                    <p class="text-center">Caso queira alterar o numero de alguma mesa, é possivel faze-lo por aqui!!</p>
+                    <?php if (is_null($this->msg)) { } else {
+                        ?><h3 id="msg"><?= $this->msg ?></h3>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=NumMesaCtr&method=run&action=update">                    
+                <input type="hidden" value="<?=$this->num_mesa->getId()?>" name="id">                 
+                    <div class="form-row p-r-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nome_categoria">Categoria:</label>
+                                
+                                <input type="number" value="<?=$this->num_mesa->getNum_mesa()?>" class="form-control rounded-0" name="numero_mesa" maxlength="4" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nome_categoria">Ocupada:</label>
+                                
+                                <input type="text" value="<?=$this->num_mesa->getMesa_ocupada()?>" class="form-control rounded-0" name="mesa_ocupada" id="mesa_ocupada" maxlength="1" required data-toggle="tooltip" data-placement="top" title="L de Livre e O de ocupada!!!">
+                            </div>
+                        </div>                        
+                    </div>                            
+                    <div class="form-row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -2,17 +2,20 @@
 
 namespace app\view\dashboard;
 
+use app\dao\MesaDao;
 use app\dao\PessoaJuridicaDao;
 use app\dao\VendasDao;
 use ArrayObject;
 use core\dao\Connection;
 use core\mvc\view\HtmlPage;
+use core\util\Session;
 use TCPDF;
 
 final class DashboardView extends HtmlPage
 {
 
     protected $vendas;
+    protected $mesas;
     protected $msg;
 
     public function __construct()
@@ -20,6 +23,7 @@ final class DashboardView extends HtmlPage
         $this->connection = Connection::getConnection();
         $this->htmlFile = 'app/view/dashboard/dashboard_view.phtml';
         $this->showVendas();
+        $this->showMesas();
     }
 
     public function renderHeader()
@@ -45,6 +49,14 @@ final class DashboardView extends HtmlPage
         $result = $rest->select();
         $this->setVendas($result);
     }
+
+    public function showMesas()
+    {
+        $rest = new MesaDao($this->connection);
+        $result = $rest->select("id_restaurante = " .Session::getSession('active_user')->getId());
+        $this->setMesas($result);
+    }
+
 
     public function pdf()
     {
@@ -165,11 +177,6 @@ final class DashboardView extends HtmlPage
         return $data;
     }
 
-    // Colored table
-    public function ColoredTable($header, $data)
-    { }
-
-
 
     /**
      * Get the value of msg
@@ -207,6 +214,26 @@ final class DashboardView extends HtmlPage
     public function setVendas($vendas)
     {
         $this->vendas = $vendas;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of mesas
+     */ 
+    public function getMesas()
+    {
+        return $this->mesas;
+    }
+
+    /**
+     * Set the value of mesas
+     *
+     * @return  self
+     */ 
+    public function setMesas($mesas)
+    {
+        $this->mesas = $mesas;
 
         return $this;
     }

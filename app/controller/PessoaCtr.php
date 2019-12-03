@@ -14,7 +14,7 @@ use core\Application;
 use core\mvc\view\Message;
 use core\util\Session;
 use app\view\Home;
-use app\model\EnderecoModel;
+
 use app\dao\PessoaFisicaDao;
 use app\dao\PessoaJuridicaDao;
 use app\view\dashboard\DashboardView;
@@ -24,6 +24,8 @@ use app\model\CargoModel;
 use app\dao\CargoDao;
 use app\dao\FuncionarioDao;
 use app\view\funcionario\NewFuncionarioView;
+use app\view\restaurante\RestDados;
+use Exception;
 
 class PessoaCtr extends Controller
 {
@@ -39,10 +41,10 @@ class PessoaCtr extends Controller
         $this->view = new UserView();
         $this->newUserView = new NewUserView();
         $this->connection = Connection::getConnection();
-        //$this->dao = new PessoaDao($connection);
+        $this->dao = new PessoaDao($this->connection);
         $this->list = null; //..view to query the users
         //..verify if show a view do perform a new user or update a user
-        $this->action = isset($this->get['action']) ? $this->get['action'] : 'update';
+        $this->action = isset($this->get['action']) ? $this->get['action'] : '';
     }
 
     public function showView()
@@ -77,7 +79,7 @@ class PessoaCtr extends Controller
                     $this->post['descricao'],
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
-                    'I',
+                    $this->post['status'] == null ? 'I' : 'A',
                     'Juridica',
                     $this->post['imagem'],
                     $this->post['id']
@@ -124,6 +126,7 @@ class PessoaCtr extends Controller
                     new CargoModel($this->post['cargo'], null),
                     $this->post['salario'],
                     $this->post['id_juridica'],
+                    $this->post['cpf'],
                     $this->post['login_pessoa'],
                     $this->post['senha_pessoa'],
                     'I',
@@ -156,17 +159,17 @@ class PessoaCtr extends Controller
                 //caso seja juridica
                 if ($model->getTipo_pessoa() == "Juridica") {
                     $Juridica = new PessoaJuridicaDao($this->connection);
-                    $result = $Juridica->insert($model);
+                    $Juridica->insert($model);
                 }
                 //caso seja Fisica 
                 else if ($model->getTipo_pessoa() == "Fisica") {
                     $Fisica =  new PessoaFisicaDao($this->connection);
-                    $result = $Fisica->insert($model);
+                    $Fisica->insert($model);
                 }
                 //caso seja funcionario
                 else if ($model->getTipo_pessoa() == "Funcionario") {
                     $Funcionario = new FuncionarioDao($this->connection);
-                    $result = $Funcionario->insert($model);
+                    $Funcionario->insert($model);
                 }
 
                 //para cada tipo de usuario sera enviado um e-mail diferente    
@@ -201,6 +204,7 @@ class PessoaCtr extends Controller
                 Application::sendEmail($model->getEmail_pessoa(), 'Ativação de Cadastro', $msg);
 
                 if ($model->getTipo_pessoa() == "Funcionario") {
+
                     $func = new NewFuncionarioView();
                     $func->setMsg("Cadastro efetuado com sucesso!!!");
                     $func->show();
@@ -212,7 +216,55 @@ class PessoaCtr extends Controller
                 (new Message(null, Application::$MSG_ERROR, Application::$ICON_ERROR))->show();
             }
         } else {
-            parent::insertUpdate();
+            try {               
+                //pega os dados do formulario new_user_view
+                $model = $this->getModelFromView();
+
+                //caso seja juridica
+                if ($model->getTipo_pessoa() == "Juridica") {
+                    $Juridica = new PessoaJuridicaDao($this->connection);
+                    $Juridica->update($model);
+
+                    $a = (new DashboardCtr());
+                    $a->setAction("show");                    
+                    $a->showView();
+                
+                    // $jur = new RestDados();
+                    // $jur->setMsg("Seus dados foram alterados com sucesso!!!");
+                    // $jur->show();
+                }
+                //caso seja Fisica 
+                else if ($model->getTipo_pessoa() == "Fisica") {
+                    $Fisica =  new PessoaFisicaDao($this->connection);
+                    $Fisica->update($model);
+                }
+                //caso seja funcionario
+                else if ($model->getTipo_pessoa() == "Funcionario") {
+
+                    $Funcionario = new FuncionarioDao($this->connection);
+                    $Funcionario->update($model);
+                }
+            } catch (Exception $ex) { 
+
+            }
+        }
+    }
+
+    public function delete()
+    {
+        try {
+            if (isset($this->get['id'])) {
+                $id = $this->get['id'];
+                $this->dao->delete($id);
+
+                $this->mesa->setMsg("Mesa deletada com sucesso!!!");
+                $this->action = "show";
+                $this->showView();
+            }
+        } catch (\Throwable $th) {
+            $this->nesa->setMsg("Erro ao deletar Mesa!!");
+            $this->action = "show";
+            $this->showView();
         }
     }
 

@@ -1,4 +1,4 @@
-<h1 class="text-center p-b-50">Funcionarios cadastrados no estabelecimento</h1>
+<h1 class="text-center p-b-50">Cargos cadastrados no estabelecimento</h1>
 
 <?php if (is_null($this->msg)) { } else {
     ?><h3 class="text-center p-b-10" id="msg"><?= $this->msg ?></h3>
@@ -29,8 +29,10 @@
 
                         <td id="id" class="text-center"> <?= $row->getId() ?></td>
                         <td class="text-center"> <?= $row->getNome_cargo() ?></td>
-                        <td class="text-center"><a href="#" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
-                        <td class="text-center"><a href="#" id="excluir" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+
+                        <td class="text-center"><a  href="Request.php?class=CargoCtr&method=showView&id=<?= $row->getId() ?>" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
+
+                        <td class="excluir text-center" caminho="Request.php?class=CargoCtr&method=delete&id=<?= $row->getId() ?>"><a href="#" id="excluir" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
 
                     </tr>
                 <?php } ?>
@@ -41,6 +43,6 @@
 
 
     <?php } else { ?>
-        <p class="text-center">Sem Funcionarios Ainda</p>
+        <p class="text-center">Sem Cargos Ainda</p>
     <?php } ?>
     </div>

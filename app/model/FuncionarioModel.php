@@ -10,6 +10,7 @@ class FuncionarioModel extends PessoaModel
     protected $id_pessoa;
     protected $salario;
     protected $id_juridica;
+    protected $cpf_funcionario;
 
     public function __construct(
         $id = null,
@@ -27,7 +28,7 @@ class FuncionarioModel extends PessoaModel
         CargoModel $cargo = null,
         $salario = null,
         $id_juridica = null,
-
+        $cpf_funcionario = null,
         $login_pessoa = null,
         $senha_pessoa = null,
         $status =  null,
@@ -54,6 +55,8 @@ class FuncionarioModel extends PessoaModel
         $this->salario = $salario;
         $this->cargo = is_null($cargo) ? new CargoModel() : $cargo;
         $this->id_juridica = $id_juridica;
+        $this->cpf_funcionario = $cpf_funcionario;
+
     }
 
     /**
@@ -112,6 +115,26 @@ class FuncionarioModel extends PessoaModel
     public function setSalario($salario)
     {
         $this->salario = $salario;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cpf_funcionario
+     */ 
+    public function getCpf_funcionario()
+    {
+        return $this->cpf_funcionario;
+    }
+
+    /**
+     * Set the value of cpf_funcionario
+     *
+     * @return  self
+     */ 
+    public function setCpf_funcionario($cpf_funcionario)
+    {
+        $this->cpf_funcionario = $cpf_funcionario;
 
         return $this;
     }

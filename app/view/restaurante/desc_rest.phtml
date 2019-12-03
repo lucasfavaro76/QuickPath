@@ -30,11 +30,11 @@ use core\util\Session;
 
 </section>
 
-<ul class="nav justify-content-center pb_tab_v1" id="myTab" role="tablist">
+<ul class="nav justify-content-center pb_tab_v1 myTab" id="myTab" role="tablist">
 
     <?php foreach ($this->categorias as $cat) { ?>
-        <li class="nav-item">
-            <a class="nav-link active p-3" id="home-tab" data-toggle="tab" href="#<?= $cat->getNome_categoria() ?>" role="tab" aria-controls="<?= $cat->getNome_categoria() ?>" aria-selected="true"><?= $cat->getNome_categoria() ?></a>
+        <li class="test nav-item">
+            <a id="nav" class="nav-link active p-3" id="home-tab" data-toggle="tab" href="#<?= $cat->getNome_categoria() ?>" role="tab" aria-controls="<?= $cat->getNome_categoria() ?>" aria-selected="true"><?= $cat->getNome_categoria() ?></a>
         </li>
     <?php } ?>
 
@@ -46,19 +46,27 @@ use core\util\Session;
 
         <div class="tab-pane" id="<?= $cat->getNome_categoria() ?>" role="tabpanel" aria-labelledby="home-tab">
 
-            <div class="row">
+            <div class="prod row">
 
                 <?php foreach ($this->produtos as $prod) {
                         if ($cat->getNome_categoria() == $prod->getCategoria()->getNome_categoria()) { ?>
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <ul class="list-unstyled pb_food-menu">
-                                <li>
-                                    <div class="row prod">
-                                        <div class="prod col-md-4 col-lg-4">
-                                            <h3 class="pb_font-18 font-weight-bold"><?= $prod->getNome_produto() ?></h3>
-                                            <p class="mb-0"></p>
+                                <li class="align-middle inline">
+                                    <div class="row prod align-items-center">
+                                        <div class="col-md-4 col-lg-4">
+                                            <a class="image" href="app/img/<?= $prod->getImagem() ?>">
+                                                <img id="imgprod" src="app/img/<?= $prod->getImagem() ?>">
+                                            </a>
                                         </div>
-                                        <div class="col-md-4 col-lg-4"><span class="price"><sup>$</sup><?= $prod->getPreco_produto() ?></span></div>
+                                        <div class="col-md-4 cardtext col-lg-4">
+                                            <h3 class=" pb_font-18 font-weight-bold"><?= $prod->getNome_produto() ?></h3>
+
+                                        </div>
+                                        <div class="col-md-4 cardtext col-lg-4">
+                                            <div class=""><span class="price "><sup>$</sup><?= $prod->getPreco_produto() ?></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -73,46 +81,52 @@ use core\util\Session;
     <?php } ?>
 
 </div>
+<?php if (Session::getSession('active_user') != null) { ?>
+    <section class="pb_section pt-0 pb-0" id="section-contact">
+        <div class="d-flex">
+            <div class="pb_half py-5">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-md-12 text-center">
+                        <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Reserve sua Mesa</h2>
+                        <p class="text-center">Voçê pode deixar uma mesa resevada!! Ela ficara reservada no nome de <?= Session::getSession('active_user')->getNome_pessoa() ?></p>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=MesaCtr&method=run&action=new">
 
-<section class="pb_section pt-0 pb-0" id="section-contact">
-    <div class="d-flex">
-        <div class="pb_half py-5">
-            <div class="row justify-content-center mb-5">
-                <div class="col-md-12 text-center">
-                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Reserve sua Mesa</h2>
-                    <p class="text-center"></p>
+                        <input type="hidden" id="id" name="id">
+                        <input type="hidden" name="id_func">
+                        <input type="hidden" value="<?= $this->desc->getId() ?>" name="id_restaurante" id="id_restaurante">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="numero_mesa">Mesas Disponiveis</label>
+                                    <select class="form-control" name="numero_mesa" id="numero_mesa">
+                                        <option value="0">Selecione uma mesa</option>
+                                        <?php foreach ($this->mesas as $row) { ?>
+                                            <option value="<?= $row->getId() ?>">Numero <?= $row->getNum_mesa() ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <input type="hidden" name="command" value="Salvar">
+
+                                    <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" value="Reservar">
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=CategoriaCtr&method=run&action=new">
-                    <input type="hidden" name="id" id="id">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="numero_mesa">Mesas Disponiveis</label>
-                                <select class="form-control" name="numero_mesa" id="numero_mesa">
-                                    <option value="0">Selecione uma mesa</option>
-                                    <?php foreach ($this->mesas as $row) { ?>
-                                        <option value="<?= $row->getId() ?>"><?= $row->getNum_mesa() ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
-                            </div>
-
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
-    </div>
 
-</section>
-
-
+    </section>
+<?php } else {
+    ?> <p class="text-center">Faça login para resevar sua mesa</p>
+<?php } ?>
 <!-- END section -->

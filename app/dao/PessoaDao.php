@@ -70,19 +70,27 @@ class PessoaDao implements IDao
 
     public function update(PessoaModel $model = null)
     {
-        try {
-            $connection = Connection::getConnection();
-            $sql = "update \"user\" set name = :name, gender = :gender, email = :email, 
-                    password = :password, status = :status, type = :type, photo = :photo 
-                    where id = :id";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":name", $model->getName());
-            $stmt->bindValue(":gender", $model->getGender());
-            $stmt->bindValue(":email", $model->getEmail());
-            $stmt->bindValue(":password", md5($model->getPassword())); //..hash md5 to protect the password
+        try {           
+            $sql = "update pessoa set nome_pessoa = :nome_pessoa, telefone_pessoa = :telefone_pessoa, celular_pessoa = :celular_pessoa, email_pessoa = :email_pessoa, cep = :cep, logradouro = :logradouro, numero = :numero, complemento = :complemento, bairro = :bairro, cidade = :cidade, uf = :uf, login_pessoa = :login_pessoa, senha_pessoa = md5(:senha_pessoa), status = :status , tipo_pessoa = :tipo_pessoa where id_pessoa = :id";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":nome_pessoa", $model->getNome_pessoa());
+            $stmt->bindValue(":telefone_pessoa", $model->getTelefone_pessoa());
+            $stmt->bindValue(":celular_pessoa", $model->getCelular_pessoa());
+            $stmt->bindValue(":email_pessoa", $model->getEmail_pessoa());
+            $stmt->bindValue(":cep", $model->getCep());
+            $stmt->bindValue(":logradouro", $model->getLogradouro());
+            $stmt->bindValue(":numero", $model->getNumero());
+            $stmt->bindValue(":complemento", $model->getComplemento());
+            $stmt->bindValue(":bairro", $model->getBairro());
+            $stmt->bindValue(":cidade", $model->getCidade());
+            $stmt->bindValue(":uf", $model->getUf());
+            $stmt->bindValue(":login_pessoa", $model->getLogin_pessoa());
+            $stmt->bindValue(":senha_pessoa", md5($model->getSenha_pessoa())); //..hash md5 to protect 
             $stmt->bindValue(":status", $model->getStatus());
-            $stmt->bindValue(":type", $model->getType());
-            $stmt->bindValue(":photo", $model->getPhoto());
+            $stmt->bindValue(":tipo_pessoa", $model->getTipo_pessoa());
+            $stmt->bindValue(":id", $model->getId());
+            $stmt->execute();
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -109,7 +117,6 @@ class PessoaDao implements IDao
     public function delete($id)
     {
         try {
-            $connection = Connection::getConnection();
             $sql = "delete from pessoa where id_pessoa = :id_pessoa";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":id_pessoa", $id);
@@ -124,25 +131,22 @@ class PessoaDao implements IDao
     public function VeficaCampo($campo = null, $valor = null)
     {
         try {
-            if ($campo == "login_pessoa" ) {
+            if ($campo == "login_pessoa") {
                 $sql = "select login_pessoa from pessoa where login_pessoa = :valor";
-            } else if($campo == "cpf_fisica"){
+            } else if ($campo == "cpf_fisica") {
                 $sql = "select cpf_fisica from pessoa p inner join pessoa_fisica pf on p.id_pessoa = pf.id_pessoa where pf.cpf_fisica = :valor";
             }
 
-            $stmt = $this->connection->prepare($sql);                              
+            $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":valor", $valor);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
 
-            if($result){
+            if ($result) {
                 return "exite";
-            }else{
+            } else {
                 return "nao existe";
             }
-
-            
-
         } catch (\Exception $ex) {
             throw $ex;
         }
@@ -152,21 +156,30 @@ class PessoaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from \"user\" where id = :id";
+            $sql = "select * from pessoa where id_pessoa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new UserModel(
-                    $result['id'],
-                    $result['name'],
-                    $result['gender'],
-                    $result['email'],
+                return new PessoaModel(
+                    $result['id_pessoa'],
+                    $result['nome_pessoa'],
+                    $result['telefone_pessoa'],
+                    $result['celular_pessoa'],
+                    $result['email_pessoa'],
+                    $result['cep'],
+                    $result['logradouro'],
+                    $result['numero'],
+                    $result['complemento'],
+                    $result['bairro'],
+                    $result['cidade'],
+                    $result['uf'],
+                    $result['login_pessoa'],
+                    $result['senha_pessoa'],
                     $result['status'],
-                    $result['type'],
-                    $result['photo']
+                    $result['tipo_pessoa']
                 );
             } else {
                 return null;
@@ -200,7 +213,7 @@ class PessoaDao implements IDao
                 $list = new \ArrayObject();
                 foreach ($result as $row) {
                     $list->append(
-                        new CategoryModel(
+                        new PessoaModel(
                             $row['id'],
                             $row['name'],
                             $row['gender'],

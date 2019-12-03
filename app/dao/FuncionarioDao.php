@@ -18,13 +18,14 @@ final class FuncionarioDao extends PessoaDao
         try {
             $this->connection->beginTransaction();
             $id = parent::insert($model);
-            $sql = "insert into funcionario (id_funcionario, id_cargo, salario ,id_restaurante) 
-            values (:id_pessoa, :id_cargo, :salario ,:id_restaurante)";
+            $sql = "insert into funcionario (id_funcionario, id_cargo, salario ,id_restaurante, cpf_funcionario) 
+            values (:id_pessoa, :id_cargo, :salario ,:id_restaurante,:cpf_funcionario)";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindValue(":id_pessoa", $id);
             $stmt->bindValue(":id_cargo", $model->getCargo()->getId());
             $stmt->bindValue(":salario", $model->getSalario());
             $stmt->bindValue(":id_restaurante", $model->getId_juridica());
+            $stmt->bindValue(":cpf_funcionario", $model->getCpf_funcionario());
             $stmt->execute();
             $this->connection->commit();
         } catch (\Exception $ex) {
@@ -59,45 +60,58 @@ final class FuncionarioDao extends PessoaDao
         }
     }
     public function delete($id)
-    {     
+    {
 
-            try {
-                $this->connection->beginTransaction();
-                
-                $sql = "delete from funcionario where id_funcionario = :id_pessoa";
-                $stmt = $this->connection->prepare($sql);
-                $stmt->bindValue(":id_pessoa", $id);               
-                $stmt->execute();
-                
-                parent::delete($id);
-                $this->connection->commit();
-            } catch (\Exception $ex) {
-                $this->connection->rollBack();
-                throw $ex;
-            } finally {
-                $connection = null;
-            }         
+        try {
+
+            $this->connection->beginTransaction();
+            $sql = "delete from funcionario where id_funcionario = :id_pessoa";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":id_pessoa", $id);
+            $stmt->execute();
+
+            parent::delete($id);
+
+            $this->connection->commit();
+        } catch (\Exception $ex) {
+            $this->connection->rollBack();
+            throw $ex;
+        } finally {
+            $connection = null;
+        }
     }
 
     public function findById($id)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from \"user\" where id = :id";
+            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_juridica  where id_pessoa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new UserModel(
-                    $result['id'],
-                    $result['name'],
-                    $result['gender'],
-                    $result['email'],
+                return new PessoaJuridicaModel(
+                    $result['id_pessoa'],
+                    $result['nome_pessoa'],
+                    $result['telefone_pessoa'],
+                    $result['celular_pessoa'],
+                    $result['email_pessoa'],
+                    $result['cep'],
+                    $result['logradouro'],
+                    $result['numero'],
+                    $result['complemento'],
+                    $result['bairro'],
+                    $result['cidade'],
+                    $result['uf'],
+                    (new CargoDao($this->connection))->findById($result['id_cargo']),
+                    $result['salario'],
+                    $result['id_restaurante'],
+                    $result['login_pessoa'],
+                    null,
                     $result['status'],
-                    $result['type'],
-                    $result['photo']
+                    $result['tipo_pessoa'],
                 );
             } else {
                 return null;
@@ -146,11 +160,12 @@ final class FuncionarioDao extends PessoaDao
                             $row['uf'],
                             (new CargoDao($this->connection))->findById($row['id_cargo']),
                             $row['salario'],
-                            $row['id_restaurante'],                        
+                            $row['id_restaurante'],
+                            $row['cpf_funcionario'],
                             $row['login_pessoa'],
                             null,
                             $row['status'],
-                            $row['tipo_pessoa'],                           
+                            $row['tipo_pessoa'],
                         )
                     );
                 }

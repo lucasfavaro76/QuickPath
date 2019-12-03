@@ -8,6 +8,7 @@ use core\mvc\Controller;
 use app\view\funcionario\FuncionarioView;
 use app\view\funcionario\NewFuncionarioView;
 use core\dao\Connection;
+use core\util\Session;
 
 class FuncCtr extends Controller
 {
@@ -17,6 +18,7 @@ class FuncCtr extends Controller
     protected $func;
     protected $session;
     protected $connection;
+    protected $action;
     public function __construct()
     {
         parent::__construct();
@@ -25,18 +27,20 @@ class FuncCtr extends Controller
         $this->session = session_start();
         $this->func = new FuncionarioView();
         $this->viewFunc = new NewFuncionarioView();
-       
+        $this->action = isset($this->get['action']) ? $this->get['action'] : '';
     }
 
     public function showView()
     {
-        $this->viewFunc->show();
+        if ($this->action == "new") {
+            $this->viewFunc->show();
+        } else if ($this->action == "show") {
+            $func = $this->dao->select("id_restaurante = " . Session::getSession('active_user')->getId());
+            $this->func->setFuncs($func);
+            $this->func->show();
+        }
     }
 
-    public function func()
-    {
-        $this->func->show();
-    }
 
     public function getModelFromView()
     { }
@@ -48,16 +52,16 @@ class FuncCtr extends Controller
             if (!is_null($this->get['id'])) {
                 $id = $this->get['id'];
                 $this->dao->delete($id);
-                //..set the variable to show a javascript alert in client.           
-                //..in this case, our view will be loaded after the insertion, because a list with current date flow must be show.
+
+
                 $this->func->setMsg("Funcionario inativado");
-                //..show the view
-                $this->func();
+                $this->action = "show";
+                $this->showView();
             }
         } catch (\Exception $ex) {
             $this->func->setMsg("Erro ao inativar funcionario");
-            //..show the view
-            $this->func();
+            $this->action = "show";
+            $this->showView();
         }
     }
 }

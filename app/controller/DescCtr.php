@@ -26,7 +26,7 @@ class DescCtr extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->id = $this->get['rest'];
+        
         $this->session = session_start();
         $this->view = new DescRestView();
         $this->connection = Connection::getConnection();
@@ -34,6 +34,7 @@ class DescCtr extends Controller
 
     public function showView()
     {   
+        $this->id = $this->get['rest'];
         $this->view->showRest($this->id); 
         $this->view->showProd($this->id);
         $this->view->showMesas($this->id);

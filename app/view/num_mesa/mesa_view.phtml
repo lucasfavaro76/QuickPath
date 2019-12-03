@@ -31,9 +31,10 @@
                         <td id="id" class="text-center"> <?= $row->getId() ?></td>
                         <td class="text-center"> <?= $row->getNum_mesa() ?></td>
                         <td class="text-center"> <?= $row->getMesa_ocupada() ?></td>
-                        <td class="text-center"><a href="#" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
+                        
+                        <td class="text-center"><a href="Request.php?class=NumMesaCtr&method=showView&id=<?= $row->getId() ?>" id="alterar" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
 
-                        <td class="text-center"><a href="#" caminho="Request.php?class=NumMesaCtr&method=delete&id=<?= $row->getId() ?>" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+                        <td class="excluir" class="text-center" caminho="Request.php?class=NumMesaCtr&method=delete&id=<?= $row->getId() ?>"><a href="#"  class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
 
                     </tr>
                 <?php } ?>

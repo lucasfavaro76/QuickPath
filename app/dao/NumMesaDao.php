@@ -55,14 +55,14 @@ class NumMesaDao implements IDao
         }
     }
 
-    public function update(CargoModel $model = null)
+    public function update(NumMesaModel $model = null)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "update cargo set nome_cargo = :nome_cargo where id_cargo = :id";
-            $stmt = $connection->prepare($sql);
+            $sql = "update num_mesa set numero_mesa = :numero_mesa where id_num_mesa = :id";
+            $stmt = $connection->prepare($sql);           
+            $stmt->bindValue(":numero_mesa", $model->getNum_mesa());
             $stmt->bindValue(":id", $model->getId());
-            $stmt->bindValue(":nome_cargo", $model->getNome_cargo());
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -94,16 +94,18 @@ class NumMesaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from cargo where id_cargo = :id";
+            $sql = "select * from num_mesa where id_num_mesa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new CategoriaModel(
-                    $result['id'],
-                    $result['nome_cargo']
+                return new NumMesaModel(
+                    $result['id_num_mesa'],
+                    $result['numero_mesa'],
+                    $result['id_restaurante'],
+                    $result['mesa_ocupada']
                 );
             } else {
                 return null;

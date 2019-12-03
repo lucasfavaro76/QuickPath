@@ -4,28 +4,13 @@
 namespace app\controller;
 
 use core\mvc\Controller;
-use app\view\pessoa\NewUserView;
-use app\view\pessoa\UserView;
-use app\dao\PessoaDao;
-use app\model\PessoaFisicaModel;
-use app\model\PessoaJuridicaModel;
-use app\model\PessoaModel;
-use core\Application;
-use core\mvc\view\Message;
 use core\util\Session;
-use app\view\Home;
-use app\model\EnderecoModel;
-use app\dao\PessoaFisicaDao;
-use app\dao\PessoaJuridicaDao;
-use app\view\dashboard\DashboardView;
 use core\dao\Connection;
-use app\model\FuncionarioModel;
 use app\model\CargoModel;
-use app\view\pessoa\NewFuncionarioView;
 use app\dao\CargoDao;
-use app\dao\FuncionarioDao;
 use app\view\cargo\CargoView;
 use app\view\cargo\NewCargoView;
+use app\view\cargo\UpCargo;
 
 class CargoCtr extends Controller
 {
@@ -33,6 +18,8 @@ class CargoCtr extends Controller
     private $cargoView;
     protected $cargo;
     private $session;
+    protected $dao;
+    protected $upcargo;
 
     public function __construct()
     {
@@ -40,17 +27,27 @@ class CargoCtr extends Controller
         $this->session = session_start();
         $this->cargoView = new NewCargoView();
         $this->cargo = new CargoView();
+        $this->upcargo = new UpCargo();
         $this->connection = Connection::getConnection();
+        $this->dao = new CargoDao($this->connection);
         //..verify if show a view do perform a new user or update a user
-        $this->action = isset($this->get['action']) ? $this->get['action'] : 'update';
+        $this->action = isset($this->get['action']) ? $this->get['action'] : '';
     }
 
     public function showView()
     {
         if ($this->action == 'new') {
             $this->cargoView->show();
-        } else
+        } else if ($this->action == 'show') {
+            $cargo = $this->dao->select("id_restaurante = " . Session::getSession('active_user')->getId());
+            $this->cargo->setCargos($cargo);
             $this->cargo->show();
+        }else{
+            $id = $this->get['id'];
+            $cargos = $this->dao->findById($id);
+            $this->upcargo->setCargo($cargos);
+            $this->upcargo->show();
+        }
     }
 
     public function getModelFromView()
@@ -74,16 +71,58 @@ class CargoCtr extends Controller
                 $cargo = new CargoDao($this->connection);
                 $cargo->insert($model);
 
-                $cargo = new NewCargoView();
-                $cargo->setMsg("Cargo cadastrado com sucesso!!!");
-                $cargo->show();
+                $this->cargoView->setMsg("Cargo cadastrado com sucesso!!!");
+                $this->action = "new";
+                $this->showView();
             } catch (\Exception $ex) {
-                $cargo = new NewCargoView();
-                $cargo->setMsg("Problemas ao cadastrar cargo" . $ex);
-                $cargo->show();
+
+                $this->cargoView->setMsg("Problemas ao cadastrar cargo" . $ex);
+                $this->action = "new";
+                $this->showView();
             }
         } else {
-            parent::insertUpdate();
+            try {
+                $model = $this->getModelFromView();
+                $this->dao->update($model);
+
+                $this->cargo->setMsg("Cargo alterado com sucesso");
+
+                $this->action = "show";
+                $this->showView();
+            } catch (\Throwable $th) {
+
+                $this->cargo->setMsg("Problemas ao alterar cargo");
+
+                $this->action = "show";
+                $this->showView();
+            }
+        }
+    }
+
+    public function delete()
+    {
+        try {
+            if (isset($this->get['id'])) {
+                $id = $this->get['id'];
+
+                $this->dao->delete($id);
+
+
+                $this->cargo->setMsg("Cargo deletado com sucesso!!!");
+                $this->action = "show";
+                $this->showView();
+            }
+        } catch (\Throwable $th) {
+            
+            if ($th->getCode() == 23503) {
+                $this->cargo->setMsg("Essa cargo ja esta ligado a um funcionario!!!");
+                $this->action = "show";
+                $this->showView();
+            } else {
+                $this->cat->setMsg("Erro ao deletar cargo!!!");
+                $this->action = "show";
+                $this->showView();
+            }
         }
     }
 }
