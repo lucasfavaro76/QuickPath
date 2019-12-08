@@ -9,7 +9,7 @@ use core\util\Session;
     <div class="d-flex">
         <div class="pb_half py-5">
 
-            <div class="row justify-content-center mb-5">
+            <div class="row  justify-content-center mb-5">
                 <div class="col-md-12 text-center">
                     <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Funcionario</h2>
                     <p class="text-center">Por aqui é possivel adicionar novos funcionario que trabalham ou trabalharão em seu estabelecimento!!</p>
@@ -19,114 +19,168 @@ use core\util\Session;
                 </div>
             </div>
 
-            <div class="row justify-content-md-center">
+            <div class=" justify-content-md-center">
 
 
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=new">
+                <form method="post" enctype="multipart/form-data" class="cadastro needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=new">
+                
                     <input id="tipo" name="tipo" type="hidden" value="Funcionario">
                     <input type="hidden" name="id" id="id">
                     <input type="hidden" name="id_pessoa" id="id_pessoa">
                     <input type="hidden" value="<?= Session::getSession('active_user')->getId() ?>" name="id_juridica" id="juridica">
-                    <div class="row cadastro">
-                        <div class="col-md">
+
+                    <div class="form-row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="name">Nome:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um nome valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50">
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="celular">Celular:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um celular valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md">
+                    <div class="form-row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um e-mail valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="cep">Cep:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um cep valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="logradouro">Logradouro:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um logradouro valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="numero">Numero:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um numero valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="complemento">Complemento:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50" required>
+
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="bairro">Bairro:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um bairro valido!! (minimo 6)
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md">
+                    <div class="form-row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cidade">Cidade:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite uma cidade valida!! (minimo 6)
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="uf">Estado:</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="uf" id="uf" maxlength="50" required>
                             </div>
                         </div>
-                        <div class="col-md p-t-10">
-                            <div class="cnpj invisible">
-                                <div class="custom-file">
-                                    <input type="file" value="" class="custom-file-input" id="image" name="image">
-                                    <label class="custom-file-control" for="image">Selecione uma Imagem</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md">
+                    <div class="form-row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <div class="cpf">
                                     <label for="cpf ">CPF:</label>
-                                    <input type="text" class="form-control p-2 rounded-0" name="cpf" id="cpf" minlength="14" required>
+                                    <input type="text" class="form-control p-2 rounded-0 cpf" name="cpf" id="cpf" minlength="14" required>
+                                    <!-- <div class="valid-feedback">
+                                        Muito Bom!!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Digite um cpf valido!! (minimo 6)
+                                    </div> -->
+                                    <div class="valido" id="valid_cpf"></div>
+                                    <div class="invalido" id="invalid_cpf"></div>
+                                    
+                                    <div class="valido" id="cpf_valido"></div>
+                                    <div class="invalido" id="cpf_invalido"></div>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="category">Cargo:</label>
                                 <select class="form-control p-2 rounded-0" name="cargo" id="cargo" required>
-                                    <option value="0" selected>Selecione um cargo</option>
+                                    <option value="" selected>Selecione um cargo</option>
                                     <?php
                                     if (!is_null($this->cargo)) {
                                         foreach ($this->cargo as $cargo) {
@@ -139,40 +193,69 @@ use core\util\Session;
                                     <?php
                                     }
                                     ?>
-                                </select><br>
+                                </select>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Selecione um cargo valido!! (minimo 6)
+                                </div><br>
 
                             </div>
                         </div>
 
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
 
                                 <label for="salario">Salario:</label>
                                 <input type="number" step="0.01" class="form-control p-2 rounded-0" name="salario" id="salario" maxlength="50" required>
-
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um salario valido!!
+                                </div>
 
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md">
+                    <div class="form-row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="login_pessoa">Login</label>
                                 <input type="text" class="form-control p-2 rounded-0" name="login_pessoa" id="login_pessoa" required>
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite um login valido!! (minimo 6)
+                                </div>
+                               
+                                
+                                <div class="valido" id="valid"></div>
+                                <div class="invalido" id="invalid"></div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
 
                                 <label for="senha_pessoa">Senha</label>
-                                <input type="password" id="senha" class="form-control p-2 rounded-0" name="senha_pessoa" id="senha_pessoa" required> <!-- don't show the password -->
+                                <input type="password" id="senha" class="form-control p-2 rounded-0" name="senha_pessoa" minlength="8" id="senha_pessoa" required>
+                                <!-- don't show the 
+                                password -->
+                                <div class="valid-feedback">
+                                    Muito Bom!!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Digite uma senha valido!! (minimo 8)
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="senha_pessoa">Confirme Senha</label>
-                                <input type="password" id="confSenha" class="form-control p-2 rounded-0" required> <!-- don't show the password -->
+                                <input type="password" minlength="8" id="confSenha" class="form-control p-2 rounded-0" required> <!-- don't show the password -->
 
                                 <div class="valido p-t-5" id="senha_valida">
 
@@ -186,7 +269,7 @@ use core\util\Session;
 
                     </div>
                     <div class="row">
-                        <div class="col-md">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">
                             </div>

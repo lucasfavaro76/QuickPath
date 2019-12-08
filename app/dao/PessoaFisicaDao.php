@@ -36,20 +36,24 @@ final class PessoaFisicaDao extends PessoaDao
     public function update(PessoaModel $model = null)
     {
         try {
-            $connection = Connection::getConnection();
-            $sql = "update \"user\" set name = :name, gender = :gender, email = :email, 
-                    password = :password, status = :status, type = :type, photo = :photo 
-                    where id = :id";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":name", $model->getName());
-            $stmt->bindValue(":gender", $model->getGender());
-            $stmt->bindValue(":email", $model->getEmail());
-            $stmt->bindValue(":password", md5($model->getPassword())); //..hash md5 to protect the password
-            $stmt->bindValue(":status", $model->getStatus());
-            $stmt->bindValue(":type", $model->getType());
-            $stmt->bindValue(":photo", $model->getPhoto());
-            return $stmt->execute();
+            $this->connection->beginTransaction();
+            $sql = "update pessoa_fisica set cpf_fisica = :cpf_fisica where id_pessoa = :id";
+
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindValue(":cpf_fisica", $model->getCpf_fisica());
+            $stmt->bindValue(":id", $model->getId());
+
+            if (parent::update($model)) {
+                $stmt->execute();
+                $this->connection->commit();
+                return true;
+            } else {
+                $this->connection->rollBack();
+                return false;
+            }
         } catch (\Exception $ex) {
+            $this->connection->rollBack();
             throw $ex;
         } finally {
             $connection = null;
@@ -72,29 +76,56 @@ final class PessoaFisicaDao extends PessoaDao
     }
 
     public function delete($id)
-    {
-        //..needless    
+    {       
+        try {
+
+            $this->connection->beginTransaction();
+            $sql = "delete from pessoa_fisica where id_pessoa = :id_pessoa";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":id_pessoa", $id);
+            $stmt->execute();
+
+            parent::delete($id);
+
+            $this->connection->commit();
+            
+        } catch (\Exception $ex) {
+            $this->connection->rollBack();
+            throw $ex;
+        } finally {
+            $connection = null;
+        }
     }
 
     public function findById($id)
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from \"user\" where id = :id";
+            $sql = "select * from pessoa p inner join pessoa_fisica pf on p.id_pessoa = pf.id_pessoa  where p.id_pessoa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new UserModel(
-                    $result['id'],
-                    $result['name'],
-                    $result['gender'],
-                    $result['email'],
+                return new PessoaFisicaModel(
+                    $result['id_pessoa'],
+                    $result['nome_pessoa'],
+                    $result['telefone_pessoa'],
+                    $result['celular_pessoa'],
+                    $result['email_pessoa'],
+                    $result['cep'],
+                    $result['logradouro'],
+                    $result['numero'],
+                    $result['complemento'],
+                    $result['bairro'],
+                    $result['cidade'],
+                    $result['uf'],
+                    $result['cpf_fisica'],
+                    $result['login_pessoa'],
+                    $result['senha_pessoa'],
                     $result['status'],
-                    $result['type'],
-                    $result['photo']
+                    $result['tipo_pessoa']
                 );
             } else {
                 return null;
@@ -128,7 +159,7 @@ final class PessoaFisicaDao extends PessoaDao
                 $list = new \ArrayObject();
                 foreach ($result as $row) {
                     $list->append(
-                        new CategoryModel(
+                        new PessoaModel(
                             $row['id'],
                             $row['name'],
                             $row['gender'],
@@ -164,37 +195,6 @@ final class PessoaFisicaDao extends PessoaDao
                 return 0;
         } catch (\Exception $ex) {
             throw $ex;
-        }
-    }
-
-    public function doLogin($email, $password)
-    {
-        try {
-            $connection = Connection::getConnection();
-            $sql = "select * from \"user\" where status = 'A' and upper(email) = upper(:email) and password = md5(:password)";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":email", $email);
-            $stmt->bindValue(":password", $password);
-            $result = $stmt->execute();
-            $result = $stmt->fetchAll();
-            if ($result) {
-                $result = $result[0];
-                return new UserModel(
-                    $result['id'],
-                    $result['name'],
-                    $result['gender'],
-                    $result['email'],
-                    $result['status'],
-                    $result['type'],
-                    $result['photo']
-                );
-            } else {
-                return null;
-            }
-        } catch (\Exception $ex) {
-            throw $ex;
-        } finally {
-            $connection = null;
         }
     }
 }

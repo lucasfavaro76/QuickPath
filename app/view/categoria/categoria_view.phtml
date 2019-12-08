@@ -18,10 +18,10 @@ use core\util\Session;
                 </div>
             </div>
 
-            <div class="row justify-content-md-center">
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=CategoriaCtr&method=run&action=new">                    
+            <div class="justify-content-md-center">
+                <form method="post" enctype="multipart/form-data" class="categoria needs-validation" novalidate action="Request.php?class=CategoriaCtr&method=run&action=new">                    
                     <input type="hidden" name="id" id="id">                    
-                    <div class="row">
+                    <div class="form-row">
                         <div class="col-md-12 col-lg-12">
                             <div class="form-group">
                                 <label for="nome_categoria">Categoria:</label>
@@ -29,7 +29,7 @@ use core\util\Session;
                             </div>
                         </div>                        
                     </div>                            
-                    <div class="row">
+                    <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
                                 <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">

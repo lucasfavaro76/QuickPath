@@ -49,6 +49,8 @@ class DashboardCtr extends Controller
         }
     }
 
+        
+
     public function GerarPdf()
     {
         $this->newDashView->pdf();

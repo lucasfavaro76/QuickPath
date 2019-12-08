@@ -61,8 +61,15 @@ class NumMesaCtr extends Controller
     public function getModelFromView()
     {
         if (!empty($this->post)) {
-            if (isset($this->post['intervalo']) != 0) {
-                $mesa = $this->post['intervalo'];
+            if (isset($this->post['intervalo'])) {
+
+                $intervalo = $this->post['intervalo'];
+
+                if ($intervalo == 0) {
+                    $mesa = $this->post['numero_mesa'];
+                } else {
+                    $mesa = $this->post['intervalo'];
+                }
             } else {
                 $mesa = $this->post['numero_mesa'];
             }
@@ -84,6 +91,7 @@ class NumMesaCtr extends Controller
 
 
                 $tipo = $this->get['tipo'];
+
                 $num_mesa = new NumMesaDao($this->connection);
                 $num_mesa->insert($model, $tipo);
 
@@ -98,7 +106,7 @@ class NumMesaCtr extends Controller
                 $this->showView();
             }
         } else {
-             try {
+            try {
 
                 $model = $this->getModelFromView();
                 $this->dao->update($model);
@@ -106,10 +114,9 @@ class NumMesaCtr extends Controller
                 $this->mesa->setMsg("Mesa alterada com sucesso");
                 $this->action = "show";
                 $this->showView();
-
             } catch (\Throwable $th) {
 
-                $this->mesa->setMsg("Problemas ao alterar mesa ". $th);
+                $this->mesa->setMsg("Problemas ao alterar mesa " . $th);
                 $this->action = "show";
                 $this->showView();
             }
@@ -129,9 +136,15 @@ class NumMesaCtr extends Controller
                 $this->showView();
             }
         } catch (\Throwable $th) {
-            $this->nesa->setMsg("Erro ao deletar Mesa!!");
-            $this->action = "show";
-            $this->showView();
+            if ($th->getCode() == 23503) {
+                $this->mesa->setMsg("Essa mesa ja esta reservada nao é possivel apaga-la!!");
+                $this->action = "show";
+                $this->showView();
+            } else {
+                $this->mesa->setMsg("Erro ao deletar Mesa!!");
+                $this->action = "show";
+                $this->showView();
+            }
         }
     }
 }

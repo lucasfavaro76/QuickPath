@@ -4,24 +4,26 @@
 
             <div class="row justify-content-center mb-5">
                 <div class="col-md-12 text-center">
-                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Usuario</h2>
-                    <a class="botao" name="dsadas" href="#">Cadastrar Restaurante</a>
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Altere seus dados</h2>
+                    <a class="botao" name="" href="#">Cadastrar Restaurante</a>
                 </div>
             </div>
 
-            <div class="justify-content-md-center">
+            <div class=" justify-content-md-center">
 
 
-                <form method="post" enctype="multipart/form-data" class="cadastro needs-validation new_pessoa" novalidate action="Request.php?class=PessoaCtr&method=run&action=new">
+                <form method="post" enctype="multipart/form-data" class="cadastro needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=update">
+
                     <input id="tipo" name="tipo" type="hidden" value="Fisica">
-                    <input type="hidden" name="id" id="id">
-                    <input type="hidden" name="id_pessoa" id="id_pessoa">
+
+                    <input type="hidden" name="id" id="id" value="<?= $this->dados->getId() ?>">
+                    <input type="hidden" name="status" id="status" value="<?= $this->dados->getStatus() ?>">
 
                     <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="name">Nome:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getNome_pessoa() ?>" class="form-control p-2 rounded-0" name="nome_pessoa" id="nome_pessoa" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -33,14 +35,14 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="telefone">Telefone:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50">
+                                <input type="text" value="<?= $this->dados->getTelefone_pessoa() ?>" class="form-control p-2 rounded-0" name="telefone_pessoa" id="telefone" maxlength="50">
 
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="celular">Celular:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getCelular_pessoa() ?>" class="form-control p-2 rounded-0" name="celular_pessoa" id="celular" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -55,7 +57,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="email" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required>
+                                <input type="email" value="<?= $this->dados->getEmail_pessoa() ?>" class="form-control p-2 rounded-0" name="email_pessoa" id="email_pessoa" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -67,7 +69,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="cep">Cep:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getCep() ?>" class="form-control p-2 rounded-0" name="cep" id="cep" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -79,7 +81,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="logradouro">Logradouro:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getLogradouro() ?>" class="form-control p-2 rounded-0" name="logradouro" id="rua" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -93,7 +95,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="numero">Numero:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getNumero() ?>" class="form-control p-2 rounded-0" name="numero" id="numero" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -105,13 +107,13 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="complemento">Complemento:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50">
+                                <input type="text" value="<?= $this->dados->getComplemento() ?>" class="form-control p-2 rounded-0" name="complemento" id="complemento" maxlength="50">
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="bairro">Bairro:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getBairro() ?>" class="form-control p-2 rounded-0" name="bairro" id="bairro" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -126,7 +128,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="cidade">Cidade:</label>
-                                <input type="text" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getCidade() ?>" class="form-control p-2 rounded-0" name="cidade" id="cidade" maxlength="50" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -138,90 +140,16 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="uf">Estado:</label>
-                                <input type="text" class="form-control p-2 rounded-0" readonly name="uf" id="uf" maxlength="50" required>
+                                <input type="text" value="<?= $this->dados->getUf() ?>" class="form-control p-2 rounded-0" readonly name="uf" id="uf" maxlength="50" required>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label for="cpf">CPF:</label>
+                                <input type="text" value="<?= $this->dados->getCpf_fisica() ?>" class="form-control p-2 rounded-0" acao="update" name="cpf_fisica" id="cpf" maxlength="50" required>
 
-                    <div class="form-row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <div class="cpf">
-                                    <label for="cpf ">CPF:</label>
-                                    <input type="text" class="form-control p-2 rounded-0 cpf" name="cpf_fisica" id="cpf" maxlength="50" required>
-                                    <div class="valid-feedback">
-                                        Muito Bom!!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Digite um cpf valido!! (minimo 6)
-                                    </div>
-                                    <div class="valido" id="valid_cpf"></div>
-                                    <div class="invalido" id="invalid_cpf"></div>
-                                    <div class="valido" id="cpf_valido"></div>
-                                    <div class="invalido" id="cpf_invalido"></div>
-                                </div>
-                                <div class="cnpj invisible">
-                                    <label for="cnpj_juridica">CNPJ:</label>
-                                    <input type="text" class="form-control p-2 rounded-0" name="cnpj_juridica" id="cnpj_juridica" maxlength="50" required>
-                                    <div class="valid-feedback">
-                                        Muito Bom!!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Digite um cnpj valido!! (minimo 6)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md">
-                            <div class="form-group">
-                                <div class="cnpj invisible">
-                                    <label for="razao_social">Razão Social:</label>
-                                    <input type="text" class="form-control p-2 rounded-0" name="razao_social" id="nome" maxlength="50" required>
-                                    <div class="valid-feedback">
-                                        Muito Bom!!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Digite um Razao Social valida!! (minimo 6)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md">
-                            <div class="form-group">
-                                <div class="cnpj invisible">
-                                    <label for="descricao">Descrição:</label>
-                                    <textarea class="form-control" name="descricao" cols="30" rows="3" data-toggle="tooltip" data-placement="top" title="Essa descrição estara na pagina inicial, escreva algo que chama a atenção!!!" required>
-                            </textarea>
-                                    <div class="valid-feedback">
-                                        Muito Bom!!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Digite uma descrição valido!! (minimo 6)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row p-b-20">
-                        <div class="col-md-6">
-                            <div class="cnpj invisible">
-
-                                <div class="custom-file">
-                                    <input type="file" value="" class="custom-file-input" id="image" name="image" data-toggle="tooltip" data-placement="top" title="Essa imagem estara na pagina inicial e na pagina do seu restaurante!!!">
-                                    <label class="custom-file-label" for="image">Selecione uma Imagem</label>
-                                    <input type="hidden" name="imagem" id="caminho" value="">
-                                    <div class="valid-feedback">
-                                        Muito Bom!!
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Escolha uma imagem valida!! (minimo 6)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="cnpj invisible">
-                                <a class="upload btn pb_outline-dark pb_font-13 pb_letter-spacing-2 rounded-2">Upload</a>
+                                <div class="valido" id="valid_cpf"></div>
+                                <div class="invalido" id="invalid_cpf"></div>
                             </div>
                         </div>
                     </div>
@@ -230,7 +158,7 @@
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="login_pessoa">Login</label>
-                                <input type="text" class="form-control p-2 rounded-0 login_pessoa" name="login_pessoa" id="login_pessoa" required>
+                                <input type="text" value="<?= $this->dados->getLogin_pessoa() ?>" class="form-control p-2 rounded-0 login_pessoa" acao="update" name="login_pessoa" id="login_pessoa" required>
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>
@@ -283,6 +211,7 @@
 
 </section>
 <!-- END section -->
+
 <!-- cep character varying(9),
     logradouro character varying(50),
     numero integer,

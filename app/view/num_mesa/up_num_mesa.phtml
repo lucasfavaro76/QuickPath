@@ -18,10 +18,11 @@ use core\util\Session;
                 </div>
             </div>
 
-            <div class="row justify-content-md-center">
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=NumMesaCtr&method=run&action=update">                    
+            <div class="justify-content-md-center">
+
+                <form method="post" enctype="multipart/form-data" class="numero_mesa needs-validation" novalidate action="Request.php?class=NumMesaCtr&method=run&action=update">                    
                 <input type="hidden" value="<?=$this->num_mesa->getId()?>" name="id">                 
-                    <div class="form-row p-r-3">
+                    <div class="form-row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nome_categoria">Categoria:</label>

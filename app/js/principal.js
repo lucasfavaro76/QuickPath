@@ -101,15 +101,16 @@ $('.upload').on('click', function () {
                 $('#caminho').val(text);
 
                 $('.atual').toggleClass('invisible');
-                
+
                 $('#prod').attr("src", "app/img/" + text);
                 $('#link').attr("href", "app/img/" + text);
+                
                 $('.nova').toggleClass('invisible');
 
                 // $('#teste').remove(a);
                 // // $('#imageprod').attr("src", " ");
                 // // $('#linkprod').attr("href", " ");
-                
+
                 // $('#prod').attr("src", "app/img/" + text);
                 // $('#link').attr("href", "app/img/" + text);
 
@@ -230,6 +231,8 @@ $('#cpf').on('blur', function () {
     enviar('cpf_fisica', cpf);
 });
 
+
+
 $('.login_pessoa').on('blur', function () {
     var login = $('.login_pessoa').val();
     enviar('login_pessoa', login);
@@ -238,6 +241,7 @@ $('.login_pessoa').on('blur', function () {
 
 function enviar(campo, valor) {
     var url = "Request.php?class=PessoaCtr&method=VerificaCampo&campo=" + campo + "&valor=" + valor;
+
     $.ajax({
         url: url,
         type: 'post',
@@ -247,14 +251,28 @@ function enviar(campo, valor) {
 
         success: function (response) {
             if (response.result == 1 && campo == "login_pessoa") {
-                $('#invalid').html("Esse login ja existe");
-                $('#valid').html("");
+
+                if ($('#cpf').attr("acao") == "update") {
+                    $('#invalid').html("");
+                    $('#valid').html("Vai usar o mesmo login??");
+                } else {
+                    $('#invalid').html("Esse login ja existe");
+                    $('#valid').html("");
+                }
             } else if (response.result == 0 && campo == "login_pessoa") {
                 $('#valid').html("Muito Bom!!");
                 $('#invalid').html("");
             } else if (response.result == 1 && campo == "cpf_fisica") {
-                $('#invalid_cpf').html("Esse cpf ja existe");
-                $('#valid_cpf').html("");
+
+                if ($('.login_pessoa').attr("acao") == "update") {
+                    $('#valid_cpf').html("Vai usar o mesmo cpf??");
+                    $('#invalid_cpf').html("");                   
+                } else {
+                    $('#invalid_cpf').html("Esse cpf ja existe");
+                    $('#valid_cpf').html("");
+                }
+
+
             } else if (response.result == 0 && campo == "cpf_fisica") {
                 $('#valid_cpf').html("Muito Bom!!");
                 $('#invalid_cpf').html("");
@@ -283,6 +301,8 @@ $(".test").on("click", '#nav', function () {
 $('.excluir').on("click", $('#teste'), function () {
 
     var a = $(this).attr("caminho");
+    console.log("olaaa");
+    
     console.log(a);
 
     $.confirm({
@@ -304,43 +324,6 @@ $('.excluir').on("click", $('#teste'), function () {
     });
 
 })
-
-// $('#excluir').on("click", function () {
-
-//     $.confirm({
-//         title: 'Excluir',
-//         content: "Tem certeza que deseja excluir esse registro?",
-//         type: 'red',
-//         typeAnimated: true,
-//         buttons: {
-//             confirm: {
-//                 text: 'Confirmar',
-//                 btnClass: 'btn-warning',
-//                 keys: ['enter', 'shift'],
-//                 action: function () {
-//                     // $.alert('OK!!!');
-//                     var id = $('#id').html();
-//                     var url = "Request.php?class=FuncCtr&method=delete&id=" + id;
-
-
-//                     $.ajax({
-//                         url: url,
-//                         type: 'post',
-//                         contentType: false,
-//                         processData: false,
-
-//                         success: function () {
-//                             window.location.href = "Request.php?class=FuncCtr&method=func";
-//                         }
-//                     })
-//                 }
-//             },
-//             close: function () {
-//                 $.alert('Cancelado!');
-//             }
-//         }
-//     });
-// });
 
 $(document).ready(function () {
 
@@ -375,5 +358,145 @@ $(document).ready(function () {
                 "last": "Final"
             }
         },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'pdfHtml5',
+                download: 'open'
+            }
+        ]
     });
 });
+
+$(document).ready(function () {
+    $('.cpf').blur(function () {
+
+        var strCPF = $('#cpf').val();
+        console.log(strCPF);
+
+        
+
+        console.log(strCPF);
+        // expressão regular
+        var objER = /^([0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}|[0-9]{2}\.?[0-9]{3}\.?[0-9]{3}\/?[0-9]{4}\-?[0-9]{2})$/;
+
+        if (strCPF.length > 0) {
+            if (objER.test(strCPF)) {
+                var validacpf = TestaCPF(strCPF);
+                if (validacpf) {
+                    //console.log("cpf valido");
+                    var msg = "CPF Valido";
+                    var limpa_campo = "";
+                    var valido = $("#cpf_valido");
+                    var invalido = $("#cpf_invalido");
+                    valido.html(msg);
+                    invalido.html(limpa_campo);
+                } else {
+                    var msg = "CPF Invalido";
+                    var limpa_campo = "";
+                    var valido = $("#cpf_valido");
+                    var invalido = $("#cpf_invalido");
+
+                    invalido.html(msg);
+                    valido.html(limpa_campo);
+                }
+            } else {
+                var msg = "Formato Invalido";
+                var limpa_campo = "";
+                var valido = $("#cpf_valido");
+                var invalido = $("#cpf_invalido");
+
+                invalido.html(msg);
+                valido.html(limpa_campo);
+            }
+        } else {
+            var msg = "Campo Vazio";
+            var limpa_campo = "";
+            var valido = $("#cpf_valido");
+            var invalido = $("#cpf_invalido");
+
+            invalido.html(msg);
+            valido.html(limpa_campo);
+
+        }
+    })
+})
+
+function TestaCPF(CPF) {
+
+
+    Cpf = CPF.replace(/[^\d]+/g, '');
+
+
+    var Soma;
+    var Resto;
+    Soma = 0;
+    var regex = /^(\d)\1{10}/g;
+    if (regex.test(Cpf)){
+            //== "00000000000" || Cpf == "11111111111" || Cpf == "22222222222" || Cpf == "33333333333" || Cpf == "44444444444" || Cpf == "55555555555" || Cpf == "66666666666" || Cpf == "7777777777" || Cpf == "88888888888" || Cpf == "99999999999" ) {
+        //alert("CPF INVALIDO")
+        return false;
+    }
+
+    for (i = 1; i <= 9; i++)
+        Soma = Soma + parseInt(Cpf.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11))
+        Resto = 0;
+    if (Resto != parseInt(Cpf.substring(9, 10))) {
+        //alert("CPF INVALIDO")
+        return false;
+    }
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++)
+        Soma = Soma + parseInt(Cpf.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11))
+        Resto = 0;
+
+    if (Resto != parseInt(Cpf.substring(10, 11)))
+        return false
+    //alert("CPF VALIDO");
+    return true;
+}
+
+$('#restdados').on("click", function(){
+    console.log("dasdasd");
+    
+    var id = $('#id_pessoa').val();
+    $.confirm({
+        title: 'Excluir!!!',
+        content: 'Sua conta sera inativada de nosso sistema, tem certeza sobre isso??',
+        buttons: {
+            confirm: function () {
+                window.location.replace("Request.php?class=PessoaCtr&method=delete&tipo=Juridica&id=".id);
+            },
+            cancel: function () {
+               
+            }          
+        }
+    });
+});
+
+$('#pessoadados').on("click", function(){
+console.log("teste");
+
+    var id = $('#id_pessoa').val();
+    $.confirm({
+        title: 'Excluir!!!',
+        content: 'Sua conta sera inativada de nosso sistema, tem certeza sobre isso??',
+        buttons: {
+            confirm: function () {
+                var a ="Request.php?class=PessoaCtr&method=delete&tipo=Fisica&id="+id;
+                window.location.replace(a);
+            },
+            cancel: function () {
+               
+            }          
+        }
+    });
+});
+

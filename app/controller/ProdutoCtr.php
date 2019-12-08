@@ -68,7 +68,7 @@ class ProdutoCtr extends Controller
                 new CategoriaModel($this->post['categoria'], null),
                 Session::getSession('active_user')->getId(),
                 $this->post['quant_estoque'],
-                $this->post['image'] == "" ? $this->post['caminho'] : $this->post['image'] 
+                $this->post['imagem']
             );
         }
     }

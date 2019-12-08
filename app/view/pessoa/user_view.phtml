@@ -1,14 +1,150 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card" id="userdados">
 
-<input type="hidden" name="id" id="id" value="<?=$this->model->getId()?>">
-	<label for="name">Nome</label><br>
-	<input type="text" name="name" id="name" maxlength="50" value="<?=$this->model->getName()?>"><br>
-	<label for="gender">Sexo</label><br>
-	<select name="gender" id="gender">
-	    <option value="M" <?=$this->model->getGender() == 'M' ? 'selected' : '' ?> >Masculino</option>
-	    <option value="F" <?=$this->model->getGender() == 'F' ? 'selected' : '' ?> >Feminino</option>
-	        
-	</select><br>
-	<label for="email">E-mail</label><br>
-	<input type="email" name="email" id="email" value="<?=$this->model->getEmail()?>"><br>
-	
-	<input type="submit" name="command" value="Salvar">
+                <div class="card-body">
+                    <div class="card-title mb-4">
+                        <p class="text-center">Meus Dados</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Nome:</label>
+                                </div>
+                                <input id="id_pessoa" type="hidden" value="<?= $this->model->getId() ?>">
+                                <input type="hidden" name="tipo" value="Fisica">
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getNome_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Telefone</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getTelefone_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+
+
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Celular:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getCelular_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Email:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getEmail_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Cpf:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getCpf_fisica() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Cep:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getCep() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Logradouro:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getLogradouro() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Numero:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getNumero() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Complemento:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getComplemento() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Bairro:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getBairro() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Cidade:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getCidade() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Estado:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getUf() ?>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-5">
+                                    <label style="font-weight:bold;">Login:</label>
+                                </div>
+                                <div class="col-md-8 col-6">
+                                    <?= $this->model->getLogin_pessoa() ?>
+                                </div>
+                            </div>
+                            <hr />                                                       
+                         
+                            <a class="p-r-10" href="Request.php?class=PessoaCtr&method=showView" data-toggle="tooltip" data-placement="top" title="Altere suas informações!!!"><button class="btn btn-focus">Alterar</button></a>
+
+                            <a id="pessoadados" href="#" data-toggle="tooltip" data-placement="top" title="Exclua sua Conta.."><button class="btn btn-focus">Excluir</button></a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>

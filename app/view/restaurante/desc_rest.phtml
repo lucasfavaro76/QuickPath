@@ -91,13 +91,15 @@ use core\util\Session;
                         <p class="text-center">Voçê pode deixar uma mesa resevada!! Ela ficara reservada no nome de <?= Session::getSession('active_user')->getNome_pessoa() ?></p>
                     </div>
                 </div>
-                <div class="row justify-content-md-center">
-                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=MesaCtr&method=run&action=new">
+                <div class="justify-content-md-center">
+
+                    <form method="post" enctype="multipart/form-data" class="numeroMesa needs-validation" novalidate action="Request.php?class=MesaCtr&method=run&action=new">
 
                         <input type="hidden" id="id" name="id">
                         <input type="hidden" name="id_func">
                         <input type="hidden" value="<?= $this->desc->getId() ?>" name="id_restaurante" id="id_restaurante">
-                        <div class="row">
+
+                        <div class="form-row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="numero_mesa">Mesas Disponiveis</label>
@@ -110,7 +112,7 @@ use core\util\Session;
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-row">
                             <div class="col-md">
                                 <div class="form-group">
                                     <input type="hidden" name="command" value="Salvar">

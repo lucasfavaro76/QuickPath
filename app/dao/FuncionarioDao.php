@@ -40,20 +40,29 @@ final class FuncionarioDao extends PessoaDao
     public function update(PessoaModel $model = null)
     {
         try {
-            $connection = Connection::getConnection();
-            $sql = "update \"user\" set name = :name, gender = :gender, email = :email, 
-                    password = :password, status = :status, type = :type, photo = :photo 
-                    where id = :id";
-            $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":name", $model->getName());
-            $stmt->bindValue(":gender", $model->getGender());
-            $stmt->bindValue(":email", $model->getEmail());
-            $stmt->bindValue(":password", md5($model->getPassword())); //..hash md5 to protect the password
-            $stmt->bindValue(":status", $model->getStatus());
-            $stmt->bindValue(":type", $model->getType());
-            $stmt->bindValue(":photo", $model->getPhoto());
-            return $stmt->execute();
+            $this->connection->beginTransaction();
+            $sql = "update funcionario set  id_cargo = :id_cargo, salario = :salario ,id_restaurante = :id_restaurante, cpf_funcionario = :cpf_funcionario  where id_funcionario = :id";
+
+            $stmt = $this->connection->prepare($sql);
+
+            
+            $stmt->bindValue(":id_cargo", $model->getCargo()->getId());
+            $stmt->bindValue(":salario", $model->getSalario());
+            $stmt->bindValue(":id_restaurante", $model->getId_juridica());
+            $stmt->bindValue(":cpf_funcionario", $model->getCpf_funcionario());
+            $stmt->bindValue(":id", $model->getId());
+
+
+            if (parent::update($model)) {
+                $stmt->execute();
+                $this->connection->commit();
+                return true;
+            } else {
+                $this->connection->rollBack();
+                return false;
+            }
         } catch (\Exception $ex) {
+            $this->connection->rollBack();
             throw $ex;
         } finally {
             $connection = null;
@@ -85,14 +94,14 @@ final class FuncionarioDao extends PessoaDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from pessoa p inner join pessoa_juridica pj on p.id_pessoa = pj.id_juridica  where id_pessoa = :id";
+            $sql = "select * from pessoa p inner join funcionario f on p.id_pessoa = f.id_funcionario  where f.id_funcionario = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $result = $result[0];
-                return new PessoaJuridicaModel(
+                return new FuncionarioModel(
                     $result['id_pessoa'],
                     $result['nome_pessoa'],
                     $result['telefone_pessoa'],
@@ -108,6 +117,7 @@ final class FuncionarioDao extends PessoaDao
                     (new CargoDao($this->connection))->findById($result['id_cargo']),
                     $result['salario'],
                     $result['id_restaurante'],
+                    $result['cpf_funcionario'],
                     $result['login_pessoa'],
                     null,
                     $result['status'],

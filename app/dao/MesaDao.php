@@ -1,4 +1,5 @@
 <?php
+
 namespace app\dao;
 
 
@@ -24,12 +25,15 @@ class MesaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "insert into mesa (numero_mesa, id_funcionario ,id_pessoa ,id_restaurante) values (:numero_mesa, :id_funcionario, :id_pessoa , :id_restaurante)";
+            $sql = "insert into mesa (numero_mesa, id_funcionario  ,id_restaurante, data, hora,id_pessoa) values (:numero_mesa, :id_funcionario , :id_restaurante, :data, :hora, :id_pessoa)";
             $stmt = $connection->prepare($sql);
-            $stmt->bindValue(":numero_mesa", $model->getNumero_mesa()->getId());           
+
+            $stmt->bindValue(":numero_mesa", $model->getNumero_mesa()->getId());
             $stmt->bindValue(":id_funcionario", $model->getId_funcionario());
-            $stmt->bindValue(":id_pessoa", $model->getId_pessoa());           
-            $stmt->bindValue(":id_restaurante", $model->getId_restaurante());
+            $stmt->bindValue(":id_restaurante", $model->getId_restaurante()->getId());
+            $stmt->bindValue(":data", $model->getData());
+            $stmt->bindValue(":hora", $model->getHora());
+            $stmt->bindValue(":id_pessoa", $model->getId_pessoa()->getId());
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -45,7 +49,7 @@ class MesaDao implements IDao
             $sql = "update cargo set nome_cargo = :nome_cargo where id_cargo = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $model->getId());
-            $stmt->bindValue(":nome_cargo", $model->getNumero_mesa());           
+            $stmt->bindValue(":nome_cargo", $model->getNumero_mesa());
             return $stmt->execute();
         } catch (\Exception $ex) {
             throw $ex;
@@ -58,7 +62,7 @@ class MesaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "delete from cargo where id_cargo = :id";
+            $sql = "delete from mesa where id_mesa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             return $stmt->execute();
@@ -77,7 +81,7 @@ class MesaDao implements IDao
     {
         try {
             $connection = Connection::getConnection();
-            $sql = "select * from cargo where id_cargo = :id";
+            $sql = "select * from mesa m inner join pessoa p on m.id_pessoa = p.id_pessoa where m.id_mesa = :id";
             $stmt = $connection->prepare($sql);
             $stmt->bindValue(":id", $id);
             $result = $stmt->execute();
@@ -89,7 +93,9 @@ class MesaDao implements IDao
                     (new NumMesaDao($this->connection))->findById($result['numero_mesa']),
                     $result['id_funcionario'],
                     (new PessoaDao($this->connection))->findById($result['id_pessoa']),
-                    $result['id_restaurante']           
+                    (new PessoaJuridicaDao($this->connection))->findById($result['id_restaurante']),
+                    $result['data'],
+                    $result['hora']
                 );
             } else {
                 return null;
@@ -101,20 +107,23 @@ class MesaDao implements IDao
         }
     }
 
-    public function select($criteria = null, $orderBy = 'numero_mesa', 
-        $limit = null, $offSet = null)
-    {
+    public function select(
+        $criteria = null,
+        $orderBy = 'numero_mesa',
+        $limit = null,
+        $offSet = null
+    ) {
         try {
             $connection = Connection::getConnection();
             $sql = "select * from mesa m inner join pessoa p on m.id_pessoa = p.id_pessoa ";
-            if($criteria)
+            if ($criteria)
                 $sql .= " where $criteria ";
-            if($limit)
+            if ($limit)
                 $sql .= " limit $limit ";
-            if($offSet)
+            if ($offSet)
                 $sql .= " offset $offSet ";
-            $stmt = $connection->prepare($sql);                                             
-            $result = $stmt->execute();            
+            $stmt = $connection->prepare($sql);
+            $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result) {
                 $list = new \ArrayObject();
@@ -125,7 +134,9 @@ class MesaDao implements IDao
                             (new NumMesaDao($this->connection))->findById($row['numero_mesa']),
                             $row['id_funcionario'],
                             (new PessoaDao($this->connection))->findById($row['id_pessoa']),
-                            $row['id_restaurante']
+                            (new PessoaJuridicaDao($this->connection))->findById($row['id_restaurante']),
+                            $row['data'],
+                            $row['hora']
                         )
                     );
                 }
@@ -133,11 +144,11 @@ class MesaDao implements IDao
             } else {
                 return null;
             }
-        } catch (\Exception $ex) { 
+        } catch (\Exception $ex) {
             throw $ex;
         } finally {
             $connection = null;
-         }
+        }
     }
 
     public function selectCount($criteria = null)
@@ -146,11 +157,11 @@ class MesaDao implements IDao
             $conn = Connection::getConnection();
             $sql = "select count(*) from cargo where $criteria";
             $stmt = $conn->prepare($sql);
-            $result = $stmt->execute();            
+            $result = $stmt->execute();
             $result = $stmt->fetchAll();
             if ($result)
                 return $result[0]['count'];
-            else 
+            else
                 return 0;
         } catch (\Exception $ex) {
             throw $ex;

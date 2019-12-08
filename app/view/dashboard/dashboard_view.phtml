@@ -11,7 +11,7 @@ use core\util\Session;
 
 <?php if (!is_null($this->mesas)) { ?>
     <div class="p-l-10 p-b-10">
-        <!-- <button class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 " id="relatorio">Funcionarios</button> -->
+        <h2 class="text-center">Essas são as mesas ja reservadas</h2>
     </div>
     <div class="table-responsive">
         <table class="table-stripped" id="mesas" style="width:100%;">
@@ -22,10 +22,10 @@ use core\util\Session;
                     <th class="text-center">CELULAR</th>
                     <th class="text-center">EMAIL</th>
                     <th class="text-center">NUMERO MESA</th>
-                    
-                   
-                    <th class="text-center">ALTERAR</th>
+                    <th class="text-center">DATA</th>
+                    <th class="text-center">HORA</th>                                                     
                     <th class="text-center">EXCLUIR</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +36,12 @@ use core\util\Session;
                         <td class="text-center"> <?= $row->getId_pessoa()->getCelular_pessoa() ?></td>
                         <td class="text-center"> <?= $row->getId_pessoa()->getEmail_pessoa() ?></td>
                         
-                        <td class="text-center"> <?= $row->getNumero_mesa()->getNum_mesa() ?></td>                        
-                        <td class="excluir text-center" caminho="Request.php?class=FuncCtr&method=delete&id=<?= $row->getId() ?>"> <a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">ALTERAR</a></td>
+                        <td class="text-center"> <?= $row->getNumero_mesa()->getNum_mesa() ?></td>        
 
-                        <td class="excluir text-center" caminho="Request.php?class=FuncCtr&method=delete&id=<?= $row->getId() ?>"> <a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
+                        <td class="text-center"> <?= $row->getData() ?></td>
+                        <td class="text-center"> <?= $row->getHora() ?></td>                                                                
+
+                        <td class="excluir text-center" caminho="Request.php?class=MesaCtr&method=delete&id=<?= $row->getId() ?>"> <a href="#" class="teste btn pb_outline-dark pb_font-13 pb_letter-spacing-2 p-2 ">EXCLUIR</a></td>
                     </tr>
                 <?php } ?>
             </tbody>

@@ -157,7 +157,7 @@
                                 </div>
                                 <div class="col-md-8 col-6">
                                     <a class="image" href="app/img/<?= $this->dados->getImagem() ?>">
-                                        <img src="app/img/<?= $this->dados->getImagem() ?>">
+                                        <img id="perfil" src="app/img/<?= $this->dados->getImagem() ?>">
                                     </a>
 
                                 </div>
@@ -165,6 +165,8 @@
                             <hr />
 
                             <a class="p-r-10" href="Request.php?class=DashboardCtr&method=showView&action=update" data-toggle="tooltip" data-placement="top" title="Altere suas informações!!!"><button class="btn btn-focus">Alterar</button></a>
+
+                            
 
                             <a id="restdados" href="#" data-toggle="tooltip" data-placement="top" title="Exclua sua Conta.."><button class="btn btn-focus">Excluir</button></a>
                         </div>

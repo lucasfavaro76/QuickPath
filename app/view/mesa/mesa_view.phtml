@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+            <?php if (is_null($this->msg)) { } else { ?>
+                <h3 class="text-center p-b-10" id="msg"><?= $this->msg ?></h3>
+            <?php } ?>
+
+            <?php if (!is_null($this->mesas)) {
+                foreach ($this->mesas as $row) {
+                    ?>
+
+                    <div class="card" id="userdados">
+
+                        <div class="card-body">
+                            <div class="card-title mb-4">
+                                <p class="text-center">Reserva no Restaurante "<?=$row->getId_restaurante()->getRazao_social() ?>"</p>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Numero:</label>
+                                        </div>
+                                        <input id="id_pessoa" type="hidden" value="<?= $row->getId() ?>">
+
+                                        <input type="hidden" name="tipo" value="Fisica">
+                                        <div class="col-md-8 col-6">
+                                            <?=$row->getNumero_mesa()->getNum_mesa() ?>
+                                        </div>
+                                    </div>
+                                    <hr />
+
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Data da Reserva:</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            <?= $row->getData() ?>
+                                        </div>
+                                    </div>
+                                    <hr />
+
+
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Hora da Reserva:</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            <?= $row->getHora() ?>
+                                        </div>
+                                    </div>
+                                    <hr />
+
+                                    <a class="p-r-10" href="Request.php?class=PessoaCtr&method=showView" data-toggle="tooltip" data-placement="top" title="Altere suas informações!!!"><button class="btn btn-focus">Alterar Reserva</button></a>
+
+                                    
+                                    <button class="excluir" class="btn btn-focus" caminho="Request.php?class=MesaCtr&method=delete&id=<?= $row->getId() ?>" ><a class="teste "   data-toggle="tooltip" data-placement="top" title="Exclua sua Reserva..">Excluir Reserva</a></button>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+            <?php }
+            } ?>
+
+        </div>
+    </div>
+</div>

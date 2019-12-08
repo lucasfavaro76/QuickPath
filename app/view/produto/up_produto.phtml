@@ -10,7 +10,7 @@ use core\util\Session;
 
             <div class="row justify-content-center mb-5">
                 <div class="col-md-12 text-center">
-                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Novo Produto</h2>
+                    <h2 class="mb-4 text-uppercase pb_letter-spacing-2">Alterar Produto</h2>
                     <p class="text-center">Produtos adicionados aqui apareceram na pagina do seu restaurante ou lanchonete, então seja criativo!!!</p>
                     <?php if (is_null($this->msg)) { } else {
                         ?><h3 id="msg"><?= $this->msg ?></h3>
@@ -18,13 +18,13 @@ use core\util\Session;
                 </div>
             </div>
 
-            <div class="row justify-content-md-center">
+            <div class="justify-content-md-center">
 
 
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=ProdutoCtr&method=run&action=update">
+                <form method="post" enctype="multipart/form-data" class="cadastro needs-validation" novalidate action="Request.php?class=ProdutoCtr&method=run&action=update">
 
                     <input type="hidden" value="<?= $this->produto->getId() ?>" name="id">
-                    <div class="row">
+                    <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="nome_produto">Nome Produto:</label>
@@ -45,7 +45,7 @@ use core\util\Session;
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="quant_estoque">Estoque:</label>
@@ -85,13 +85,12 @@ use core\util\Session;
                                 <input type="file" value="" class="custom-file-input" id="image" name="image" data-toggle="tooltip" data-placement="top" title="Essa imagem estara na pagina inicial e na pagina do seu restaurante!!!">
                                 <label class="custom-file-label" for="image">Selecione uma Imagem</label>
 
-                                <input type="hidden" name="caminho" id="caminho" value="<?= $this->produto->getImagem() ?>">
+                                <input type="hidden" name="imagem" id="caminho" value="<?= $this->produto->getImagem() ?>">
                             </div>
                             <div class="p-b-5">
                                 <label for="">Imagem Atual</label>
 
                                 <div class="atual">
-
                                     <a class="image" href="app/img/<?= $this->produto->getNome_produto() ?>">
                                         <img id="upprod" src="app/img/<?= $this->produto->getNome_produto() ?>" alt="">
                                     </a>
@@ -99,7 +98,8 @@ use core\util\Session;
 
                                 <div class="nova invisible">
                                     <a id="link" class="image" href="app/img/<?= $this->produto->getNome_produto() ?>">
-                                        <img id="prod upprod" src="app/img/<?= $this->produto->getNome_produto() ?>" alt="">
+                                    
+                                        <img id="prod" src="app/img/<?= $this->produto->getNome_produto() ?>" alt="">
                                     </a>
                                 </div>
 
@@ -117,7 +117,7 @@ use core\util\Session;
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
                                 <input type="submit" class="btn pb_outline-dark pb_font-13 pb_letter-spacing-2  p-3 rounded-0" name="command" value="Salvar">

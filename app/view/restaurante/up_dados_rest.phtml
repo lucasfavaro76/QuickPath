@@ -9,17 +9,17 @@
                 </div>
             </div>
 
-            <div class="row justify-content-md-center">
+            <div class="justify-content-md-center">
 
 
-                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=update">
+                <form method="post" enctype="multipart/form-data" class="cadastro needs-validation" novalidate action="Request.php?class=PessoaCtr&method=run&action=update">
 
                     <input id="tipo" name="tipo" type="hidden" value="Juridica">
 
                     <input type="hidden" name="id" id="id" value="<?= $this->dados->getId() ?>">
                     <input type="hidden" name="status" id="status" value="<?= $this->dados->getStatus() ?>">
 
-                    <div class="form-row cadastro">
+                    <div class="form-row">
                         <div class="col-md">
                             <div class="form-group">
                                 <label for="name">Nome:</label>
@@ -182,7 +182,7 @@
                             <div class="form-group">
                                 <label for="descricao">Descrição:</label>
 
-                                <textarea name="descricao" class="form-control" cols="30" rows="3" data-toggle="tooltip" data-placement="top" title="Essa descrição estara na pagina inicial, escreva algo que chama a atenção!!!" required>
+                                <textarea name="descricao" class="form-control" rows="3" data-toggle="tooltip" data-placement="top" title="Essa descrição estara na pagina inicial, escreva algo que chame atenção!!!" required>
                                     <?= $this->dados->getDescricao() ?>
                                 </textarea>
                                 <div class="valid-feedback">
@@ -203,7 +203,8 @@
                                 <input type="file" value="" class="custom-file-input" id="image" name="image" data-toggle="tooltip" data-placement="top" title="Essa imagem estara na pagina inicial e na pagina do seu restaurante!!!">
 
                                 <label class="custom-file-label" for="image">Selecione uma Imagem</label>
-                                <input type="hidden" name="imagem" id="caminho" value="">
+
+                                <input type="hidden" name="imagem" id="caminho" value="<?= $this->dados->getImagem() ?>">
                                 <div class="valid-feedback">
                                     Muito Bom!!
                                 </div>

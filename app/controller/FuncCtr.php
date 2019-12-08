@@ -7,6 +7,7 @@ use core\mvc\Controller;
 
 use app\view\funcionario\FuncionarioView;
 use app\view\funcionario\NewFuncionarioView;
+use app\view\funcionario\UpFuncionario;
 use core\dao\Connection;
 use core\util\Session;
 
@@ -16,6 +17,7 @@ class FuncCtr extends Controller
     protected $viewFunc;
     protected $dao;
     protected $func;
+    protected $up_func;
     protected $session;
     protected $connection;
     protected $action;
@@ -24,8 +26,9 @@ class FuncCtr extends Controller
         parent::__construct();
         $this->connection = Connection::getConnection();
         $this->dao = new FuncionarioDao($this->connection);
-        $this->session = session_start();
+        $this->session = isset($_SESSION) ? "" : session_start();
         $this->func = new FuncionarioView();
+        $this->up_func = new UpFuncionario();
         $this->viewFunc = new NewFuncionarioView();
         $this->action = isset($this->get['action']) ? $this->get['action'] : '';
     }
@@ -38,6 +41,11 @@ class FuncCtr extends Controller
             $func = $this->dao->select("id_restaurante = " . Session::getSession('active_user')->getId());
             $this->func->setFuncs($func);
             $this->func->show();
+        }else{
+            $id = $this->get['id'];
+            $func = $this->dao->findById($id);
+            $this->up_func->setFuncionario($func);            
+            $this->up_func->show();
         }
     }
 
@@ -63,5 +71,25 @@ class FuncCtr extends Controller
             $this->action = "show";
             $this->showView();
         }
+    }
+
+    /**
+     * Get the value of action
+     */ 
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Set the value of action
+     *
+     * @return  self
+     */ 
+    public function setAction($action)
+    {
+        $this->action = $action;
+
+        return $this;
     }
 }
